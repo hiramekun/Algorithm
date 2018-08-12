@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <cmath>
 
 using namespace std;
@@ -15,7 +16,7 @@ long long dp[MAX_N + 1];
 
 void solve() {
     long long res = 0;
-    map<long long, long long> mp;
+    unordered_map<long long, long long> mp;
 
     for (int i = 0; i < N; i++) {
         dp[i + 1] = (dp[i] + A[i]) % M;
