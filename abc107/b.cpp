@@ -10,57 +10,28 @@ using namespace std;
 const int MAX_H = 100;
 int H, W;
 char as[MAX_H][MAX_H];
+bool remove_w[MAX_H];
+bool remove_h[MAX_H];
 
 void solve() {
-    char ans[H][W];
-    char tempw[W];
-    int temp = 0;
-
     for (int h = 0; h < H; ++h) {
         int count = 0;
-        for (int w = 0; w < W; ++w) {
-            if (as[h][w] == '.') {
-                count++;
-            }
-            tempw[w] = as[h][w];
-        }
-        if (count != W) {
-            for (int w = 0; w < W; ++w) {
-                ans[h][w] = tempw[w];
-            }
-        } else {
-            temp++;
-        }
+        for (int w = 0; w < W; ++w) if (as[h][w] == '.') count++;
+        if (count == W) remove_w[h] = true;
     }
-
-    char finalans[H][W];
-    char temph[H];
-    int temp2 = 0;
     for (int w = 0; w < W; ++w) {
         int count = 0;
-        for (int h = 0; h < H; ++h) {
-            if (ans[h][w] == '.') {
-                count++;
-            }
-            temph[h] = ans[h][w];
-        }
-        if (count != H - temp) {
-            for (int h = 0; h < H; ++h) {
-                finalans[h][w] = temph[h];
-            }
-        } else {
-            temp2++;
-        }
+        for (int h = 0; h < H; ++h) if (as[h][w] == '.') count++;
+        if (count == H) remove_h[w] = true;
     }
-    for (int i = 0; i < H; ++i) {
-        bool haschar = false;
-        for (int j = 0; j < W; ++j) {
-            if (finalans[i][j] == '.' || finalans[i][j] == '#') {
-                haschar = true;
-                printf("%c", finalans[i][j]);
-            }
-            if (haschar && j == W - 1) printf("\n");
+
+    for (int h = 0; h < H; ++h) {
+        if (remove_w[h]) continue;
+        for (int w = 0; w < W; ++w) {
+            if (remove_h[w]) continue;
+            printf("%c", as[h][w]);
         }
+        printf("\n");
     }
 }
 
