@@ -7,31 +7,23 @@
 #include <cmath>
 
 using namespace std;
-const int MAX_H = 100;
+const int MAX_W = 100;
 int H, W;
-char as[MAX_H][MAX_H];
-bool remove_w[MAX_H];
-bool remove_h[MAX_H];
+char as[MAX_W][MAX_W];
+bool has_sharp_row[MAX_W];
+bool has_sharp_column[MAX_W];
+
 
 void solve() {
     for (int h = 0; h < H; ++h) {
-        int count = 0;
-        for (int w = 0; w < W; ++w) if (as[h][w] == '.') count++;
-        if (count == W) remove_w[h] = true;
-    }
-    for (int w = 0; w < W; ++w) {
-        int count = 0;
-        for (int h = 0; h < H; ++h) if (as[h][w] == '.') count++;
-        if (count == H) remove_h[w] = true;
-    }
-
-    for (int h = 0; h < H; ++h) {
-        if (remove_w[h]) continue;
+        bool printed = false;
         for (int w = 0; w < W; ++w) {
-            if (remove_h[w]) continue;
-            printf("%c", as[h][w]);
+            if (has_sharp_column[w] && has_sharp_row[h]) {
+                printed = true;
+                printf("%c", as[h][w]);
+            }
         }
-        printf("\n");
+        if (printed) printf("\n");
     }
 }
 
@@ -40,6 +32,7 @@ int main() {
     for (int h = 0; h < H; ++h) {
         for (int w = 0; w < W; ++w) {
             cin >> as[h][w];
+            if (as[h][w] == '#') has_sharp_column[w] = has_sharp_row[h] = true;
         }
     }
     solve();
