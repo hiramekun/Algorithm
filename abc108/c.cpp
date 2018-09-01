@@ -18,14 +18,13 @@ void solve() {
     // あまりを保持しておく
     for (int i = 1; i <= N; ++i) mp[i % K]++;
 
-    // 全てのaに対して
-    for (int a = 1; a <= N; ++a) {
-        // aに対するb, cのあまり（等しくなる）
-        int b = (K - a % K) % K;
-        int c = (K - a % K) % K;
+    // 全てのあまりに対して
+    for (auto a_mod: mp) {
+        long long b = (K - a_mod.first) % K;
+        long long c = (K - a_mod.first) % K;
 
         // 場合の数を数えるためにあまりの場合の数を求める．
-        if ((b + c) % K == 0) ans += mp[b] * mp[c];
+        if ((b + c) % K == 0) ans += a_mod.second * mp[b] * mp[c];
     }
 
     printf("%lli\n", ans);
