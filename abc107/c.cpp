@@ -9,7 +9,7 @@
 using namespace std;
 typedef long long ll;
 #define INF (1e9)
-#define rep(i, n) for(int i = 0; i < (int)(n); i++)
+#define REP(i, n) for(int i = 0; i < (int)(n); i++)
 #define each(i, mp) for(auto i:mp)
 #define FOR(i, m, n) for(int i = m;i < n;i++)
 
@@ -18,7 +18,7 @@ int N, K, X[MAX_N];
 
 void solve() {
     int ans = (int) INF;
-    rep(i, N - K + 1) {
+    REP N - K + 1) {
         int small = X[i], big = X[i + K - 1];
         ans = min(ans, min(abs(small) + abs(big - small), abs(big) + abs(big - small)));
     }

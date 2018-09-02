@@ -1,6 +1,3 @@
-//
-// Created by Takaaki Hirano on 2018/08/11.
-//
 #include <cstdio>
 #include <algorithm>
 #include <iostream>
@@ -10,35 +7,34 @@
 #include <cmath>
 
 using namespace std;
-const int MAX_N = 100000;
-long long N, M, A[MAX_N];
-long long dp[MAX_N + 1];
+typedef long long ll;
+#define INF (1e9)
+#define REP(i, n) for(int i = 0; i < (int)(n); i++)
+#define each(i, mp) for(auto i:mp)
+#define FOR(i, m, n) for(int i = m;i < n;i++)
+
+const int MAX_N = int(1e5);
+ll N, M, A[MAX_N];
+
 
 void solve() {
-    long long res = 0;
-    unordered_map<long long, long long> mp;
-
-    for (int i = 0; i < N; i++) {
+    unordered_map<ll, ll> mp;
+    ll ans = 0;
+    ll dp[N + 1];
+    REP(i, N) {
         dp[i + 1] = (dp[i] + A[i]) % M;
         mp[dp[i + 1]] = mp[dp[i + 1]] + 1;
     }
-
-    for (auto const &val: mp) {
-        res += val.second * (val.second - 1) / 2;
-        if (val.first == 0) {
-            res += val.second;
-        }
+    each(mod, mp) {
+        ans += mod.second * (mod.second - 1) / 2;
+        if (mod.first == 0) ans += mod.second;
     }
-
-    printf("%lld\n", res);
+    cout << ans << endl;
 }
 
 int main() {
     cin >> N >> M;
-    for (int i = 0; i < N; i++) {
-        cin >> A[i];
-        A[i] = A[i] % M;
-    }
+    REP(i, N) cin >> A[i];
     solve();
     return 0;
 }
