@@ -23,7 +23,7 @@ void solve() {
     ll dp[MAX_N + 1];
     REP(i, N) {
         dp[i + 1] = (dp[i] + A[i]) % M;
-        mp[dp[i + 1]] = mp[dp[i + 1]] + 1;
+        mp[dp[i + 1]]++;
     }
     each(mod, mp) {
         ans += mod.second * (mod.second - 1) / 2;
