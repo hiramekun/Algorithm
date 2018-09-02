@@ -8,9 +8,10 @@
 
 using namespace std;
 typedef long long ll;
-#define INF (1e9)
+#define INF int(1e9)
 #define REP(i, n) for(int i = 0; i < (int)(n); i++)
-#define each(i, mp) for(auto i:mp)
+#define REPONE(i, n) for(int i = 1; i <= (int)(n); i++)
+#define EACH(i, mp) for(auto i:mp)
 #define FOR(i, m, n) for(int i = m;i < n;i++)
 
 
