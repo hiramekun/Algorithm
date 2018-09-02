@@ -7,25 +7,27 @@
 #include <cmath>
 
 using namespace std;
-const int MAX_N = 100000;
-const int INF = 1000000000;
-int N, K;
-int xs[MAX_N];
+typedef long long ll;
+#define INF (1e9)
+#define rep(i, n) for(int i = 0; i < (int)(n); i++)
+#define each(i, mp) for(auto i:mp)
+#define FOR(i, m, n) for(int i = m;i < n;i++)
+
+const int MAX_N = (int) 1e5;
+int N, K, X[MAX_N];
 
 void solve() {
-    int ans = INF;
-    for (int i = 0; i < N - K + 1; ++i) {
-        int x_min = xs[i], x_max = xs[i + K - 1];
-        ans = min(ans, min(abs(x_min) + x_max - x_min, abs(x_max) + x_max - x_min));
+    int ans = (int) INF;
+    rep(i, N - K + 1) {
+        int small = X[i], big = X[i + K - 1];
+        ans = min(ans, min(abs(small) + abs(big - small), abs(big) + abs(big - small)));
     }
-    printf("%d", ans);
+    cout << ans << endl;
 }
 
 int main() {
     cin >> N >> K;
-    for (int i = 0; i < N; ++i) {
-        cin >> xs[i];
-    }
+    rep(i, N) cin >> X[i];
     solve();
     return 0;
 }
