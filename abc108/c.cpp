@@ -10,24 +10,26 @@
 #include <cmath>
 
 using namespace std;
+typedef long long ll;
+#define INF (1e9)
+#define rep(i, n) for(int i = 0; i < (int)(n); i++)
+#define each(i, mp) for(auto i:mp)
+#define FOR(i, m, n) for(int i = m;i < n;i++)
+
+
 int N, K;
-long long ans = 0;
 
 void solve() {
-    unordered_map<long long, long long> mp;
-    // あまりを保持しておく
-    for (int i = 1; i <= N; ++i) mp[i % K]++;
-
-    // 全てのあまりに対して
-    for (auto a_mod: mp) {
-        long long b = (K - a_mod.first) % K;
-        long long c = (K - a_mod.first) % K;
-
-        // 場合の数を数えるためにあまりの場合の数を求める．
-        if ((b + c) % K == 0) ans += a_mod.second * mp[b] * mp[c];
+    unordered_map<ll, ll> mp;
+    rep(i, N) mp[(i + 1) % K]++;
+    ll ans = 0;
+    each(a, mp) {
+        ll b = (K - a.first) % K;
+        ll c = (K - a.first) % K;
+        if ((b + c) % K == 0) ans += a.second * mp[b] * mp[c];
     }
 
-    printf("%lli\n", ans);
+    cout << ans << endl;
 }
 
 int main() {
