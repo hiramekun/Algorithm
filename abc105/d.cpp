@@ -20,7 +20,7 @@ ll N, M, A[MAX_N];
 void solve() {
     unordered_map<ll, ll> mp;
     ll ans = 0;
-    ll dp[N + 1];
+    ll dp[MAX_N + 1];
     REP(i, N) {
         dp[i + 1] = (dp[i] + A[i]) % M;
         mp[dp[i + 1]] = mp[dp[i + 1]] + 1;
