@@ -26,21 +26,22 @@ int p[MAX_D], c[MAX_D];
 void solve() {
     int ans = INF;
     REP(i, pow(2, D)) {
-        int count = 0, score = 0;
+        int count = 0, score = 0, rest_max = -1;
         REP(j, D) {
             if ((1 & i >> j) == 1) {
                 score += p[j] * 100 * (j + 1) + c[j];
                 count += p[j];
+            } else {
+                rest_max = j;
             }
         }
-        REPR(j, D) {
-            if ((1 & i >> j) == 1)continue;
-            REP(k, p[j]) {
-                if (score >= G)break;
-                score += 100 * (j + 1);
-                count++;
-            }
+        if (score < G) {
+            int score1 = 100 * (rest_max + 1);
+            int need = (G - score + score1 - 1) / score1;
+            if (need >= p[rest_max])continue;
+            count += need;
         }
+
         ans = min(ans, count);
     }
     cout << ans << endl;
