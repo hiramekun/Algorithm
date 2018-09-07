@@ -18,7 +18,7 @@ int N, K, X[MAX_N];
 
 void solve() {
     int ans = (int) INF;
-    REP N - K + 1) {
+    REP(i, N - K + 1) {
         int small = X[i], big = X[i + K - 1];
         ans = min(ans, min(abs(small) + abs(big - small), abs(big) + abs(big - small)));
     }
@@ -27,7 +27,7 @@ void solve() {
 
 int main() {
     cin >> N >> K;
-    rep(i, N) cin >> X[i];
+    REP(i, N) cin >> X[i];
     solve();
     return 0;
 }
