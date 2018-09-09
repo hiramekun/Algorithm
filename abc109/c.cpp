@@ -18,33 +18,25 @@ typedef long long ll;
 
 const int MAX_N = (int) 1e5;
 int N, X, x[MAX_N];
+int diffs[MAX_N];
+
+int gcd(int a, int b) {
+    if (b == 0) return a;
+    return gcd(b, a % b);
+}
 
 void solve() {
-    if (N == 1) {
-        cout << max(x[0] - X, X - x[0]) << endl;
-        return;
-    }
-    sort(x, x + N);
-    int diff = INF;
-    int diffs[N - 1];
-    FOR(i, 0, N - 1) {
-        diff = min({x[i + 1] - x[i], diff, abs(X - x[i]), abs(X - x[i + 1])});
-        diffs[i] = x[i + 1] - x[i];
-    }
-    REPR(d, diff) {
-        REP(i, N - 1) {
-            if (diffs[i] % (d + 1) != 0) break;
-            if (i == N - 2) {
-                cout << d + 1 << endl;
-                return;
-            }
-        }
-    }
+    int pregcd = 1;
+    REP(i, N) pregcd = i == 0 ? diffs[0] : gcd(diffs[i], pregcd);
+    cout << pregcd << endl;
 }
 
 int main() {
     cin >> N >> X;
-    REP(i, N) cin >> x[i];
+    REP(i, N) {
+        cin >> x[i];
+        diffs[i] = abs(X - x[i]);
+    }
     solve();
     return 0;
 }
