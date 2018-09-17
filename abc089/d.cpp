@@ -31,17 +31,16 @@ int main() {
             mp[temp] = make_pair(i, j);
         }
     }
+    ll dp[H * W + 1];
+    FOR(i, D + 1, H * W + 1) {
+        ll pre_x = mp[i - D].first, pre_y = mp[i - D].second;
+        ll x = mp[i].first, y = mp[i].second;
+        dp[i] = dp[i - D] + abs(x - pre_x) + abs(y - pre_y);
+    }
     cin >> Q;
     REP(i, Q) {
         cin >> L[i] >> R[i];
-        int res = L[i], ans = 0;
-        while (res < R[i]) {
-            int prex = mp[res].first, prey = mp[res].second;
-            res += D;
-            int x = mp[res].first, y = mp[res].second;
-            ans += abs(x - prex) + abs(y - prey);
-        }
-        printf("%d\n",ans);
+        printf("%lli\n", dp[R[i]] - dp[L[i]]);
     }
     return 0;
 }
