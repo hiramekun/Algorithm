@@ -1,4 +1,5 @@
 .idea/*
+Paiza/*
 *.out
 cmake-build-debug/
 CMakeLists.txt
