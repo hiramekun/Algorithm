@@ -19,36 +19,22 @@ typedef long long ll;
 
 const int MAX_N = int(1e5);
 int n;
-int times_odd[MAX_N + 1];
-int times_even[MAX_N + 1];
+unordered_map<int, int> mp_even, mp_odd;
 
 void solve() {
-    int max_odd = 0, second_odd = 0, max_odd_num = 0;
-    int max_even = 0, second_even = 0, max_even_num = 0;
-    REP(i, MAX_N + 1) {
-        if (max_even <= times_even[i]) {
-            max_even_num = i;
-            second_even = max_even, max_even = times_even[i];
-        } else if (second_even < times_even[i]) {
-            second_even = times_even[i];
-        }
-        if (max_odd <= times_odd[i]) {
-            max_odd_num = i;
-            second_odd = max_odd, max_odd = times_odd[i];
-        } else if (second_odd < times_odd[i]) {
-            second_odd = times_odd[i];
-        }
-    }
+    vector<pair<int, int> >
+            elem_even(mp_even.begin(), mp_even.end()),
+            elem_odd(mp_odd.begin(), mp_odd.end());
+    sort(elem_even.begin(), elem_even.end(),
+         [](pair<int, int> a, pair<int, int> b) { return a.second > b.second; });
+    sort(elem_odd.begin(), elem_odd.end(),
+         [](pair<int, int> a, pair<int, int> b) { return a.second > b.second; });
 
-
-    if (max_odd_num == max_even_num) {
-        if (second_odd > second_even) {
-            cout << n / 2 - second_odd + n / 2 - max_even << endl;
-        } else {
-            cout << n / 2 - second_even + n / 2 - max_odd << endl;
-        }
+    if (elem_even[0].first != elem_odd[0].first) {
+        cout << n - elem_even[0].second - elem_odd[0].second << endl;
     } else {
-        cout << n / 2 - max_odd + n / 2 - max_even << endl;
+        cout << min(n - elem_even[1].second - elem_odd[0].second,
+                    n - elem_even[0].second - elem_odd[1].second) << endl;
     }
 }
 
@@ -57,8 +43,8 @@ int main() {
     int temp;
     REP(i, n) {
         cin >> temp;
-        if (i % 2 == 0) times_even[temp]++;
-        else times_odd[temp]++;
+        if (i % 2 == 0) mp_even[temp]++;
+        else mp_odd[temp]++;
     }
     solve();
     return 0;
