@@ -19,9 +19,9 @@ typedef long long ll;
 
 const int MAX_N = int(1e5);
 int n;
-unordered_map<int, int> mp_even, mp_odd;
 
 void solve() {
+    unordered_map<int, int> mp_even, mp_odd;
     vector<pair<int, int> >
             elem_even(mp_even.begin(), mp_even.end()),
             elem_odd(mp_odd.begin(), mp_odd.end());
