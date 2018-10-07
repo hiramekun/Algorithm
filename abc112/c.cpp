@@ -26,28 +26,15 @@ void solve() {
     bool end = false;
     REP(cx, 100 + 1) {
         REP(cy, 100 + 1) {
-            REP(j, N - 1) {
-                if (h[j] == 0 || h[j + 1] == 0) continue;
-                if (abs(x[j + 1] - cx) + abs(y[j + 1] - cy) - abs(x[j] - cx) - abs(y[j] - cy) ==
-                    h[j] - h[j + 1]) {
-
-                    REP(i, N - 1) {
-                        if (h[i] != 0 && h[i + 1] != 0) {
-                            if (abs(x[i + 1] - cx) + abs(y[i + 1] - cy) - abs(x[i] - cx) -
-                                abs(y[i] - cy) != h[i] - h[i + 1]) {
-                                break;
-                            }
-                        }
-                        if (h[i] != 0) H = h[i] + abs(x[i] - cx) + abs(y[i] - cy);
-                        if (h[i + 1] != 0) H = h[i + 1] + abs(x[i + 1] - cx) + abs(y[i + 1] - cy);
-
-                        if (((h[i] == 0 || h[i + 1] == 0) ||
-                             abs(x[i + 1] - cx) + abs(y[i + 1] - cy) - abs(x[i] - cx) -
-                             abs(y[i] - cy) == h[i] - h[i + 1]) && i == N - 2) {
-                            end = true;
-                            Cx = cx, Cy = cy;
-                            break;
-                        }
+            REP(i, N) {
+                if (h[i] == 0)continue;
+                H = h[i] + abs(x[i] - cx) + abs(y[i] - cy);
+                REP(j, N) {
+                    if (max(H - abs(x[j] - cx) - abs(y[j] - cy), ll(0)) != h[j]) break;
+                    if (j == N - 1) {
+                        end = true;
+                        Cx = cx, Cy = cy;
+                        break;
                     }
                 }
                 if (end) break;
