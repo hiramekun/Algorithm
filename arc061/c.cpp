@@ -22,17 +22,18 @@ ll s_num[10];
 
 void solve() {
     ll ans = 0;
-    for (ll i = 0; i < pow(2, s_len); i++) {
+    for (ll i = 0; i < pow(2, s_len - 1); i++) {
         ll sum = 0;
-        string temp;
-        for (ll j = 0; j < s_len; j++) {
-            if (1 & i >> (s_len - 1) != 1) continue;
-            temp += to_string(s_num[s_len - 1 - j]);
+        string temp = to_string(s_num[s_len - 1]);
+        for (ll j = 0; j < s_len - 1; j++) {
             if ((1 & i >> j) == 1) {
                 sum += stol(temp);
-                temp = "";
+                temp = to_string(s_num[s_len - 1 - (j + 1)]);
+            } else {
+                temp += to_string(s_num[s_len - 1 - (j + 1)]);
             }
         }
+        sum += stol(temp);
         ans += sum;
     }
     cout << ans << endl;
