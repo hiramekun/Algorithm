@@ -17,6 +17,7 @@ typedef pair<int, int> P;
 #define REPONE(i, n) for(int i = 1; i <= (int)(n); i++)
 #define EACH(i, mp) for(auto i:mp)
 #define FOR(i, m, n) for(int i = m;i < n;i++)
+int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
 
 
 void solve() {
