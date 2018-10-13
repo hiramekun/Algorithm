@@ -20,14 +20,14 @@ typedef pair<int, int> P;
 int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
 
 const int MAX_R = 50;
-int R, C;
+int H, W;
 P s, g;
 char c[MAX_R][MAX_R];
 int d_min[MAX_R][MAX_R];
 
 int bfs() {
     queue<P> que;
-    REP(i, R) REP(j, C) d_min[i][j] = INF;
+    REP(i, H) REP(j, W) d_min[i][j] = INF;
     que.push(s), d_min[s.first][s.second] = 0;
 
     // queが空でない限り
@@ -40,7 +40,7 @@ int bfs() {
         REP(i, 4) {
             int nx = p.first + dx[i], ny = p.second + dy[i];
             // 移動可能なマスの場合
-            if (0 <= nx && nx < R && 0 <= ny && ny < C && c[nx][ny] != '#' &&
+            if (0 <= nx && nx < H && 0 <= ny && ny < W && c[nx][ny] != '#' &&
                 d_min[nx][ny] == INF) {
                 // queに入れて，最小値更新
                 que.push(P(nx, ny));
@@ -57,11 +57,11 @@ void solve() {
 }
 
 int main() {
-    cin >> R >> C;
+    cin >> H >> W;
     int sx, sy, gx, gy;
     cin >> sx >> sy >> gx >> gy;
     s = P(sx - 1, sy - 1), g = P(gx - 1, gy - 1);
-    REP(i, R) REP(j, C) cin >> c[i][j];
+    REP(i, H) REP(j, W) cin >> c[i][j];
     solve();
     return 0;
 }
