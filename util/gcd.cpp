@@ -8,6 +8,11 @@ int gcd(int a, int b) {
     return gcd(b, a % b);
 }
 
+int lcm(int m, int n) {
+    if ((0 == m) || (0 == n)) return 0;
+    return ((m / gcd(m, n)) * n);
+}
+
 int main() {
     int a, b;
     cin >> a >> b;
