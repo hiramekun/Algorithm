@@ -21,6 +21,7 @@ int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
 
 const int MAX_N = 8, MAX_M = 8 * 7 / 2;
 bool G[MAX_N][MAX_N];
+bool visited[MAX_N];
 int N, M;
 
 int dfs(int v, bool visited[]) {
@@ -39,6 +40,13 @@ int dfs(int v, bool visited[]) {
     return ret;
 }
 
+void solve() {
+    fill(visited, visited + N, false);
+    visited[0] = true;
+    int ans = dfs(0, visited);
+    cout << ans << endl;
+}
+
 int main() {
     cin >> N >> M;
     for (int i = 0; i < M; ++i) {
@@ -47,9 +55,6 @@ int main() {
         a--, b--;
         G[a][b] = G[b][a] = true;
     }
-    bool visited[MAX_N];
-    fill(visited, visited + N, false);
-    visited[0] = true;
-    cout << dfs(0,visited) << endl;
+    solve();
     return 0;
 }
