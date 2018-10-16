@@ -41,7 +41,6 @@ int dfs(int v) {
 }
 
 void solve() {
-    fill(visited, visited + N, false);
     visited[0] = true;
     int ans = dfs(0);
     cout << ans << endl;
