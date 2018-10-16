@@ -24,7 +24,7 @@ bool G[MAX_N][MAX_N];
 bool visited[MAX_N];
 int N, M;
 
-int dfs(int v, bool visited[]) {
+int dfs(int v) {
     bool all_visited = true;
     REP(i, N) if (!visited[i]) all_visited = false;
     if (all_visited) return 1;
@@ -34,7 +34,7 @@ int dfs(int v, bool visited[]) {
         if (!G[v][i]) continue;
         if (visited[i]) continue;
         visited[i] = true;
-        ret += dfs(i, visited);
+        ret += dfs(i);
         visited[i] = false;
     }
     return ret;
@@ -43,7 +43,7 @@ int dfs(int v, bool visited[]) {
 void solve() {
     fill(visited, visited + N, false);
     visited[0] = true;
-    int ans = dfs(0, visited);
+    int ans = dfs(0);
     cout << ans << endl;
 }
 
