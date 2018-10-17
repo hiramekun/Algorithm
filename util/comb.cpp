@@ -21,7 +21,7 @@ int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
 
 
 void comb(int n, int k) {
-    int arr[] = {1, 2, 3, 4};
+    int arr[] = {1, 2, 3, 4}; // array must be sorted
     int com = (1 << k) - 1;
     while (com < 1 << n) {
         REP(j, n) if ((1 & com >> j) == 1) cout << arr[j] << endl;
