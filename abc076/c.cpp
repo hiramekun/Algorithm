@@ -45,19 +45,17 @@ void solve() {
     if (reached) {
         vector<string> ans;
         EACH(t, ids) {
-            string temp;
+            string tmp;
             REP(i, t) {
-                if (S[i] == '?') temp += 'a';
-                else temp += S[i];
+                if (S[i] == '?') tmp += 'a';
+                else tmp += S[i];
             }
-            REP(i, T.length()) {
-                temp += T[i];
-            }
+            REP(i, T.length()) tmp += T[i];
             FOR(i, t + T.length(), S.length()) {
-                if (S[i] == '?') temp += 'a';
-                else temp += S[i];
+                if (S[i] == '?') tmp += 'a';
+                else tmp += S[i];
             }
-            ans.emplace_back(temp);
+            ans.emplace_back(tmp);
         }
         sort(ans.begin(), ans.end());
         cout << ans[0] << endl;
