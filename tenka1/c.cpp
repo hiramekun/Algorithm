@@ -26,12 +26,11 @@ vector<ll> v;
 
 void solve() {
     sort(v.begin(), v.end());
-    ll ans[N];
+    ll ans[2][N];
 
     if (N == 2) {
         cout << abs(v[0] - v[1]) << endl;
     } else {
-        bool is_small = true;
         int temp = 0, reptime = 0;
         if (N % 2 == 0) {
             temp = N / 2 - 1;
@@ -40,32 +39,39 @@ void solve() {
             temp = N / 2;
             reptime = temp + 1;
         }
-        int small = 0, big = static_cast<int>(v.size() - 1);
-        REP(i, reptime) {
-            if (is_small) {
-                if (temp + i < N) {
-                    ans[temp + i] = v[small];
-                    small++;
+        REP(k, 2) {
+            bool is_small = k % 2 == 0;
+            int small = 0, big = static_cast<int>(v.size() - 1);
+            REP(i, reptime) {
+                if (is_small) {
+                    if (temp + i < N) {
+                        ans[k][temp + i] = v[small];
+                        small++;
+                    }
+                    if (i != 0 && temp - i >= 0) {
+                        ans[k][temp - i] = v[small];
+                        small++;
+                    }
+                } else {
+                    if (temp + i < N) {
+                        ans[k][temp + i] = v[big];
+                        big--;
+                    }
+                    if (i != 0 && temp - i >= 0) {
+                        ans[k][temp - i] = v[big];
+                        big--;
+                    }
                 }
-                if (i != 0 && temp - i >= 0) {
-                    ans[temp - i] = v[small];
-                    small++;
-                }
-            } else {
-                if (temp + i < N) {
-                    ans[temp + i] = v[big];
-                    big--;
-                }
-                if (i != 0 && temp - i >= 0) {
-                    ans[temp - i] = v[big];
-                    big--;
-                }
+                is_small = !is_small;
             }
-            is_small = !is_small;
         }
         ll ret = 0;
-        REP(i, N - 1) {
-            ret += abs(ans[i] - ans[i + 1]);
+        REP(k, 2) {
+            ll n = 0;
+            REP(i, N - 1) {
+                n += abs(ans[k][i] - ans[k][i + 1]);
+            }
+            ret = max(n, ret);
         }
         cout << ret << endl;
     }
