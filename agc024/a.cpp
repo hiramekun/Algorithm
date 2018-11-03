@@ -22,16 +22,9 @@ int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
 ll A, B, C;
 ll K;
 
-void solve() {
-    ll ab = pow(-1, K) * (pow(-2, K - 1) * (-2 / 3) - 1 / 3);
-    ll aa = K % 2 == 0 ? ab + 1 : ab - 1;
-    ll tscore = aa * A + ab * B + ab * C;
-    ll nscore = aa * B + ab * C + ab * A;
-    cout << tscore - nscore << endl;
-}
-
 int main() {
     cin >> A >> B >> C >> K;
-    solve();
+    if (K % 2 == 0) cout << A - B << endl;
+    else cout << B - A << endl;
     return 0;
 }
