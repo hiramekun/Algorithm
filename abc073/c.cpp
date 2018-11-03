@@ -19,7 +19,7 @@ typedef pair<int, int> P;
 #define FOR(i, m, n) for(int i = m;i < n;i++)
 int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
 
-map<ll, int> mp;
+unordered_map<ll, int> mp;
 int N;
 const int MAX_N = (int) 1e5;
 
