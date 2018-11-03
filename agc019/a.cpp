@@ -20,32 +20,31 @@ typedef long long ll;
 int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
 
 ll Q, H, S, D, N;
-vector<pair<ll, double> > v1, v2;
-typedef pair<ll, double> P;
+vector<ll> v1, v2;
 
 void solve() {
     sort(v1.begin(), v1.end());
     sort(v2.begin(), v2.end());
     ll ans;
     if (N % 2 == 0) {
-        ans += N / 2 * v1[0].first;
+        ans += N / 2 * v1[0];
     } else {
-        ans += (N - 1) / 2 * v1[0].first;
-        ans += v2[0].first;
+        ans += (N - 1) / 2 * v1[0];
+        ans += v2[0];
     }
     cout << ans << endl;
 }
 
 int main() {
     cin >> Q >> H >> S >> D >> N;
-    v1.emplace_back(P(Q * 8, 0.25));
-    v1.emplace_back(P(H * 4, 0.5));
-    v1.emplace_back(P(S * 2, 1));
-    v1.emplace_back(P(D, 2));
+    v1.emplace_back(Q * 8);
+    v1.emplace_back(H * 4);
+    v1.emplace_back(S * 2);
+    v1.emplace_back(D, 2);
 
-    v2.emplace_back(P(Q * 4, 0.25));
-    v2.emplace_back(P(H * 2, 0.5));
-    v2.emplace_back(P(S * 1, 1));
+    v2.emplace_back(Q * 4);
+    v2.emplace_back(H * 2);
+    v2.emplace_back(S * 1);
     solve();
     return 0;
 }
