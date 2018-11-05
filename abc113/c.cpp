@@ -20,29 +20,29 @@ typedef long long ll;
 int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
 
 ll N, M;
-const int MAX_M = int(1e5);
+const unsigned int MAX_M = static_cast<unsigned int>(1e5);
 ll P[MAX_M + 1], Y[MAX_M + 1];
-vector<ll> nums[MAX_M + 1];
+vector<vector<pair<ll, ll>>> v(MAX_M + 1);
 
 void solve() {
-    REP(i, M) {
-        auto at = lower_bound(nums[P[i]].begin(), nums[P[i]].end(), Y[i]);
-        string sp = to_string(P[i]), sdiff = to_string(at - nums[P[i]].begin() + 1);
-        if (sp.length() < 6) sp = string(6 - sp.length(), '0') + sp;
-        if (sdiff.length() < 6) sdiff = string(6 - sdiff.length(), '0') + sdiff;
-        string ans = sp + sdiff;
-        printf("%s\n", ans.c_str());
+    vector<pair<ll, ll>> ans(M);
+    FOR(i, 1, N + 1) {
+        // 各市ごとにsort
+        sort(v[i].begin(), v[i].end());
+        // sortした配列を最初から見ていく
+        // ans[配列の入力順]に市番号, 順番を加える
+        REP(j, v[i].size()) ans[v[i][j].second] = make_pair(i, j + 1);
     }
+
+    REP(i, M) printf("%06lli%06lli\n", ans[i].first, ans[i].second);
 }
 
 int main() {
     cin >> N >> M;
     REP(i, M) {
         scanf("%lli %lli", &P[i], &Y[i]);
-        nums[P[i]].emplace_back(Y[i]);
-    }
-    REPONE(i, N) {
-        sort(nums[i].begin(), nums[i].end());
+        // 各市ごとにベクトルに値を加える
+        v[P[i]].emplace_back(make_pair(Y[i], i));
     }
     solve();
     return 0;
