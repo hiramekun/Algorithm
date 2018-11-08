@@ -35,7 +35,7 @@ vector<int> each_digit(ll S) {
 
 void solve() {
     ll ans = INF;
-    REPONE(i, pow(10, 6)) if (N % i == 0) ans = min(ans, max(i, N / i));
+    REPONE(i, sqrt(N)) if (N % i == 0) ans = min(ans, max(i, N / i));
     vector<int> v = each_digit(ans);
     cout << v.size() << endl;
 }
