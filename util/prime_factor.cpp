@@ -21,6 +21,7 @@ int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
 
 map<ll, ll> mp;
 
+// 素数列挙
 void prime_factor(ll n) {
     for (ll i = 2; i * i <= n; ++i) {
         while (n % i == 0) {
@@ -29,4 +30,22 @@ void prime_factor(ll n) {
         }
     }
     if (n != 1) mp[n]++;
+}
+
+// 素数判定
+bool is_prime(ll n) {
+    for (int i = 2; i * i <= n; i++) if (n % i == 0) return false;
+    return n != 1;
+}
+
+// 約数列挙
+vector<ll> divisor(ll n) {
+    vector<ll> res;
+    for (int i = 1; i * i <= n; ++i) {
+        if (n % i == 0) {
+            res.emplace_back(i);
+            if (i != n / i) res.emplace_back(n / i);
+        }
+    }
+    return res;
 }
