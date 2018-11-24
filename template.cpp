@@ -7,6 +7,7 @@
 #include <cmath>
 #include <queue>
 #include <set>
+#include <stack>
 
 using namespace std;
 typedef long long ll;
