@@ -25,7 +25,7 @@ ll x, y;
 void solve() {
     if (y > x) {
         if (x * y >= 0) {
-            cout << abs((abs(y) - abs(x))) << endl;
+            cout << abs(abs(y) - abs(x)) << endl;
         } else {
             cout << abs(abs(y) - abs(x)) + 1 << endl;
         }
@@ -33,9 +33,9 @@ void solve() {
         if (x * y == 0) {
             cout << abs(x) + abs(y) + 1 << endl;
         } else if (x * y > 0) {
-            cout << (abs(abs(x) - abs(y))) + 2 << endl;
+            cout << abs(abs(x) - abs(y)) + 2 << endl;
         } else {
-            cout << (abs(abs(y) - abs(x))) + 1 << endl;
+            cout << abs(abs(y) - abs(x)) + 1 << endl;
         }
     }
 }
