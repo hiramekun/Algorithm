@@ -25,7 +25,6 @@ void greedy(int s, int g) {
     vector<edge> next_v;
     if (s == g) return;
     seen[s] = true;
-    printf("s: %d\n", s);
     sort(G[s].begin(), G[s].end(), [](edge a, edge b) { return a.cost < b.cost; });
     for (auto &i : G[s]) {
         if (!seen[i.to]) {
@@ -49,9 +48,6 @@ int main() {
         G[e1.to].emplace_back(e2);
     }
     greedy(0, V - 1);
-    for (int j = 0; j < V; ++j) {
-        cout << d[j] << endl;
-    }
     cout << d[V - 1] << endl;
     return 0;
 }
