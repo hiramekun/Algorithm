@@ -57,6 +57,6 @@ int main() {
         G[e1.to].emplace_back(e2);
     }
     dijkstra(0);
-    cout << d[V - 1] << endl;
+    printf("answer of cost is %d", d[V - 1]);
     return 0;
 }
