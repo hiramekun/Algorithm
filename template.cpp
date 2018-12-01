@@ -18,7 +18,7 @@ typedef pair<int, int> P;
 #define repr(i, n) for(ll i = n - 1; i >= 0; i--)
 #define repone(i, n) for(ll i = 1; i <= (ll)(n); i++)
 #define each(i, mp) for(auto i:mp)
-#define for(i, m, n) for(ll i = m;i < n;i++)
+#define FOR(i, m, n) for(ll i = m;i < n;i++)
 int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
 
 
