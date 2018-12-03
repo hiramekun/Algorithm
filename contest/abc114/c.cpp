@@ -36,172 +36,27 @@ vector<ll> each_digit(ll S) {
     return ret;
 }
 
+ll ans = 0;
+
+void dfs(int s_len, string now, string next, bool three, bool five, bool seven) {
+    string s_next = now + next;
+
+    if (three && five && seven && s_next.size() == s_len && stoi(s_next) <= N) {
+        ans++;
+        return;
+    } else if (s_next.size() == s_len) return;
+
+    dfs(s_len, s_next, "3", true, five, seven);
+    dfs(s_len, s_next, "5", three, true, seven);
+    dfs(s_len, s_next, "7", three, five, true);
+}
+
 void solve() {
     ll rank = each_digit(N).size();
-    ll ans = 0;
-    int temp[3] = {3, 5, 7};
-    unordered_map<ll, ll> mp;
-
-    each(i, temp) {
-        each(j, temp) {
-            each(k, temp) {
-                if (i != 3 && j != 3 && k != 3 ||
-                    i != 5 && j != 5 && k != 5 ||
-                    i != 7 && j != 7 && k != 7) {
-                } else {
-                    string a;
-                    a += to_string(i);
-                    a += to_string(j);
-                    a += to_string(k);
-                    ll num = stoi(a);
-                    if (num <= N && mp[num] == 0) {
-                        ans++;
-                        mp[num]++;
-                    }
-                }
-                if (rank < 4) {
-                    continue;
-                }
-                each(l, temp) {
-                    if (i != 3 && j != 3 && k != 3 && l != 3 ||
-                        i != 5 && j != 5 && k != 5 && l != 5 ||
-                        i != 7 && j != 7 && k != 7 && l != 7) {
-                    } else {
-                        string a;
-                        a += to_string(i);
-                        a += to_string(j);
-                        a += to_string(k);
-                        a += to_string(l);
-                        ll num = stoi(a);
-                        if (num <= N && mp[num] == 0) {
-                            ans++;
-                            mp[num]++;
-                        }
-                    }
-                    if (rank < 5) {
-                        continue;
-                    }
-                    each(m, temp) {
-                        if (i != 3 && j != 3 && k != 3 && l != 3 && m != 3 ||
-                            i != 5 && j != 5 && k != 5 && l != 5 && m != 5 ||
-                            i != 7 && j != 7 && k != 7 && l != 7 && m != 7) {
-                        } else {
-                            string a;
-                            a += to_string(i);
-                            a += to_string(j);
-                            a += to_string(k);
-                            a += to_string(l);
-                            a += to_string(m);
-                            ll num = stoi(a);
-                            if (num <= N && mp[num] == 0) {
-                                ans++;
-                                mp[num]++;
-                            }
-                        }
-                        if (rank < 6) {
-                            continue;
-                        }
-                        each(n, temp) {
-                            if (i != 3 && j != 3 && k != 3 && l != 3 && m != 3 && n != 3 ||
-                                i != 5 && j != 5 && k != 5 && l != 5 && m != 5 && n != 5 ||
-                                i != 7 && j != 7 && k != 7 && l != 7 && m != 7 && n != 7) {
-                            } else {
-                                string a;
-                                a += to_string(i);
-                                a += to_string(j);
-                                a += to_string(k);
-                                a += to_string(l);
-                                a += to_string(m);
-                                a += to_string(n);
-                                ll num = stoi(a);
-                                if (num <= N && mp[num] == 0) {
-                                    ans++;
-                                    mp[num]++;
-                                }
-                            }
-                            if (rank < 7) {
-                                continue;
-                            }
-                            each(o, temp) {
-                                if (i != 3 && j != 3 && k != 3 && l != 3 && m != 3 && n != 3 && o != 3 ||
-                                    i != 5 && j != 5 && k != 5 && l != 5 && m != 5 && n != 5 && o != 5 ||
-                                    i != 7 && j != 7 && k != 7 && l != 7 && m != 7 && n != 7 && o != 7) {
-                                } else {
-                                    string a;
-                                    a += to_string(i);
-                                    a += to_string(j);
-                                    a += to_string(k);
-                                    a += to_string(l);
-                                    a += to_string(m);
-                                    a += to_string(n);
-                                    a += to_string(o);
-                                    ll num = stoi(a);
-                                    if (num <= N && mp[num] == 0) {
-                                        ans++;
-                                        mp[num]++;
-                                    }
-                                }
-                                if (rank < 8) {
-                                    continue;
-                                }
-                                each(p, temp) {
-                                    if (i != 3 && j != 3 && k != 3 && l != 3 && m != 3 && n != 3 && o != 3 &&
-                                        p != 3 ||
-                                        i != 5 && j != 5 && k != 5 && l != 5 && m != 5 && n != 5 && o != 5 &&
-                                        p != 5 ||
-                                        i != 7 && j != 7 && k != 7 && l != 7 && m != 7 && n != 7 && o != 7 &&
-                                        p != 7) {
-                                    } else {
-                                        string a;
-                                        a += to_string(i);
-                                        a += to_string(j);
-                                        a += to_string(k);
-                                        a += to_string(l);
-                                        a += to_string(m);
-                                        a += to_string(n);
-                                        a += to_string(o);
-                                        a += to_string(p);
-                                        ll num = stoi(a);
-                                        if (num <= N && mp[num] == 0) {
-                                            ans++;
-                                            mp[num]++;
-                                        }
-                                    }
-                                    if (rank < 9) {
-                                        continue;
-                                    }
-                                    each(q, temp) {
-                                        if (i != 3 && j != 3 && k != 3 && l != 3 && m != 3 && n != 3 && o != 3 &&
-                                            p != 3 && q != 3 ||
-                                            i != 5 && j != 5 && k != 5 && l != 5 && m != 5 && n != 5 && o != 5 &&
-                                            p != 5 && q != 5 ||
-                                            i != 7 && j != 7 && k != 7 && l != 7 && m != 7 && n != 7 && o != 7 &&
-                                            p != 7 && q != 7) {
-                                        } else {
-                                            string a;
-                                            a += to_string(i);
-                                            a += to_string(j);
-                                            a += to_string(k);
-                                            a += to_string(l);
-                                            a += to_string(m);
-                                            a += to_string(n);
-                                            a += to_string(o);
-                                            a += to_string(p);
-                                            a += to_string(q);
-                                            ll num = stoi(a);
-                                            if (num <= N && mp[num] == 0) {
-                                                ans++;
-                                                mp[num]++;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    repone(i, rank) {
+        dfs(i, "", "3", true, false, false);
+        dfs(i, "", "5", false, true, false);
+        dfs(i, "", "7", false, false, true);
     }
     cout << ans << endl;
 }
