@@ -32,13 +32,13 @@ void solve() {
         return;
     }
     rep(i, s.length()) mp[s[i]] = int(i + 1);
-    for (int i = 'a'; i <= 'z'; i++) {
-        if (mp[char(i)] == 0) {
-            cout << s + char(i) << endl;
+    for (char i = 'a'; i <= 'z'; i++) {
+        if (mp[i] == 0) {
+            cout << s + i << endl;
             return;
         }
     }
-    string min_s;
+    string min_s = "zz";
     rep(i, s.length()) {
         string cs(s);
         string temp1 = cs.substr(0, i + 1), temp2 = cs.substr(0, i + 1);
@@ -48,7 +48,7 @@ void solve() {
         for (char j = temp1[i]; j <= 'z'; j++) {
             if (mp1[j] == 0) {
                 temp1[i] = j;
-                min_s = min_s.empty() ? temp1 : min(min_s, temp1);
+                min_s = min(min_s, temp1);
                 break;
             }
         }
@@ -56,7 +56,7 @@ void solve() {
             for (char j = temp2[i - 1]; j <= 'z'; j++) {
                 if (mp2[j] == 0) {
                     temp2[i - 1] = j;
-                    min_s = min_s.empty() ? temp2 : min(min_s, temp2);
+                    min_s = min(min_s, temp2);
                     break;
                 }
             }
