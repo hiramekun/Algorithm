@@ -21,7 +21,8 @@ typedef pair<int, int> P;
 #define repone(i, n) for(ll i = 1; i <= (ll)(n); i++)
 #define each(i, mp) for(auto i:mp)
 #define FOR(i, m, n) for(ll i = m;i < n;i++)
-int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
+const int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
+const int mod = 1000000007;
 
 
 void solve() {
