@@ -1,5 +1,6 @@
 Paiza/*
 *.out
 cmake-build-debug/
+virtual_contest/
 CMakeLists.txt
 .swp
