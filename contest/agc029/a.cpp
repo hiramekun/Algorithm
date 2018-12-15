@@ -27,17 +27,10 @@ const int mod = 1000000007;
 string s;
 
 void solve() {
-    ll ans = 0;
-    stack<char> st;
-    rep(i, s.length()) {
-        if (st.empty()) st.push(s[i]);
-        else if (st.top() == 'B' && s[i] == 'W') {
-            ans += st.size();
-        } else if (st.top() == 'B') st.push(s[i]);
-        else if (st.top() == 'W') {
-            st.pop();
-            st.push(s[i]);
-        }
+    ll ans = 0, c_w = 0;
+    repr(i, s.length()) {
+        if (s[i] == 'W') c_w++;
+        if (s[i] == 'B') ans += c_w;
     }
     cout << ans << endl;
 }
