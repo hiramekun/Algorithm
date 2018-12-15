@@ -13,8 +13,8 @@
 using namespace std;
 typedef long long ll;
 typedef pair<int, int> P;
-#define i_inf int(1e9)
-#define i_half_inf int(1e5)
+#define inf int(1e9)
+#define half_inf int(1e5)
 #define ll_inf ll(1e9)*ll(1e9)
 #define rep(i, n) for(ll i = 0; i < (ll)(n); i++)
 #define repr(i, n) for(ll i = n - 1; i >= 0; i--)
