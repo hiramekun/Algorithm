@@ -29,23 +29,14 @@ const int max_n = half_inf;
 ll n, a[max_n];
 
 void solve() {
-    ll n_even = 0, n_odd = 0;
-    ll n_one = 0, n_no_one = 0;
+    bool has_odd = false;
     rep(i, n) {
-        if (a[i] % 2 == 0) n_even++;
-        else n_odd++;
-        if (a[i] == 1) n_one++;
-        else n_no_one += a[i];
+        if (a[i] % 2 != 0) {
+            has_odd = true;
+            break;
+        }
     }
-    if (n_even == 0) {
-        cout << "first" << endl;
-    } else if (abs(n - n_even) % 2 != 0) {
-        cout << "first" << endl;
-    } else if (n != 1 && n_even <= n_odd) {
-        cout << "first" << endl;
-    } else {
-        cout << "second" << endl;
-    }
+    cout << (has_odd ? "first" : "second") << endl;
 }
 
 int main() {
