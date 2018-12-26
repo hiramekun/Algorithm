@@ -24,42 +24,28 @@ const ll inf = ll(1e9);
 const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
 
-int n;
-vector<P> ab, cd;
+ll n, h;
+vector<ll> a, b;
 
 void solve() {
-    sort(ab.begin(), ab.end(), [](P a, P b) { return a.second > b.second; });
-    sort(cd.begin(), cd.end());
-    int ans = 0;
-    bool used[n];
-    fill(used, used + n, false);
-    rep(i, n) {
-        P _xy = cd[i];
-        rep(j, n) {
-            P xy = ab[j];
-            if (!used[j] && xy.first < _xy.first && xy.second < _xy.second) {
-                used[j] = true;
-                ans++;
-                break;
-            }
-        }
+    sort(a.begin(), a.end(), greater<>());
+    sort(b.begin(), b.end());
+    auto bound = lower_bound(b.begin(), b.end(), a[0]);
+    ll ans = 0;
+    for (auto i = b.end() - 1; i >= bound; --i) {
+        h -= *i;
+        ans++;
+        if (h <= 0) break;
     }
+    if (h > 0) ans += (h % a[0] == 0 ? h / a[0] : (h / a[0] + 1));
     cout << ans << endl;
 }
 
 int main() {
-    cin >> n;
-    ab.resize(n);
-    cd.resize(n);
-    int x, y;
-    rep(i, n) {
-        cin >> x >> y;
-        ab[i] = make_pair(x, y);
-    }
-    rep(i, n) {
-        cin >> x >> y;
-        cd[i] = make_pair(x, y);
-    }
+    cin >> n >> h;
+    a.resize(n);
+    b.resize(n);
+    rep(i, n) cin >> a[i] >> b[i];
     solve();
     return 0;
 }
