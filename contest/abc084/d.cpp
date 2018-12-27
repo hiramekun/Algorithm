@@ -25,10 +25,22 @@ const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
 
 
-// 素数判定
-bool is_prime(ll n) {
-    for (int i = 2; i * i <= n; i++) if (n % i == 0) return false;
-    return n != 1;
+// n以下の素数を返す
+vector<bool> sieve(ll n) {
+    vector<ll> prime;
+    vector<bool> is_prime;
+    is_prime.resize(n + 1);
+    prime.resize(n);
+    ll p = 0;
+    rep(i, n + 1) is_prime[i] = true;
+    is_prime[0] = is_prime[1] = false;
+    FOR(i, 2, n + 1) {
+        if (is_prime[i]) {
+            prime[p++] = i;
+            for (ll j = 2 * i; j <= n; j += i) is_prime[j] = false;
+        }
+    }
+    return is_prime;
 }
 
 
@@ -37,8 +49,9 @@ vector<ll> l, r;
 vector<ll> prime_count(half_inf + 1, 0);
 
 void solve() {
+    vector<bool> is_prime = sieve(half_inf);
     repone(i, half_inf) {
-        if (is_prime(i) && is_prime((i + 1) / 2)) prime_count[i] = prime_count[i - 1] + 1;
+        if (is_prime[i] && is_prime[(i + 1) / 2]) prime_count[i] = prime_count[i - 1] + 1;
         else prime_count[i] = prime_count[i - 1];
     }
     rep(i, q) {
