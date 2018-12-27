@@ -60,7 +60,7 @@ vector<ll> divisor(ll n) {
 vector<ll> sieve(ll n) {
     vector<ll> prime;
     vector<bool> is_prime;
-    is_prime.resize(n);
+    is_prime.resize(n + 1);
     prime.resize(n);
     ll p = 0;
     rep(i, n + 1) is_prime[i] = true;
