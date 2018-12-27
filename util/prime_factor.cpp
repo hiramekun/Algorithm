@@ -54,3 +54,22 @@ vector<ll> divisor(ll n) {
     }
     return res;
 }
+
+
+// n以下の素数を返す
+vector<ll> sieve(ll n) {
+    vector<ll> prime;
+    vector<bool> is_prime;
+    is_prime.resize(n);
+    prime.resize(n);
+    ll p = 0;
+    rep(i, n + 1) is_prime[i] = true;
+    is_prime[0] = is_prime[1] = false;
+    FOR(i, 2, n + 1) {
+        if (is_prime[i]) {
+            prime[p++] = i;
+            for (ll j = 2 * i; j <= n; j += i) is_prime[j] = false;
+        }
+    }
+    return prime;
+}
