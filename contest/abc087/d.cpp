@@ -24,11 +24,57 @@ const ll inf = ll(1e9);
 const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
 
+ll n, m;
+
+struct edge {
+    int to, cost;
+
+    edge(int to, int cost) : to(to), cost(cost) {}
+};
+
+vector<edge> G[half_inf];
+vector<ll> L, R, D, ans;
+vector<bool> searched;
+
+bool dfs(int v) {
+    searched[v] = true;
+    rep(i, G[v].size()) {
+        if (ans[G[v][i].to] == inf) {
+            ans[G[v][i].to] = ans[v] + G[v][i].cost;
+        }
+        if (ans[G[v][i].to] != ans[v] + G[v][i].cost) {
+            cout << "No" << endl;
+            exit(0);
+        }
+        if (!searched[G[v][i].to]) dfs(G[v][i].to);
+    }
+}
 
 void solve() {
+    rep(i, n) {
+        if (!searched[i]) {
+            ans[i] = 0;
+            dfs(i);
+        }
+    }
+    cout << "Yes" << endl;
 }
 
 int main() {
+    cin >> n >> m;
+    L.resize(m), R.resize(m), D.resize(m);
+    searched.resize(n);
+    ans.resize(n);
+    fill(ans.begin(), ans.end(), inf);
+    for (int i = 0; i < m; ++i) {
+        int l, r, d;
+        cin >> l >> r >> d;
+        l--, r--;
+        L[i] = l, R[i] = r, D[i] = d;
+        edge e1(r, d), e2(l, -d);
+        G[l].emplace_back(e1);
+        G[r].emplace_back(e2);
+    }
     solve();
     return 0;
 }
