@@ -21,7 +21,7 @@ int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
 
 map<ll, ll> mp;
 
-// 素数列挙
+// 素因数分解
 void prime_factor(ll n) {
     for (ll i = 2; i * i <= n; ++i) {
         while (n % i == 0) {
