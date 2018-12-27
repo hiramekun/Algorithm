@@ -23,10 +23,10 @@ const ll mod = 1000000007;
 const ll inf = ll(1e9);
 const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
-map<ll, ll> mp;
 
 // 素因数分解
-void prime_factor(ll n) {
+map<ll, ll> prime_factor(ll n) {
+    map<ll, ll> mp;
     for (ll i = 2; i * i <= n; ++i) {
         while (n % i == 0) {
             mp[i]++;
@@ -34,6 +34,7 @@ void prime_factor(ll n) {
         }
     }
     if (n != 1) mp[n]++;
+    return mp;
 }
 
 // 素数判定
