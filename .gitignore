@@ -1,4 +1,5 @@
 Paiza/*
+contest/track/
 *.out
 cmake-build-debug/
 CMakeLists.txt
