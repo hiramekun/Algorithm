@@ -1,4 +1,5 @@
 #include <cstring>
+#include <regex>
 #include <cstdio>
 #include <algorithm>
 #include <iostream>
@@ -27,37 +28,20 @@ const ll ll_inf = ll(1e9) * ll(1e9);
 int main() {
     string s;
     cin >> s;
-    string k = "keyence";
-    if (s.length() < k.length()) {
-        cout << "NO" << endl;
-        return 0;
-    }
-    if (s.substr(0, k.length()) == k) {
-        cout << "YES" << endl;
-        return 0;
-    }
-    if (s.substr(s.length() - k.length(), k.length()) == k) {
-        cout << "YES" << endl;
-        return 0;
-    }
-    int is = 0, ik = 0;
-    string ans;
-    while (s[is] == k[ik]) {
-        ans += s[is];
-        is++;
-        ik++;
-    }
-    is = s.length() - 1, ik = k.length() - 1;
-    string a2;
-    while (s[is] == k[ik]) {
-        a2 = s[is] + a2;
-        if (ans + a2 == k) {
+    regex re1(".*keyence");
+    regex re2("k.*eyence");
+    regex re3("ke.*yence");
+    regex re4("key.*ence");
+    regex re5("keye.*nce");
+    regex re6("keyen.*ce");
+    regex re7("keyenc.*e");
+    regex re8("keyence.*");
+
+    regex re[8] = {re1, re2, re3, re4, re5, re6, re7, re8};
+    rep(i, 8) if (regex_match(s, re[i])) {
             cout << "YES" << endl;
             return 0;
         }
-        is--;
-        ik--;
-    }
     cout << "NO" << endl;
     return 0;
 }
