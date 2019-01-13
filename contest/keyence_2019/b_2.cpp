@@ -29,7 +29,7 @@ int main() {
     string s;
     cin >> s;
     rep(i, s.length() + 1) {
-        FOR(j, i, s.length()) {
+        FOR(j, i, s.length() + 1) {
             if (s.substr(0, i) + s.substr(j, s.length() - j) == "keyence") {
                 cout << "YES" << endl;
                 return 0;
