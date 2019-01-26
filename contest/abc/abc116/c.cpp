@@ -30,22 +30,14 @@ vector<int> h;
 
 void solve() {
     int ans = 0;
-    while (true) {
-        bool ended = true;
-        rep(i, n) {
-            if (h[i] != 0) {
-                ans++;
-                ended = false;
-            }
-            while (i < h.size() && h[i] != 0) {
-                h[i]--;
-                i++;
-            }
+    int prev = 0;
+    rep(i, n) {
+        if (prev >= h[i]) prev = h[i];
+        else {
+            ans += h[i] - prev;
+            prev = h[i];
         }
-        if (ended) goto LABEL;
     }
-    LABEL:
-
     cout << ans << endl;
 }
 
