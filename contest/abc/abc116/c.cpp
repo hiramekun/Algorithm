@@ -25,36 +25,34 @@ const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
 
 
-int n = 0, max_h = 0;
+int n = 0;
 vector<int> h;
 
 void solve() {
-    ll ans = 0;
-    while (max_h != 0) {
-        int max_h_n = 0;
-        rep(i, h.size()) {
-            bool has_h = false;
-            while (i < h.size() && h[i] == max_h) {
-                has_h = true;
+    int ans = 0;
+    while (true) {
+        bool ended = true;
+        rep(i, n) {
+            if (h[i] != 0) {
+                ans++;
+                ended = false;
+            }
+            while (i < h.size() && h[i] != 0) {
                 h[i]--;
-                max_h_n = max(h[i], max_h_n);
                 i++;
             }
-            max_h_n = max(h[i], max_h_n);
-            if (has_h) ans++;
         }
-        max_h = max_h_n;
+        if (ended) goto LABEL;
     }
+    LABEL:
+
     cout << ans << endl;
 }
 
 int main() {
     cin >> n;
     h.resize(n);
-    rep(i, n) {
-        cin >> h[i];
-        max_h = max(h[i], max_h);
-    }
+    rep(i, n) cin >> h[i];
     solve();
     return 0;
 }
