@@ -27,20 +27,16 @@ const ll ll_inf = ll(1e9) * ll(1e9);
 string s;
 
 void solve() {
-    if (s.length() > 100) {
-        printf("%d %d", -1, -1);
-        return;
-    }
     rep(i, s.length() - 1) {
-        for (int j = i + 1; j < s.length(); j++) {
-            unordered_map<char, int> mp;
-            for (int k = i; k <= j; ++k) {
-                mp[s[k]]++;
-                if (mp[s[k]] >= (j - i + 1) / 2 + 1) {
-                    printf("%d %d", i + 1, j + 1);
-                    return;
-                }
-            }
+        if (s[i] == s[i + 1]) {
+            printf("%d %d", i + 1, i + 2);
+            return;
+        }
+    }
+    rep(i, s.length() - 2) {
+        if (s[i] == s[i + 2]) {
+            printf("%d %d", i + 1, i + 3);
+            return;
         }
     }
     printf("%d %d", -1, -1);
