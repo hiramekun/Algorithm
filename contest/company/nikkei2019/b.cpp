@@ -31,17 +31,9 @@ int main() {
     cin >> n >> a >> b >> c;
     int ans = 0;
     rep(i, n) {
-        if (a[i] == b[i] && b[i] == c[i]) {
-
-        } else if (a[i] == b[i]) {
-            ans++;
-        } else if (a[i] == c[i]) {
-            ans++;
-        } else if (b[i] == c[i]) {
-            ans++;
-        } else {
-            ans += 2;
-        }
+        set<char> s;
+        s.insert({a[i], b[i], c[i]});
+        ans += s.size() - 1;
     }
     cout << ans << endl;
     return 0;
