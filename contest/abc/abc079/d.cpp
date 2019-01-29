@@ -27,32 +27,17 @@ const ll ll_inf = ll(1e9) * ll(1e9);
 ll h, w;
 ll c[10][10];
 ll a[200][200];
-ll d[10];
-vector<bool> visited(10);
 
-void dfs(ll now) {
-    rep(i, 10) {
-        if (!visited[i]) {
-            if (d[now] + c[i][now] < d[i]) {
-                d[i] = d[now] + c[i][now];
-                visited[i] = true;
-                dfs(i);
-                visited[i] = false;
-            }
-        }
-    }
+void warshall_floyd() {
+    rep(k, 10)rep(i, 10)rep(j, 10) c[i][j] = min(c[i][j], c[i][k] + c[k][j]);
 }
 
-
 void solve() {
-    fill(d, d + 10, inf);
-    fill(visited.begin(), visited.end(), false);
-    visited[1] = true, d[1] = 0;
-    dfs(1);
+    warshall_floyd();
+
     ll ans = 0;
-    rep(i, h)
-        rep(j, w) if (a[i][j] != -1) {
-                ans += d[a[i][j]];
+    rep(i, h)rep(j, w) if (a[i][j] != -1) {
+                ans += c[a[i][j]][1];
             }
     cout << ans << endl;
 }
