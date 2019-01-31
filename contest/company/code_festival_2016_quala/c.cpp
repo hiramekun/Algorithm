@@ -35,7 +35,7 @@ void solve() {
         }
     }
     k %= 26;
-    if (k > 0) s[s.length() - 1] = char(s[s.length() - 1] + k);
+    if (k > 0) s[s.length() - 1] += k;
     cout << s << endl;
 }
 
