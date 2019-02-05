@@ -45,32 +45,8 @@ inline bool chmax(T &a, T b) {
 string s;
 
 void solve() {
-    int n = s.length();
-    string rev;
-    int i_s = inf, i_e = -1;
-    rep(i, n) {
-        if (s[i] != 'x') {
-            i_s = min(i_s, i), i_e = max(i_e, i);
-            rev += s[i];
-        }
-    }
-    if (i_s == inf) i_s = -1;
-    rep(i, rev.length() / 2) {
-        if (rev[i] != rev[rev.length() - 1 - i]) {
-            cout << "-1" << endl;
-            return;
-        }
-    }
-    if (i_s == -1) {
-        cout << 0 << endl;
-        return;
-    }
-    int ans = 0;
-    for (int i = 0; i < i_s; ++i) if (s[i] == 'x') ans++;
-    for (int i = i_e; i < n; ++i) if (s[i] == 'x') ans--;
-    ans = abs(ans);
-
-
+    ll ans = 0;
+    int i_s = 0, i_e = s.length() - 1;
     while (i_s < i_e) {
         if (s[i_s] == s[i_e]) i_s++, i_e--;
         else if (s[i_s] == 'x') {
@@ -79,6 +55,9 @@ void solve() {
         } else if (s[i_e] == 'x') {
             i_e--;
             ans++;
+        } else {
+            cout << -1 << endl;
+            return;
         }
     }
     cout << ans << endl;
