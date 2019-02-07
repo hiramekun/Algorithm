@@ -24,24 +24,6 @@ const ll inf = ll(1e9);
 const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
 
-template<class T>
-inline bool chmin(T &a, T b) {
-    if (a > b) {
-        a = b;
-        return true;
-    }
-    return false;
-}
-
-template<class T>
-inline bool chmax(T &a, T b) {
-    if (a < b) {
-        a = b;
-        return true;
-    }
-    return false;
-}
-
 ll n, m;
 vector<ll> G[half_inf + 10];
 int c = 1;
