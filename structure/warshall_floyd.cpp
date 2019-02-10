@@ -24,7 +24,6 @@ const ll inf = ll(1e9);
 const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
 
-
 class WarshallFloyd {
 public:
     int V; // 頂点数
@@ -40,7 +39,7 @@ public:
         rep(i, v) d[i][i] = 0;
     };
 
-    void add(int u, int v, ll cost) {
+    void add(int u, int v, int cost) {
         d[u][v] = cost;
     }
 
@@ -50,29 +49,26 @@ public:
     }
 };
 
-// 頂点数V, 辺の数E
-const ll MAX_E = 100 * 100;
-ll V, E;
-int a[MAX_E], b[MAX_E];
-ll c[MAX_E];
+int n, m;
 WarshallFloyd wf;
 
 void solve() {
-    ll ans = 0;
     wf.solve();
-    rep(i, E) if (wf.d[a[i]][b[i]] != c[i]) ans++;
-    cout << ans << endl;
+    vector<vector<ll> > d = wf.d;
+    rep(i, n)rep(j, n) cout << d[i][j] << endl;
 }
 
-
 int main() {
-    cin >> V >> E;
-    wf = WarshallFloyd(V, E);
-    rep(i, E) {
-        cin >> a[i] >> b[i] >> c[i];
-        a[i]--, b[i]--;
-        wf.add(a[i], b[i], c[i]);
-        wf.add(b[i], a[i], c[i]);
+    cin >> n >> m;
+    wf = WarshallFloyd(n, m);
+    rep(i, m) {
+        int a, b, c;
+        cin >> a >> b >> c;
+        // 0-index
+        a--, b--;
+        wf.add(a, b, c);
+        // 無向グラフの場合
+        wf.add(b, a, c);
     }
     solve();
     return 0;
