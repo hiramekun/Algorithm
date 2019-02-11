@@ -25,7 +25,7 @@ const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
 
 struct edge {
-    int u, v, cost;
+    ll u, v, cost;
 };
 
 class UnionFind {
@@ -77,14 +77,13 @@ bool comp(const edge &e1, const edge &e2) {
 // 頂点数V, 辺の数E
 const ll MAX_E = half_inf;
 ll V, E;
-edge es[MAX_E];
+vector<edge> es;
 
 ll kruskal() {
-    sort(es, es + E, comp);
+    sort(es.begin(), es.end(), comp);
     UnionFind u = UnionFind(V);
     ll res = 0;
-    rep(i, E) {
-        edge e = es[i];
+    each(e, es) {
         if (!u.is_same(e.u, e.v)) {
             u.unite(e.u, e.v);
             res += e.cost;
