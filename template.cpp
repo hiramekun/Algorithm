@@ -24,10 +24,24 @@ const ll inf = ll(1e9);
 const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
 
+unordered_map<ll, ll> mp;
+
 void solve() {
 }
 
 int main() {
-    solve();
+#ifdef MY_DEBUG
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-noreturn"
+    while (true) {
+        mp = unordered_map<ll, ll>();
+#pragma clang diagnostic pop
+#endif
+
+        solve();
+
+#ifdef MY_DEBUG
+    }
+#endif
     return 0;
 }
