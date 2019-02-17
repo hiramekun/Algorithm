@@ -45,26 +45,20 @@ vector<vector<ll>> comb(ll n, ll r) {
 
 void solve() {
     sort(v.begin(), v.end(), greater<>());
-    ll d[n + 1];
-    d[0] = 0;
-    rep(i, n) d[i + 1] = v[i] + d[i];
     double tmp = 0;
-    for (ll i = a; i <= b; ++i) if (d[i] / double(i) > tmp) tmp = d[i] / double(i);
-
+    rep(i, a) tmp += v[i];
+    tmp /= a;
+    cout << fixed << tmp << endl;
 
     if (v[0] == v[a - 1]) {
         ll ans = 0;
         vector<vector<ll>> table = comb(mp[v[0]], min(mp[v[0]], b));
-        for (ll i = a; i <= min(mp[v[0]], b); i++) {
-            ans += table[mp[v[0]]][i];
-        }
-        cout << fixed << tmp << endl;
+        for (ll i = a; i <= min(mp[v[0]], b); i++) ans += table[mp[v[0]]][i];
         cout << ans << endl;
     } else {
         ll prev = 0;
         rep(i, a) if (v[i] != v[a - 1]) prev++;
         vector<vector<ll>> table = comb(mp[v[a - 1]], a - prev);
-        cout << fixed << tmp << endl;
         cout << table[mp[v[a - 1]]][a - prev] << endl;
     }
 }
