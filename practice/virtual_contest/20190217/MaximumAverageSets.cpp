@@ -64,12 +64,23 @@ void solve() {
 }
 
 int main() {
-    cin >> n >> a >> b;
-    v.resize(n);
-    rep(i, n) {
-        cin >> v[i];
-        mp[v[i]]++;
+#ifdef MY_DEBUG
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-noreturn"
+    while (true) {
+        mp = unordered_map<ll, ll>();
+#pragma clang diagnostic pop
+#endif
+        cin >> n >> a >> b;
+        v.resize(n);
+        rep(i, n) {
+            cin >> v[i];
+            mp[v[i]]++;
+        }
+        solve();
+
+#ifdef MY_DEBUG
     }
-    solve();
+#endif
     return 0;
 }
