@@ -25,8 +25,33 @@ const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
 
 unordered_map<ll, ll> mp;
+ll n, ma, mb;
+vector<ll> a, b, c;
 
 void solve() {
+    ll dp[n + 1][500][500]; // dp[i][j][k] = i番目まででaをj個，bをk個選んだ時の最小コスト．
+    rep(i, n + 1) rep(j, 500) rep(k, 500) dp[i][j][k] = inf;
+    dp[0][0][0] = 0;
+    rep(i, n) {
+        rep(j, 500) {
+            rep(k, 500) {
+                dp[i + 1][j][k] = min(dp[i + 1][j][k], dp[i][j][k]);
+                if (j >= a[i] && k >= b[i]) {
+                    dp[i + 1][j][k] = min(dp[i + 1][j][k], dp[i][j - a[i]][k - b[i]] + c[i]);
+                }
+            }
+        }
+    }
+
+    ll ans = inf;
+    repone(i, 400) {
+        repone(j, 400) {
+            if (i * mb == ma * j) {
+                ans = min(dp[n][i][j], ans);
+            }
+        }
+    }
+    cout << (ans == inf ? -1 : ans) << endl;
 }
 
 int main() {
@@ -38,6 +63,9 @@ int main() {
 #pragma clang diagnostic pop
 #endif
 
+        cin >> n >> ma >> mb;
+        a.resize(n), b.resize(n), c.resize(n);
+        rep(i, n) cin >> a[i] >> b[i] >> c[i];
         solve();
 
 #ifdef MY_DEBUG
