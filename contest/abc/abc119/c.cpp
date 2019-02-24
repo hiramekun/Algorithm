@@ -1,4 +1,5 @@
 #include <cstring>
+
 #include <sstream>
 #include <cstdio>
 #include <algorithm>
@@ -26,21 +27,29 @@ typedef unordered_map<ll, ll> ump;
 typedef pair<ll, ll> P;
 
 ump mp;
+int n, a, b, c;
+vector<int> l;
+ll ans;
+
+void dfs(ll len_a, ll len_b, ll len_c, ll idx, ll mp) {
+    if (idx == n) {
+        if (len_a * len_b * len_c == 0) return;
+        ans = min(ans, mp + abs(len_a - a) + abs(len_b - b) + abs(len_c - c));
+        return;
+    }
+    dfs(len_a + l[idx], len_b, len_c, idx + 1, len_a == 0 ? mp : mp + 10);
+    dfs(len_a, len_b + l[idx], len_c, idx + 1, len_b == 0 ? mp : mp + 10);
+    dfs(len_a, len_b, len_c + l[idx], idx + 1, len_c == 0 ? mp : mp + 10);
+    dfs(len_a, len_b, len_c, idx + 1, mp);
+}
+
 
 void solve() {
+    ans = ll_inf;
+    dfs(0, 0, 0, 0, 0);
+    cout << ans << endl;
 }
 
-void comb(int n, int k) {
-    int arr[] = {1, 2, 3, 4}; // array must be sorted
-    int com = (1 << k) - 1;
-    while (com < 1 << n) {
-        rep(j, n) if ((1 & com >> j) == 1) cout << arr[j] << endl;
-        printf("\n");
-
-        int x = com & -com, y = com + x;
-        com = ((com & ~y) / x >> 1) | y;
-    }
-}
 
 int main() {
 #ifdef MY_DEBUG
@@ -50,6 +59,9 @@ int main() {
         mp = ump();
 #pragma clang diagnostic pop
 #endif
+        cin >> n >> a >> b >> c;
+        l.resize(n);
+        rep(i, n) cin >> l[i];
 
         solve();
 
