@@ -13,7 +13,6 @@
 
 using namespace std;
 typedef long long ll;
-typedef pair<int, int> P;
 #define rep(i, n) for(ll i = 0; i < (ll)(n); i++)
 #define repr(i, n) for(ll i = n - 1; i >= 0; i--)
 #define repone(i, n) for(ll i = 1; i <= (ll)(n); i++)
@@ -23,8 +22,10 @@ const ll mod = 1000000007;
 const ll inf = ll(1e9);
 const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
+typedef unordered_map<ll, ll> ump;
+typedef pair<ll, ll> P;
 
-unordered_map<ll, ll> mp;
+ump mp;
 
 void solve() {
 }
@@ -34,7 +35,7 @@ int main() {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
     while (true) {
-        mp = unordered_map<ll, ll>();
+        mp = ump();
 #pragma clang diagnostic pop
 #endif
 
