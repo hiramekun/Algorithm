@@ -32,14 +32,20 @@ vector<ll> s, t, x;
 void solve() {
     sort(s.begin(), s.end());
     sort(t.begin(), t.end());
-    s.emplace_back(ll_inf);
-    t.emplace_back(ll_inf);
+
     rep(i, q) {
         auto s_b = lower_bound(s.begin(), s.end(), x[i]);
         auto t_b = lower_bound(t.begin(), t.end(), x[i]);
 
         ll l_s = *s_b, l_t = *t_b;
+        ll s_pre = *(s_b - 1), t_pre = *(t_b - 1);
         ll ans = ll_inf;
+        ans = min({ans,
+                   max(l_s - x[i], l_t - x[i]),
+                   min(x[i] - s_pre, l_t - x[i]) * 2 + max(x[i] - s_pre, l_t - x[i]),
+                   min(x[i] - t_pre, l_s - x[i]) * 2 + max(x[i] - t_pre, l_s - x[i]),
+                   max(x[i] - s_pre, x[i] - t_pre)
+                  });
         cout << ans << endl;
     }
 }
@@ -57,7 +63,10 @@ int main() {
         rep(i, a) cin >> s[i];
         rep(i, b) cin >> t[i];
         rep(i, q) cin >> x[i];
-
+        s.emplace_back(ll_inf);
+        s.emplace_back(-ll_inf);
+        t.emplace_back(-ll_inf);
+        t.emplace_back(ll_inf);
         solve();
 
 #ifdef MY_DEBUG
