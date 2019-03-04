@@ -25,6 +25,8 @@ const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
 
 class UnionFind {
+private:
+    vector<ll> size; // グループに属する物の数．
 public:
     vector<ll> par; // 親
     vector<ll> rank; // 木の深さ
@@ -32,9 +34,11 @@ public:
     explicit UnionFind(unsigned int n) {
         par.resize(n);
         rank.resize(n);
+        size.resize(n);
         rep(i, n) {
             par[i] = i;
             rank[i] = 0;
+            size[i] = 1;
         }
     }
 
@@ -45,6 +49,11 @@ public:
         } else {
             return par[x] = find(par[x]);
         }
+    }
+
+    // グループのサイズを求める．
+    ll calc_size(ll x) {
+        return size[find(x)];
     }
 
     // xとyの属する集合を併合
@@ -58,6 +67,7 @@ public:
             par[y] = x;
             if (rank[x] == rank[y])rank[x]++;
         }
+        size[x] = size[y] = size[x] + size[y];
     }
 
     // xとyが同じ集合に属するか否か
@@ -70,5 +80,6 @@ int main() {
     UnionFind tree = UnionFind(10);
     tree.unite(1, 2);
     tree.is_same(1, 2);
+    tree.calc_size(1);
     return 0;
 }
