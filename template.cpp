@@ -9,6 +9,7 @@
 #include <cmath>
 #include <queue>
 #include <set>
+#include <numeric>
 #include <stack>
 
 using namespace std;
@@ -27,9 +28,6 @@ typedef pair<ll, ll> P;
 
 ump mp;
 
-void solve() {
-}
-
 int main() {
 #ifdef MY_DEBUG
 #pragma clang diagnostic push
@@ -39,7 +37,6 @@ int main() {
 #pragma clang diagnostic pop
 #endif
 
-        solve();
 
 #ifdef MY_DEBUG
     }
