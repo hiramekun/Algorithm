@@ -26,19 +26,6 @@ const ll ll_inf = ll(1e9) * ll(1e9);
 
 unordered_map<ll, ll> mp;
 
-int dummy() {
-    printf("hello from dummy");
-    return 0;
-}
-
-void solve() {
-    int a[3] = {1, 2, 3};
-    for (int i = 0; i < 3; ++i) {
-        a[i]++;
-    }
-    dummy();
-}
-
 int main() {
 #ifdef MY_DEBUG
 #pragma clang diagnostic push
@@ -47,10 +34,30 @@ int main() {
         mp = unordered_map<ll, ll>();
 #pragma clang diagnostic pop
 #endif
+        ll h, w, k;
+        cin >> h >> w >> k;
+        ll dp[h + 1][w];
+        rep(i, h + 1)rep(j, w) dp[i][j] = 0;
+        dp[0][0] = 1;
+        rep(i, h) {
+            rep(j, w) {
+                rep(l, (1LL << (w - 1))) {
+                    if (l & (l >> 1)) continue;
 
-        int a;
-        cin >> a;
-        solve();
+                    if (j + 1 <= w - 1 && (l >> j & 1)) {
+                        dp[i + 1][j + 1] += dp[i][j];
+                        dp[i + 1][j + 1] %= mod;
+                    } else if (j - 1 >= 0 && (l >> (j - 1) & 1)) {
+                        dp[i + 1][j - 1] += dp[i][j];
+                        dp[i + 1][j - 1] %= mod;
+                    } else {
+                        dp[i + 1][j] += dp[i][j];
+                        dp[i + 1][j] %= mod;
+                    }
+                }
+            }
+        }
+        cout << dp[h][k - 1] << endl;
 
 #ifdef MY_DEBUG
     }
