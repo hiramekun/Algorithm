@@ -1,4 +1,5 @@
 #include <cstring>
+#include <sstream>
 #include <cstdio>
 #include <algorithm>
 #include <iostream>
@@ -8,88 +9,74 @@
 #include <cmath>
 #include <queue>
 #include <set>
+#include <numeric>
 #include <stack>
 
 using namespace std;
 typedef long long ll;
-typedef pair<int, int> P;
 #define rep(i, n) for(ll i = 0; i < (ll)(n); i++)
 #define repr(i, n) for(ll i = n - 1; i >= 0; i--)
 #define repone(i, n) for(ll i = 1; i <= (ll)(n); i++)
 #define each(i, mp) for(auto i:mp)
-#define FOR(i, m, n) for(ll i = m;i < n;i++)
 const int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
 const ll mod = 1000000007;
 const ll inf = ll(1e9);
 const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
+typedef unordered_map<char, ll> ump;
+typedef pair<ll, ll> P;
 
-ll h, w;
-char s[400][400];
-ll ans;
-bool searched[400][400];
-bool goal[400][400];
+vector<string> s;
+bool seen[400][400];
+int h, w;
+ll ans = 0;
 
-void dfs(int i, int j, char start, ll bc, ll wc) {
-    searched[i][j] = true;
-    bool has_next = false;
-    goal[i][j] = true;
-    if (s[i][j] == '#') {
-        if (i + 1 <= h - 1 && s[i + 1][j] == '.' && !goal[i + 1][j]) {
-            has_next = true;
-            dfs(i + 1, j, start, bc, wc + 1);
-        }
+void bfs(P idx) {
+    ump mp;
+    mp['#'] = mp['.'] = 0;
+    queue<P> que;
+    que.push(idx);
+    seen[idx.first][idx.second] = true;
+    mp[s[idx.first][idx.second]]++;
 
-        if (j + 1 <= w - 1 && s[i][j + 1] == '.' && !goal[i][j + 1]) {
-            has_next = true;
-            dfs(i, j + 1, start, bc, wc + 1);
-        }
+    while (!que.empty()) {
+        P p = que.front();
+        que.pop();
+        char now = s[p.first][p.second];
+        rep(i, 4) {
+            ll nx = p.first + dx[i], ny = p.second + dy[i];
 
-    } else {
-        if (i + 1 <= h - 1 && s[i + 1][j] == '#' && !goal[i + 1][j]) {
-            has_next = true;
-            dfs(i + 1, j, start, bc + 1, wc);
-        }
-
-        if (j + 1 <= w - 1 && s[i][j + 1] == '#' && !goal[i][j + 1]) {
-            has_next = true;
-            dfs(i, j + 1, start, bc + 1, wc);
-        }
-    };
-
-    if (!has_next) {
-        if (s[i][j] == start && bc > 0 && wc > 0) {
-            repone(c, min(bc, wc)) ans += (c * 2);
-        } else if (s[i][j] != start) {
-            repone(c, bc) ans += c;
-        }
-    }
-}
-
-void solve() {
-    fill(searched[0], searched[400], false);
-    rep(i, h) {
-        rep(j, w) {
-            if (!searched[i][j] && s[i][j] == '#') {
-                fill(goal[0], goal[400], false);
-                dfs(i, j, '#', 1, 0);
-            }
-            if (!searched[i][j] && s[i][j] == '.') {
-                fill(goal[0], goal[400], false);
-                dfs(i, j, '.', 0, 1);
+            if (0 <= nx && nx < h && 0 <= ny && ny < w && !seen[nx][ny]) {
+                if (now != s[nx][ny]) {
+                    que.push(P(nx, ny));
+                    mp[s[nx][ny]]++;
+                    seen[nx][ny] = true;
+                }
             }
         }
     }
-    cout << ans << endl;
+    ans += mp['#'] * mp['.'];
 }
 
 int main() {
-    cin >> h >> w;
-    rep(i, h) {
-        string temp;
-        cin >> temp;
-        rep(j, w) s[i][j] = temp[j];
+#ifdef MY_DEBUG
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-noreturn"
+    while (true) {
+#pragma clang diagnostic pop
+#endif
+        cin >> h >> w;
+        s.resize(h);
+        rep(i, h) cin >> s[i];
+        rep(i, h) rep(j, w) seen[i][j] = false;
+        rep(i, h) {
+            rep (j, w) if (!seen[i][j]) bfs(P(i, j));
+        }
+        cout << ans << endl;
+
+
+#ifdef MY_DEBUG
     }
-    solve();
+#endif
     return 0;
 }
