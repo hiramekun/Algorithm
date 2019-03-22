@@ -24,19 +24,54 @@ const ll inf = ll(1e9);
 const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
 ll n, k;
-vector<P> td;
+vector<P> dt;
+map<ll, ll> max_mp;
+bool used[half_inf];
+priority_queue<ll, vector<ll>, greater<>> others;
 
 void solve() {
+    sort(dt.begin(), dt.end(), greater<>());
 
+    ll ans = 0;
+    ll tmp = 0, tmp2 = 0;
+    rep(i, k) {
+        if (!used[dt[i].second] && dt[i].first == max_mp[dt[i].second]) {
+            tmp++;
+            used[dt[i].second] = true;
+        } else {
+            others.push(dt[i].first);
+        }
+        ans += dt[i].first;
+        tmp2 += dt[i].first;
+    }
+    ans += tmp * tmp;
+    vector<pair<ll, ll> > v(max_mp.begin(), max_mp.end());
+
+    // sort from bigger.
+    sort(v.begin(), v.end(),
+         [](pair<ll, ll> a, pair<ll, ll> b) { return a.second > b.second; });
+
+    each(m, v) {
+        if (used[m.first]) continue;
+        if (others.empty()) break;
+        ll minus = others.top();
+        others.pop();
+        tmp++;
+
+        tmp2 = tmp2 - minus + m.second;
+        ans = max(tmp2 + tmp * tmp, ans);
+    }
+    cout << ans << endl;
 }
 
 int main() {
     cin >> n >> k;
-    td.resize(n);
+    dt.resize(n);
     rep(i, n) {
         ll t, d;
         cin >> t >> d;
-        td[i] = make_pair(t, d);
+        dt[i] = make_pair(d, t);
+        max_mp[dt[i].second] = max(max_mp[dt[i].second], dt[i].first);
     }
     solve();
     return 0;
