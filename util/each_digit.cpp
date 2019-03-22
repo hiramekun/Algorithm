@@ -4,25 +4,26 @@
 
 using namespace std;
 
+#define each(i, mp) for(auto i:mp)
 typedef long long ll;
 const int MAX_S = 10;
 int s_len, s_dig[MAX_S];
 
 
-// 1234 -> 4 3 2 1
-vector<int> each_digit(ll S) {
-    int n_len = 0, n_dig[MAX_S];
-    while (S > 0) {
-        n_dig[n_len++] = S % 10;
-        S /= 10;
-    }
-    vector<int> ret(n_dig, n_dig + n_len);
+// if n = 123
+// ret[0] = 3, ret[1] = 2, ret[2] = 1;
+vector<int> each_digit(ll n) {
+    vector<int> ret;
+    while (n > 0) ret.emplace_back(n % 10), n /= 10;
     return ret;
 }
 
 int main() {
     int S;
     cin >> S;
-    each_digit(S);
+    vector<int> ans = each_digit(S);
+    each(m, ans) {
+        cout << m << endl;
+    }
     return 0;
 }
