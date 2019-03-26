@@ -28,18 +28,6 @@ typedef pair<ll, ll> P;
 
 ump mp;
 
-ll mul_mod(ll x, ll n) {
-    if (n == 0) return 1;
-    if (n < 0) return 0;
-    ll ret = 1;
-    while (n > 0) {
-        ret *= x;
-        ret %= mod;
-        n--;
-    }
-    return ret;
-}
-
 int main() {
 #ifdef MY_DEBUG
 #pragma clang diagnostic push
@@ -50,44 +38,38 @@ int main() {
 #endif
         ll n;
         cin >> n;
-//        ll ans = 0;
-//        ans += mul_mod(4, n);
-//        ans += mul_mod(4, n) - ((n - 2) * 3 * mul_mod(4, n - 3) % mod) -
-//               ((n - 3) * mul_mod(4, n - 4) * 2 % mod) - ((n - 3) * mul_mod(4, n - 4) * 2 % mod);
-//        cout << ans << endl;
 
-        ll dp3[n];
-
-        ll ans3[n - 2];
-        fill(ans3, ans3 + n - 2, 0);
-        rep(i, n - 2) {
-            if (n >= 4 && i >= 3) {
-                dp3[i] = mul_mod(4, n - 4) * 11 - ans3[i - 3];
-            } else if (i >= 3) {
-                dp3[i] = mul_mod(4, n - 3) * 12 - ans3[i - 3];
-            } else {
-                if (n >= 4) dp3[i] = mul_mod(4, n - 4) * 11;
-                else dp3[i] = mul_mod(4, n - 3) * 3;
+        ll dp[n + 1][4][4][4]; // dp[i][j]: i文字使って，最後の文字がjであるような場合の数
+        const ll A = 0, C = 1, G = 2, T = 3;
+        rep(i, n + 1) rep(j, 4) rep(k, 4) rep(l, 4) dp[i][j][k][l] = 0;
+        //mlkj
+        for (int i = 2; i < n; ++i) {
+            rep(j, 4) { // 現在の数字
+                rep(k, 4) { // 1個前の数字
+                    rep(l, 4) { // 2個前の数字
+                        rep(m, 4) { // 3個前の数字
+                            if (l == A && k == G && j == C) continue;
+                            if (l == A && k == C && j == G) continue;
+                            if (l == G && k == A && j == C) continue;
+                            if (m == A && k == G && j == C) continue;
+                            if (m == A && l == G && j == C) continue;
+                            if (i <= 2) {
+                                dp[i + 1][j][k][l] = 1;
+                            } else {
+                                dp[i + 1][j][k][l] += dp[i][k][l][m];
+                            }
+                            dp[i + 1][j][k][l] %= mod;
+                        }
+                    }
+                }
             }
-            if (i == 0) ans3[i] = dp3[i];
-            else ans3[i] = ans3[i - 1] + dp3[i];
         }
-
-
-        if (n > 3) {
-            ll dp4[n];
-            ll ans4[n - 3];
-            fill(ans4, ans4 + n - 3, 0);
-            rep(i, n - 3) {
-                if (i >= 4) dp4[i] = 3 * mul_mod(4, n - 4) - ans4[i - 4];
-                else dp4[i] = 3 * mul_mod(4, n - 4);
-                if (i == 0) ans4[i] = dp4[i];
-                else ans4[i] = ans4[i - 1] + dp4[i];
-            }
-            cout << mul_mod(4, n) - ans3[n - 3] - ans4[n - 4] << endl;
-        } else {
-            cout << mul_mod(4, n) - ans3[n - 3] << endl;
-        }
+        ll ans = 0;
+        rep(i, 4) rep(j, 4) rep(k, 4) {
+                    ans += dp[n][i][j][k];
+                    ans %= mod;
+                }
+        cout << ans << endl;
 
 #ifdef MY_DEBUG
     }
