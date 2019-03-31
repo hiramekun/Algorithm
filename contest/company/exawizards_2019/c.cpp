@@ -28,6 +28,10 @@ typedef pair<ll, ll> P;
 
 ump mp;
 
+int find(int a) {
+
+}
+
 int main() {
 #ifdef MY_DEBUG
 #pragma clang diagnostic push
@@ -36,6 +40,61 @@ int main() {
         mp = ump();
 #pragma clang diagnostic pop
 #endif
+        ll n, q;
+        string s;
+        cin >> n >> q;
+        cin >> s;
+        char t[q], d[q];
+        rep(i, q) cin >> t[i] >> d[i];
+
+        ll is = -1;
+        ll ie = n;
+        WHILE:
+        while (ie - is > 1) {
+            ll m = (is + ie) / 2;
+            ll tmp = m;
+            char now = s[tmp];
+            rep(i, q) {
+                if (t[i] == now) {
+                    if (d[i] == 'L') now = s[--tmp];
+                    else now = s[++tmp];
+                }
+                if (tmp == -1) {
+                    is = m;
+                    goto WHILE;
+                } else if (tmp == n) {
+                    ie = m;
+                    goto WHILE;
+                }
+            }
+            ie = m;
+        }
+        ll ans = n;
+        ans -= is;
+        is = -1;
+        ie = n;
+        WHILE2:
+        while (ie - is > 1) {
+            ll m = (is + ie) / 2;
+            ll tmp = m;
+            char now = s[tmp];
+            rep(i, q) {
+                if (t[i] == now) {
+                    if (d[i] == 'L') now = s[--tmp];
+                    else now = s[++tmp];
+                }
+                if (tmp == -1) {
+                    is = m;
+                    goto WHILE2;
+                } else if (tmp == n) {
+                    ie = m;
+                    goto WHILE2;
+                }
+            }
+            is = m;
+        }
+        ans -= (n + 1 - ie);
+        cout << ans << endl;
 
 
 #ifdef MY_DEBUG
