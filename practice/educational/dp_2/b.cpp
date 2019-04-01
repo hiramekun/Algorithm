@@ -37,6 +37,21 @@ int main() {
         mp = unordered_map<ll, ll>();
 #pragma clang diagnostic pop
 #endif
+        ll n, k;
+        cin >> n >> k;
+        vector<ll> h(n);
+        rep(i, n) cin >> h[i];
+
+        ll dp[n + 1000];
+        fill(dp, dp + n + 1000, inf);
+        dp[0] = 0;
+        rep(i, n) {
+            repone(j, k) {
+                dp[i + j] = min(dp[i + j], dp[i] + abs(h[i + j] - h[i]));
+            }
+        }
+        cout << dp[n - 1] << endl;
+
 
         solve();
 
