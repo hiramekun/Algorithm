@@ -11,7 +11,6 @@
 #include <set>
 #include <numeric>
 #include <stack>
-#include <iomanip>
 
 using namespace std;
 typedef long long ll;
@@ -29,6 +28,31 @@ typedef pair<ll, ll> P;
 
 ump mp;
 
+ll h, w;
+char a[1000][1000];
+ll d[1000][1000];
+
+
+void bfs(P s) {
+    queue<P> que;
+    que.push(s);
+    while (!que.empty()) {
+        P p = que.front();
+        que.pop();
+        if (p.first + 1 < h && a[p.first + 1][p.second] == '.') {
+            if (d[p.first + 1][p.second] == 0) que.push(P(p.first + 1, p.second));
+            d[p.first + 1][p.second] += d[p.first][p.second];
+            d[p.first + 1][p.second] %= mod;
+        }
+        if (p.second + 1 < w && a[p.first][p.second + 1] == '.') {
+            if (d[p.first][p.second + 1] == 0) que.push(P(p.first, p.second + 1));
+            d[p.first][p.second + 1] += d[p.first][p.second];
+            d[p.first][p.second + 1] %= mod;
+        }
+    }
+}
+
+
 int main() {
 #ifdef MY_DEBUG
 #pragma clang diagnostic push
@@ -37,26 +61,12 @@ int main() {
         mp = ump();
 #pragma clang diagnostic pop
 #endif
-        ll n;
-        cin >> n;
-        vector<double> p(n);
-        rep(i, n) cin >> p[i];
-        double ans = 0;
-
-        double dp[n + 1][n + 1]; // dp[i][j] 最初のi枚のコインを投げた時に，表がj枚となる確率．
-        rep(i, n + 1) rep(j, n + 1) dp[i][j] = 0.0;
-        dp[0][0] = 1.0;
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j <= i; ++j) {
-                dp[i + 1][j + 1] += dp[i][j] * p[i];
-                dp[i + 1][j] += dp[i][j] * (1.0 - p[i]);
-            }
-        }
-        for (int i = n / 2 + 1; i <= n; ++i) {
-            ans += dp[n][i];
-        }
-
-        cout << fixed << setprecision(10) << ans << endl;
+        cin >> h >> w;
+        rep(i, h)rep(j, w) cin >> a[i][j];
+        rep(i, h)rep(j, w) d[i][j] = 0;
+        d[0][0] = 1;
+        bfs(P(0, 0));
+        cout << d[h - 1][w - 1] << endl;
 
 
 #ifdef MY_DEBUG

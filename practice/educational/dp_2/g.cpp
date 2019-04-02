@@ -11,7 +11,6 @@
 #include <set>
 #include <numeric>
 #include <stack>
-#include <iomanip>
 
 using namespace std;
 typedef long long ll;
@@ -28,6 +27,20 @@ typedef unordered_map<ll, ll> ump;
 typedef pair<ll, ll> P;
 
 ump mp;
+const int MAX_V = half_inf;
+vector<int> G[MAX_V];
+ll d[MAX_V];
+
+ll dfs(ll s) {
+    if (d[s] != -1) return d[s];
+
+    ll res = 0;
+    each(m, G[s]) {
+        res = max(res, dfs(m) + 1);
+    }
+    d[s] = res;
+    return res;
+}
 
 int main() {
 #ifdef MY_DEBUG
@@ -37,26 +50,21 @@ int main() {
         mp = ump();
 #pragma clang diagnostic pop
 #endif
-        ll n;
-        cin >> n;
-        vector<double> p(n);
-        rep(i, n) cin >> p[i];
-        double ans = 0;
 
-        double dp[n + 1][n + 1]; // dp[i][j] 最初のi枚のコインを投げた時に，表がj枚となる確率．
-        rep(i, n + 1) rep(j, n + 1) dp[i][j] = 0.0;
-        dp[0][0] = 1.0;
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j <= i; ++j) {
-                dp[i + 1][j + 1] += dp[i][j] * p[i];
-                dp[i + 1][j] += dp[i][j] * (1.0 - p[i]);
-            }
-        }
-        for (int i = n / 2 + 1; i <= n; ++i) {
-            ans += dp[n][i];
-        }
 
-        cout << fixed << setprecision(10) << ans << endl;
+        ll n, m;
+        cin >> n >> m;
+        rep(i, m) {
+            ll x, y;
+            cin >> x >> y;
+            x--, y--;
+            G[x].emplace_back(y);
+        }
+        rep(i, n) d[i] = -1;
+        ll ans = 0;
+        rep(i, n) ans = max(ans, dfs(i));
+
+        cout << ans << endl;
 
 
 #ifdef MY_DEBUG
