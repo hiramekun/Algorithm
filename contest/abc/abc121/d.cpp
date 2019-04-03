@@ -29,6 +29,14 @@ typedef pair<ll, ll> P;
 
 ump mp;
 
+ll f(ll a) {
+    if (a % 2 == 0) {
+        return ((a + 2) / 2 % 2) ^ (a + 1);
+    } else {
+        return (a + 1) / 2 % 2;
+    }
+}
+
 int main() {
 #ifdef MY_DEBUG
 #pragma clang diagnostic push
@@ -40,33 +48,7 @@ int main() {
 
         ll a, b;
         cin >> a >> b;
-        bitset<48> bita(a), bitb(b);
-        int bi = 0;
-        int ai = 0;
-
-        ll c[48];
-        fill(c, c + 48, 0);
-
-        rep(i, 48) {
-            if (bitb[i] == 1) {
-                bi = i;
-                c[i]++;
-            }
-            if (bita[i] == 1) {
-                ai = i;
-                c[i]++;
-            }
-        }
-        c[ai]--, c[bi]--;
-        rep(i, bi) c[i] += ll(pow(2, bi));
-        rep(i, ai) c[i] += ll(pow(2, ai));
-        bitset<48> ans;
-        rep(i, 48) {
-            if (c[i] != 0 && c[i] % 2 == 0) ans[i] = true;
-            else ans[i] = false;
-        }
-
-        cout << ans.to_ullong() << endl;
+        cout << (f(a - 1) ^ f(b)) << endl;
 
 
 #ifdef MY_DEBUG
