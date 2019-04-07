@@ -32,11 +32,19 @@ typedef unordered_map<ll, ll> mpll;
 typedef unordered_map<char, ll> mpcl;
 typedef unordered_map<string, ll> mpsl;
 typedef pair<ll, ll> P;
-typedef vector<ll> vll;
+typedef vector<ll> vl;
+typedef vector<vl> vvl;
+template<typename T> using PQ = priority_queue<T>;
+template<typename T> using minPQ = priority_queue<T, vector<T>, greater<T>>;
 
-template<class T = ll>
-T in() {
-    T x;
+ll inl() {
+    ll x;
+    cin >> x;
+    return (x);
+}
+
+string ins() {
+    string x;
     cin >> x;
     return (x);
 }
