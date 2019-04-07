@@ -30,11 +30,21 @@ const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
 typedef unordered_map<ll, ll> mpll;
 typedef unordered_map<char, ll> mpcl;
+typedef unordered_map<string, ll> mpsl;
 typedef pair<ll, ll> P;
-typedef vector<ll> vll;
+typedef vector<ll> vl;
+typedef vector<vl> vvl;
+template<typename T> using PQ = priority_queue<T>;
+template<typename T> using minPQ = priority_queue<T, vector<T>, greater<T>>;
 
 ll inl() {
     ll x;
+    cin >> x;
+    return (x);
+}
+
+string ins() {
+    string x;
     cin >> x;
     return (x);
 }
@@ -46,21 +56,30 @@ int main() {
     while (true) {
 #pragma clang diagnostic pop
 #endif
+
         ll x = inl(), y = inl(), z = inl(), k = inl();
-        vll a(x), b(y), c(z);
+        vl a(x), b(y), c(z);
         rep(i, x) a[i] = inl();
         rep(i, y) b[i] = inl();
         rep(i, z) c[i] = inl();
 
-        vll ab;
-        rep(i, x) rep(j, y) ab.eb(a[i] + b[j]);
-        sort(all(ab), greater<>());
+        sort(all(a), greater<>());
+        sort(all(b), greater<>());
         sort(all(c), greater<>());
 
-        vll ans(k);
-        rep(i, min(x * y, k)) rep(j, min(z, k)) ans.eb(ab[i] + c[j]);
+        vl ans;
+        rep(i, x) {
+            rep(j, y) {
+                if ((i + 1) * (j + 1) > k) break;
+                rep(l, z) {
+                    if ((i + 1) * (j + 1) * (l + 1) > k) break;
+                    ans.eb(a[i] + b[j] + c[l]);
+                }
+            }
+        }
         sort(all(ans), greater<>());
         rep(i, k) cout << ans[i] << endl;
+
 
 #ifdef MY_DEBUG
     }
