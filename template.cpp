@@ -22,6 +22,7 @@ typedef long long ll;
 #define eb emplace_back
 #define F first
 #define S second
+#define all(obj) (obj).begin(), (obj).end()
 const int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
 const ll mod = 1000000007;
 const ll inf = ll(1e9);
@@ -29,8 +30,16 @@ const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
 typedef unordered_map<ll, ll> mpll;
 typedef unordered_map<char, ll> mpcl;
+typedef unordered_map<string, ll> mpsl;
 typedef pair<ll, ll> P;
 typedef vector<ll> vll;
+
+template<class T = ll>
+T in() {
+    T x;
+    cin >> x;
+    return (x);
+}
 
 int main() {
 #ifdef MY_DEBUG
