@@ -57,25 +57,12 @@ int main() {
         vll ab;
         rep(i, x) rep(j, y) ab.eb(a[i] + b[j]);
         sort(all(ab), greater<>());
-        priority_queue<ll, vector<ll>, greater<>> que;
-
-        rep(i, min(x * y, k)) {
-            rep(j, z) {
-                if (que.size() < k) que.push(ab[i] + c[j]);
-                else if (que.top() < ab[i] + c[j]) {
-                    que.pop();
-                    que.push(ab[i] + c[j]);
-                }
-            }
-        }
+        sort(all(c), greater<>());
 
         vll ans(k);
-        rep(i, k) {
-            ans[k - i - 1] = que.top();
-            que.pop();
-        }
-        rep(i, k) printf("%lli\n", ans[i]);
-
+        rep(i, min(x * y, k)) rep(j, min(z, k)) ans.eb(ab[i] + c[j]);
+        sort(all(ans), greater<>());
+        rep(i, k) cout << ans[i] << endl;
 
 #ifdef MY_DEBUG
     }
