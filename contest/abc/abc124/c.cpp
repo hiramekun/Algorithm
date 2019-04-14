@@ -49,10 +49,6 @@ string ins() {
     return (x);
 }
 
-char getop(char s) {
-    if (s == '0') return '1';
-    else return '0';
-}
 
 int main() {
 #ifdef MY_DEBUG
@@ -62,18 +58,15 @@ int main() {
 #pragma clang diagnostic pop
 #endif
         string s = ins();
-        ll ans = 0;
-        for (int i = 0; i < s.size(); ++i) {
-            if (s[i] == s[i + 1] && s[i] == s[i + 2]) {
-                s[i + 1] = getop(s[i + 1]);
-                ans++;
-            }
-            else if (s[i] == s[i + 1]) {
-                s[i + 1] = getop(s[i + 1]);
-                ans++;
-            }
+        string s1, s2;
+        rep(i, s.size()) s1 += (i % 2 == 0 ? '0' : '1'); // 0101
+        rep(i, s.size()) s2 += (i % 2 == 1 ? '0' : '1'); //1010
+        ll diff1 = 0, diff2 = 0;
+        rep(i, s.size()) {
+            if (s[i] != s1[i]) diff1++;
+            if (s[i] != s2[i]) diff2++;
         }
-        cout << ans << endl;
+        cout << min(diff1, diff2) << endl;
 
 #ifdef MY_DEBUG
     }
