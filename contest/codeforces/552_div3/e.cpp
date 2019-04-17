@@ -57,48 +57,53 @@ int main() {
 #pragma clang diagnostic pop
 #endif
         ll n = inl(), k = inl();
-        vl a(n);
-        priority_queue<pair<ll, ll>> que;
+        vl a(n), idx(n);
         rep(i, n) {
             cin >> a[i];
-            que.push(P(a[i], i));
+            idx[--a[i]] = i;
         }
-        set<ll> used;
-        vector<bool> buse(n);
-        fill(all(buse), false);
-        vector<ll> ans(n);
-        ll turn = 1;
-
+        set<ll> s; // 使ってないもの
+        rep(i, n) s.insert(i);
+        vl l(n), r(n);
         rep(i, n) {
-            if (que.empty()) {
-                break;
-            }
-            P t = que.top();
-            que.pop();
-            bool b = false;
-            while (*used.lower_bound(t.first) == t.first) {
-                if (que.empty()) {
-                    b = true;
+            if (i == 0) l[i] = -1;
+            else l[i] = i - 1;
+        }
+        rep(i, n) {
+            if (i == n - 1) r[i] = -1;
+            else r[i] = i + 1;
+        }
+
+        vl ans(n);
+        ll turn = 1;
+        while (!s.empty()) {
+            ll maxval = *s.rbegin();
+            s.erase(maxval);
+            ll i = idx[maxval];
+            ans[i] = turn;
+            ll li = i, ri = i;
+            for (int j = 0; j < k; ++j) {
+                if (l[li] == -1) {
                     break;
                 }
-                t = que.top();
-                que.pop();
+                s.erase(a[l[li]]);
+                li = l[li];
+                ans[li] = turn;
             }
-            if (b) break;
-            used.insert(t.first);
-
-            ll c = 0;
-            for (ll j = max(0LL, t.second - k); j <= min(n - 1, t.second + k); ++j) {
-                if (!buse[j]) {
-                    used.insert(a[j]);
-                    ans[j] = turn;
-                    buse[j] = true;
+            for (int j = 0; j < k; ++j) {
+                if (r[ri] == -1) {
+                    break;
                 }
+                s.erase(a[r[ri]]);
+                ri = r[ri];
+                ans[ri] = turn;
             }
+            ll nli = l[li], nri = r[ri];
+            if (nri != -1) l[nri] = nli;
+            if (nli != -1) r[nli] = nri;
             turn = 3 - turn;
         }
         rep(i, n) cout << ans[i];
-
 
 #ifdef MY_DEBUG
     }
