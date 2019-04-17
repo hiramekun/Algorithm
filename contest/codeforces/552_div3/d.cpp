@@ -68,11 +68,10 @@ int main() {
                 if (a > 0) a--;
                 else b--;
             } else {
-                if (a < inita && b > 0) a++, b--;
+                if (b == 0) a--;
                 else {
                     if (a == inita) a--;
-                    else if (a >= b) a--;
-                    else b--;
+                    else a++, b--;
                 }
             }
             now++;

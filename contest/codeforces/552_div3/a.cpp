@@ -58,21 +58,12 @@ int main() {
 #endif
         vl abc(4);
         rep(i, 4) abc[i] = inl();
-        rep(i, 4) {
-            vl ans;
-            ll all = abc[i];
-            rep(j, 4) {
-                if (j != i) ans.eb(all - abc[j]);
-            }
-            bool b = false;
-            rep(j, 3) if (ans[j] <= 0) {
-                    b = true;
-                }
-            if (b) continue;
-            else {
-                rep(j, 3) printf("%lli ", ans[j]);
-            }
-        }
+        sort(all(abc));
+        ll sum = abc.back();
+        ll a = sum - abc[0];
+        ll b = sum - abc[1];
+        ll c = sum - abc[2];
+        printf("%lli %lli %lli", a, b, c);
 
 
 #ifdef MY_DEBUG
