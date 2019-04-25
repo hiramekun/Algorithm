@@ -59,6 +59,37 @@ ll lcm(ll m, ll n) {
     return ((m / gcd(m, n)) * n);
 }
 
+// 素因数分解
+map<ll, ll> prime_factor(ll n) {
+    map<ll, ll> mp;
+    for (ll i = 2; i * i <= n; ++i) {
+        while (n % i == 0) {
+            mp[i]++;
+            n /= i;
+        }
+    }
+    if (n != 1) mp[n]++;
+    return mp;
+}
+
+// 素数判定
+bool is_prime(ll n) {
+    for (int i = 2; i * i <= n; i++) if (n % i == 0) return false;
+    return n != 1;
+}
+
+// 約数列挙
+vector<ll> divisor(ll n) {
+    vector<ll> res;
+    for (ll i = 1; i * i <= n; ++i) {
+        if (n % i == 0) {
+            res.emplace_back(i);
+            if (i != n / i) res.emplace_back(n / i);
+        }
+    }
+    return res;
+}
+
 int main() {
 #ifdef MY_DEBUG
 #pragma clang diagnostic push
@@ -66,21 +97,23 @@ int main() {
     while (true) {
 #pragma clang diagnostic pop
 #endif
-        int a = inl(), b = inl();
-        int diff = abs(a - b);
-        int ans = 0;
-        if (max(a, b) % min(a, b) == 0) {
+        ll a = inl(), b = inl();
 
-        } else {
-            for (int i = 0; i <= diff; ++i) {
-                if (((a + i) % diff == 0 || diff % (a + i) == 0) ||
-                    (diff % (b + i) == 0 || (b + i) % diff == 0)) {
-                    ans = i;
-                    break;
-                }
+        if (a > b) swap(a, b);
+        ll diff = abs(b - a);
+        vl v = divisor(diff);
+
+        ll minl = lcm(a, b);
+        ll k = 0;
+        for (int i = 0; i < v.size(); ++i) {
+            ll add = v[i] - (a % v[i]);
+            ll tmp = lcm(a + add, b + add);
+            if (tmp < minl) {
+                k = add;
+                minl = tmp;
             }
         }
-        cout << ans << endl;
+        cout << k << endl;
 
 #ifdef MY_DEBUG
     }
