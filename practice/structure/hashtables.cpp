@@ -12,7 +12,7 @@ struct Key {
         str = s;
     }
 
-    bool equals(Key k) {
+    bool equals(Key k) const {
         return k.str == str;
     }
 
@@ -55,7 +55,7 @@ public:
         sz = 0;
     }
 
-    int find(Key key) {
+    int find(const Key &key) {
         for (Node *p = table[hash(key)]; p != nullptr; p = p->next) {
             if (key.equals(p->key)) {
                 return p->data;
