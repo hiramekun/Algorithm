@@ -12,13 +12,13 @@ public:
 	int ans = INT_MIN;
 	int maxGain(TreeNode* node) {
 		if (node == NULL) return 0;
-		int left = max(maxGain(node->left), 0);
-		int right = max(maxGain(node->right), 0);
+		int val = node->val;
+		int left = max(0, maxGain(node->left));
+		int right = max(0, maxGain(node->right));
 
-		int tmp = node->val + left + right;
-		ans = max(tmp, ans);
+		ans = max(ans, val + left + right);
 
-		return node->val + max(left, right);
+		return val + max(left, right);
 	}
 
     int maxPathSum(TreeNode* root) {

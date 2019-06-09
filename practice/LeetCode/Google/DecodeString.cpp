@@ -1,23 +1,23 @@
 class Solution {
 public:
     string decodeString(string& s, int& i) {
-		int n = s.size();
-		string ans;
+		string ret;
 
-		while(i < n && s[i] != ']') {
+		while (i < s.size() && s[i] != ']') {
 			if (!isdigit(s[i])) {
-				ans += s[i];
+				ret += s[i];
 				i++;
 			} else {
 				int num = 0;
-				while(i < n  && isdigit(s[i])) num = num * 10 + s[i++] - '0';
-				i++;
-				string t = decodeString(s, i);
-				i++;
-				while(num--) ans += t;
+				while (i < s.size() && isdigit(s[i])) num = num * 10 + s[i++] - '0';
+				i++; // skip [
+				string temp = decodeString(s, i);
+				i++; // skip ]
+				while (num--) ret += temp;
 			}
 		}
-		return ans;
+
+		return ret;
     }
 
 	string decodeString(string s) {
