@@ -1,17 +1,4 @@
-#include <cstring>
-#include <sstream>
-#include <cstdio>
-#include <algorithm>
-#include <iostream>
-#include <vector>
-#include <iomanip>
-#include <map>
-#include <unordered_map>
-#include <cmath>
-#include <queue>
-#include <set>
-#include <numeric>
-#include <stack>
+#include <bits/stdc++.h>
 
 using namespace std;
 typedef long long ll;
@@ -29,8 +16,6 @@ const ll inf = ll(1e9);
 const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
 typedef unordered_map<ll, ll> mpll;
-typedef unordered_map<char, ll> mpcl;
-typedef unordered_map<string, ll> mpsl;
 typedef pair<ll, ll> P;
 typedef vector<ll> vl;
 typedef vector<vl> vvl;
