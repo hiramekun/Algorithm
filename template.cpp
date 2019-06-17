@@ -25,6 +25,14 @@ const ll ll_inf = ll(1e9) * ll(1e9);
 #define S second
 #define all(obj) (obj).begin(), (obj).end()
 
+template<class T>
+void dumplist_debug(T list) {
+#ifdef MY_DEBUG
+    each(e, list) cout << e << " ";
+    printf("\n");
+#endif
+}
+
 inline ll inl() {
     ll x;
     cin >> x;
