@@ -1,4 +1,6 @@
 #include <bits/stdc++.h>
+
+using namespace std;
 // http://noshi91.hatenablog.com/entry/2019/03/31/174006
 
 template<std::uint_fast64_t Modulus>
@@ -63,3 +65,7 @@ public:
         return *this;
     }
 };
+
+const int mod = 1000000007;
+typedef vector<modint<mod>> vmod;
+typedef vector<vmod> vvmod;
