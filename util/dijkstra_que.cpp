@@ -1,66 +1,87 @@
-#include <cstdio>
-#include <algorithm>
-#include <iostream>
-#include <vector>
-#include <map>
-#include <unordered_map>
-#include <cmath>
-#include <queue>
+#include <bits/stdc++.h>
 
 using namespace std;
-typedef long long ll;
-const ll inf = ll(1e9);
-#define REP(i, n) for(int i = 0; i < (int)(n); i++)
-#define REPR(i, n) for(int i = n - 1; i >= 0; i--)
-#define REPONE(i, n) for(int i = 1; i <= (int)(n); i++)
-#define EACH(i, mp) for(auto i:mp)
-#define FOR(i, m, n) for(int i = m;i < n;i++)
 
-const int MAX_V = 10000;
+typedef long long ll;
+typedef pair<ll, ll> P;
+typedef vector<ll> vl;
+typedef vector<vl> vvl;
+template<typename T> using v = vector<T>;
+template<typename T> using pq = priority_queue<T>;
+template<typename T> using minpq = priority_queue<T, vector<T>, greater<T>>;
+template<typename T, typename K> using ump = unordered_map<T, K>;
+const ll dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
+const ll mod = 1000000007;
+const ll inf = ll(1e9);
+const ll e5 = ll(1e5);
+const ll ll_inf = ll(1e9) * ll(1e9);
+
+#define rep(i, n) for(ll i = 0; i < (ll)(n); i++)
+#define repr(i, n) for(ll i = n - 1; i >= 0; i--)
+#define repone(i, n) for(ll i = 1; i <= (ll)(n); i++)
+#define each(i, mp) for(auto& i:mp)
+#define eb emplace_back
+#define F first
+#define S second
+#define all(obj) (obj).begin(), (obj).end()
 
 struct edge {
-    int to, cost;
+    ll cost;
+    ll to;
+
+    edge(ll to, ll cost) : to(to), cost(cost) {};
 };
-typedef pair<int, int> P; // first: 最短距離, second: 頂点の番号
 
-int V;
-vector<edge> G[MAX_V];
-int d[MAX_V];
-int pre[MAX_V]; // 最短路の直前の頂点
+typedef vector<edge> ve;
+typedef vector<ve> vve;
 
-void dijkstra(int s) {
-    // greater<P>を指定することでfirstが小さい順に取り出せるようにする
-    priority_queue<P, vector<P>, greater<> > que;
-    fill(d, d + V, inf);
-    fill(pre, pre + V, -1);
-    d[s] = 0;
-    que.push(P(0, s));
+class DAG {
+private:
+    ll v, e;
+    vve table;
+    vl pre; // 最短路の直前の頂点
+    vl d;
+public:
+    // v: 頂点数
+    // e: 辺の数
+    DAG(ll v, ll e) : v(v), e(e) {
+        table.resize(v);
+        pre.resize(v, -1);
+        d.resize(v, inf);
+    }
 
-    while (!que.empty()) {
-        P p = que.top(); // queから最短距離が最小のものを取り出す
-        que.pop();
-        int v = p.second; // 最短距離が最小のものの頂点
-        if (d[v] < p.first) continue; // すでに最短距離が小さければ
-        REP(i, G[v].size()) {
-            edge e = G[v][i];
-            if (d[e.to] > d[v] + e.cost) {
-                d[e.to] = d[v] + e.cost;
-                pre[e.to] = v;
-                // 頂点vから張っている頂点への最短距離を求め，それを次にqueに入れる．
-                que.push(P(d[e.to], e.to));
+    void add(ll from, ll to, ll cost = 1) {
+        table[from].eb(edge(to, cost));
+    }
+
+    // O(e * logv)
+    vl dijkstra(ll s) {
+        // pairを使っているのは、比較関数を利用するため
+        priority_queue<P, vector<P>, greater<>> que;
+        d[s] = 0;
+        que.push(P(0, s));
+
+        while (!que.empty()) {
+            P p = que.top();
+            que.pop();
+            ll min_v = p.S;
+            if (d[min_v] < p.F) continue;
+            each(ele, table[min_v]) {
+                if (d[ele.to] > d[min_v] + ele.cost) {
+                    d[ele.to] = d[min_v] + ele.cost;
+                    pre[ele.to] = min_v;
+                    que.push(P(d[ele.to], ele.to));
+                }
             }
         }
+        return move(d);
     }
-}
 
-// 頂点tへの最短路
-vector<int> get_path(int t) {
-    vector<int> path;
-    for (; t != -1; t = pre[t]) path.emplace_back(t); // tがsになるまでpre[t]をたどっていく
-    reverse(path.begin(), path.end());
-    return path;
-}
-
-int main() {
-    return 0;
-}
+    // 頂点tへの最短路
+    vector<int> get_path(int t) {
+        vector<int> path;
+        for (; t != -1; t = pre[t]) path.emplace_back(t); // tがsになるまでpre[t]をたどっていく
+        reverse(path.begin(), path.end());
+        return move(path);
+    }
+};

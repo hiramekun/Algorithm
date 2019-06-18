@@ -56,9 +56,7 @@ private:
 public:
     // v: 頂点数
     // e: 辺の数
-    DAG(ll v, ll e) {
-        this->v = v;
-        this->e = e;
+    DAG(ll v, ll e) : v(v), e(e) {
         table.resize(v);
         in_d.resize(v);
     }
@@ -87,7 +85,7 @@ public:
             }
         }
 
-        return ans;
+        return move(ans);
     }
 };
 
