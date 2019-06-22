@@ -1,53 +1,58 @@
-#include <cstring>
-#include <sstream>
-#include <cstdio>
-#include <algorithm>
-#include <iostream>
-#include <vector>
-#include <iomanip>
-#include <map>
-#include <unordered_map>
-#include <cmath>
-#include <queue>
-#include <set>
-#include <numeric>
-#include <stack>
+#include <bits/stdc++.h>
 
 using namespace std;
+
 typedef long long ll;
+typedef pair<ll, ll> P;
+typedef vector<ll> vl;
+typedef vector<vl> vvl;
+template<typename T> using v = vector<T>;
+template<typename T> using pq = priority_queue<T>;
+template<typename T> using minpq = priority_queue<T, vector<T>, greater<T>>;
+template<typename T, typename K> using ump = unordered_map<T, K>;
+const ll dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
+const ll mod = 1000000007;
+const ll inf = ll(1e9);
+const ll e5 = ll(1e5);
+const ll ll_inf = ll(1e9) * ll(1e9);
+
 #define rep(i, n) for(ll i = 0; i < (ll)(n); i++)
 #define repr(i, n) for(ll i = n - 1; i >= 0; i--)
 #define repone(i, n) for(ll i = 1; i <= (ll)(n); i++)
-#define each(i, mp) for(auto i:mp)
+#define each(i, mp) for(auto& i:mp)
 #define eb emplace_back
 #define F first
 #define S second
 #define all(obj) (obj).begin(), (obj).end()
-const int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
-const ll mod = 1000000007;
-const ll inf = ll(1e9);
-const ll half_inf = ll(1e5);
-const ll ll_inf = ll(1e9) * ll(1e9);
-typedef unordered_map<ll, ll> mpll;
-typedef unordered_map<char, ll> mpcl;
-typedef unordered_map<string, ll> mpsl;
-typedef pair<ll, ll> P;
-typedef vector<ll> vl;
-typedef vector<vl> vvl;
-template<typename T> using PQ = priority_queue<T>;
-template<typename T> using minPQ = priority_queue<T, vector<T>, greater<T>>;
 
-ll inl() {
+template<class T>
+void dumplist_debug(T list) {
+#ifdef MY_DEBUG
+    each(e, list) cout << e << " ";
+    printf("\n");
+#endif
+}
+
+inline ll inl() {
     ll x;
     cin >> x;
-    return (x);
+    return x;
 }
 
-string ins() {
+inline string ins() {
     string x;
     cin >> x;
-    return (x);
+    return x;
 }
+
+/* ------------- ANSWER ------------- */
+/* ---------------------------------- */
+
+struct stx {
+    ll s, t, x;
+
+    stx(ll s, ll t, ll x) : s(s), t(t), x(x) {}
+};
 
 int main() {
 #ifdef MY_DEBUG
@@ -56,11 +61,39 @@ int main() {
     while (true) {
 #pragma clang diagnostic pop
 #endif
+
         ll n = inl(), q = inl();
-        vl s(n), t(n), x(n);
-        rep(i, n) cin >> s[i] >> t[i] >> x[i];
-        vl d(q);
-        rep(i, q) cin >> d[i];
+        v<stx> v;
+        rep(i, n) {
+            ll s, t, x;
+            cin >> s >> t >> x;
+            stx temp(s, t, x);
+            v.eb(temp);
+        }
+        set<P> set1;
+        rep(i, q) {
+            ll d = inl();
+            set1.insert(P(d, i));
+        }
+        sort(all(v), [](stx &a, stx &b) {
+            if (a.x == b.x) {
+                if (a.s == b.s) return a.t < b.t;
+                return a.s < b.s;
+            }
+            return a.x < b.x;
+        });
+
+        vl ans(q, -1);
+        rep(i, n) {
+            ll s = v[i].s, x = v[i].x, t = v[i].t;
+            auto it = set1.lower_bound(P(s - x, -1));
+            while (it != set1.end()) {
+                if (t - x <= it->F) break;
+                ans[it->S] = x;
+                set1.erase(it++);
+            }
+        }
+        rep(i, q) cout << ans[i] << endl;
 
 
 #ifdef MY_DEBUG
