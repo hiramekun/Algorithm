@@ -75,13 +75,14 @@ int main() {
             ll d = inl();
             set1.insert(P(d, i));
         }
-        sort(all(v), [](stx &a, stx &b) {
+        auto comp = [](stx &a, stx &b) {
             if (a.x == b.x) {
                 if (a.s == b.s) return a.t < b.t;
                 return a.s < b.s;
             }
             return a.x < b.x;
-        });
+        };
+        sort(all(v), comp);
 
         vl ans(q, -1);
         rep(i, n) {
