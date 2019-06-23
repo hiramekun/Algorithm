@@ -58,14 +58,14 @@ int main() {
         ll n = inl(), l = inl();
         ll ans = 0;
         rep(i, n) {
-            ans += l + (i + 1) - 1;
+            ans += l + i;
         }
         ll minus = ll_inf;
         ll minus1 = ll_inf;
         rep(i, n) {
-            if (abs(l + (i + 1) - 1) < minus) {
-                minus = min(abs(l + (i + 1) - 1), minus);
-                minus1 = l + (i + 1) - 1;
+            if (abs(l + i) < minus) {
+                minus = min(abs(l + i), minus);
+                minus1 = l + i;
             }
         }
         cout << ans - minus1 << endl;
