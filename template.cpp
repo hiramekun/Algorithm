@@ -50,10 +50,7 @@ inline string ins() {
 
 int main() {
 #ifdef MY_DEBUG
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wmissing-noreturn"
     while (true) {
-#pragma clang diagnostic pop
 #endif
 
 #ifdef MY_DEBUG
