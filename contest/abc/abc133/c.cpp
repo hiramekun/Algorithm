@@ -69,22 +69,6 @@ int main() {
             }
             cout << ans << endl;
         }
-//        ll ans = ll_inf;
-//        if (l <= mod && mod <= r) {
-//            cout << 0 << endl;
-//        } else if (l <= mod && r <= mod) {
-//            for (long long i = 0; i < min(r - l, mod); ++i) {
-//                ll now = r - i;
-//                ans = min(ans, ((now % mod) * (now - 1) % mod) % mod);
-//            }
-//            cout << ans << endl;
-//        } else {
-//            for (long long i = 0; i < min(r - l, mod); ++i) {
-//                ll now = l + i;
-//                ans = min(ans, ((now % mod) * (now + 1) % mod) % mod);
-//            }
-//            cout << ans << endl;
-//        }
 #ifdef MY_DEBUG
     }
 #endif

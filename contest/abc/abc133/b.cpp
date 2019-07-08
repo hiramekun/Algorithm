@@ -45,6 +45,11 @@ inline string ins() {
     return x;
 }
 
+bool is_sq(ll i) {
+    ll s = sqrt(i) + 0.5;
+    return s * s == i;
+}
+
 /* ------------- ANSWER ------------- */
 /* ---------------------------------- */
 
@@ -52,7 +57,6 @@ int main() {
 #ifdef MY_DEBUG
     while (true) {
 #endif
-        ll max_d = 40 * 10;
         ll n, d;
         cin >> n >> d;
 
@@ -64,11 +68,10 @@ int main() {
             for (long long j = i + 1; j < n; ++j) {
                 ll cal = 0;
                 rep(k, d) {
-                    cal += (x[i][k] - x[j][k]) * (x[i][k] - x[j][k]);
+                    ll s = x[i][k] - x[j][k];
+                    cal += s * s;
                 }
-                rep(k, max_d + 1) {
-                    if (k * k == cal) ans++;
-                }
+                ans += is_sq(cal);
             }
         }
         cout << ans << endl;

@@ -47,52 +47,21 @@ inline string ins() {
 
 /* ------------- ANSWER ------------- */
 /* ---------------------------------- */
-
-class BinarySearch {
-private:
-    vector<int> data;
-public:
-    void add(int a) {
-        data.emplace_back(a);
-    }
-
-    int find(int a) {
-        int s = 0;
-        int e = data.size() - 1;
-        while (e - s > 1) {
-            int m = (s + e) / 2;
-            if (data[m] == a) {
-                return m;
-            } else {
-                if (data[m] > a) {
-                    s = m;
-                } else {
-                    e = m;
-                }
-            }
-        }
-        return -1;
-    }
-};
-
 int main() {
 #ifdef MY_DEBUG
     while (true) {
 #endif
         ll n = inl();
         vl a(n);
-        rep(i, n) {
-            cin >> a[i];
-        }
+        rep(i, n) cin >> a[i];
 
-        ll s = -1;
-        ll e = 2 * 1e9 + 1;
+        ll s = -1, e = 2 * 1e9 + 1;
         vl ans(n);
         while (e - s > 1) {
-            vl d(all(a));
             ll m = (s + e) / 2; // 1の山の降った量
             if (m % 2 == 1) m++;
 
+            vl d(all(a));
             ll now = m;
             rep(i, n) {
                 ans[i] = now;
