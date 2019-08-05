@@ -6,7 +6,6 @@ typedef long long ll;
 typedef pair<ll, ll> P;
 typedef vector<ll> vl;
 typedef vector<vl> vvl;
-template<typename T> using v = vector<T>;
 template<typename T> using pq = priority_queue<T>;
 template<typename T> using minpq = priority_queue<T, vector<T>, greater<T>>;
 template<typename T, typename K> using ump = unordered_map<T, K>;
@@ -31,18 +30,6 @@ void dump_debug(T list) {
     each(e, list) cout << e << " ";
     printf("\n");
 #endif
-}
-
-inline ll inl() {
-    ll x;
-    cin >> x;
-    return x;
-}
-
-inline string ins() {
-    string x;
-    cin >> x;
-    return x;
 }
 
 /* ------------- ANSWER ------------- */
