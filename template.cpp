@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <boost/lexical_cast.hpp>
 
 using namespace std;
 
@@ -24,6 +25,11 @@ const ll ll_inf = ll(1e9) * ll(1e9);
 #define S second
 #define all(obj) (obj).begin(), (obj).end()
 
+template<class T, class K>
+T cast(K v) {
+    return boost::lexical_cast<T>(v);
+}
+
 template<class T>
 void dump_debug(T list) {
 #ifdef MY_DEBUG
@@ -39,7 +45,6 @@ int main() {
 #ifdef MY_DEBUG
     while (true) {
 #endif
-
 #ifdef MY_DEBUG
     }
 #endif
