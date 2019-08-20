@@ -23,11 +23,18 @@ const ll ll_inf = ll(1e9) * ll(1e9);
 #define all(obj) (obj).begin(), (obj).end()
 
 template<class T>
-void dump_debug(T list) {
-#ifdef MY_DEBUG
-    each(e, list) cout << e << " ";
-    printf("\n");
-#endif
+ostream &operator<<(ostream &out, const vector<T> &list) {
+    ll n = list.size();
+    rep(i, n) out << list[i] << ' ';
+    return out;
+}
+
+
+template<class T>
+istream &operator>>(istream &in, vector<T> &list) {
+    ll n = list.size();
+    rep(i, n) in >> list[i];
+    return in;
 }
 
 /* ------------- ANSWER ------------- */
