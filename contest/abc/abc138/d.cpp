@@ -34,44 +34,50 @@ void dump_debug(T list) {
 
 /* ------------- ANSWER ------------- */
 /* ---------------------------------- */
-vector<ll> G[2 * e5];
-vector<ll> ans(2 * e5);
-unordered_map<ll, ll> pl;
-vector<bool> seen(2 * e5);
 
-void dfs(ll now, ll value) {
-    seen[now] = true;
-    ans[now] = value;
-    each(e, G[now]) {
-        if (!seen[e]) {
-            dfs(e, value + pl[e]);
+void solve() {
+
+    vector<ll> ans(2 * e5);
+    unordered_map<ll, ll> pl;
+    vector<bool> seen(2 * e5);
+    vector<ll> G[2 * e5];
+
+    auto dfs = [&](auto &&f, ll now, ll value) -> void {
+        seen[now] = true;
+        ans[now] = value;
+        each(e, G[now]) {
+            if (!seen[e]) {
+                f(f, e, value + pl[e]);
+            }
         }
+    };
+
+    ll n, q;
+    cin >> n >> q;
+    rep(i, n - 1) {
+        ll a, b;
+        cin >> a >> b;
+        a--, b--;
+        G[a].eb(b);
+        G[b].eb(a);
     }
+
+    rep(i, q) {
+        ll p, x;
+        cin >> p >> x;
+        p--;
+        pl[p] += x;
+    }
+    dfs(dfs, 0, pl[0]);
+
+    rep(i, n) cout << ans[i] << " ";
 }
 
 int main() {
 #ifdef MY_DEBUG
     while (true) {
 #endif
-        ll n, q;
-        cin >> n >> q;
-        rep(i, n - 1) {
-            ll a, b;
-            cin >> a >> b;
-            a--, b--;
-            G[a].eb(b);
-            G[b].eb(a);
-        }
-
-        rep(i, q) {
-            ll p, x;
-            cin >> p >> x;
-            p--;
-            pl[p] += x;
-        }
-        dfs(0, pl[0]);
-
-        rep(i, n) cout << ans[i] << " ";
+        solve();
 
 #ifdef MY_DEBUG
     }
