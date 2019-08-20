@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include <boost/lexical_cast.hpp>
 
 using namespace std;
 
@@ -17,18 +16,11 @@ const ll e5 = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
 
 #define rep(i, n) for(ll i = 0; i < (ll)(n); i++)
-#define repr(i, n) for(ll i = n - 1; i >= 0; i--)
-#define repone(i, n) for(ll i = 1; i <= (ll)(n); i++)
 #define each(i, mp) for(auto& i:mp)
 #define eb emplace_back
 #define F first
 #define S second
 #define all(obj) (obj).begin(), (obj).end()
-
-template<class T, class K>
-T cast(K v) {
-    return boost::lexical_cast<T>(v);
-}
 
 template<class T>
 void dump_debug(T list) {
@@ -41,10 +33,14 @@ void dump_debug(T list) {
 /* ------------- ANSWER ------------- */
 /* ---------------------------------- */
 
+void solve() {
+}
+
 int main() {
 #ifdef MY_DEBUG
     while (true) {
 #endif
+        solve();
 #ifdef MY_DEBUG
     }
 #endif
