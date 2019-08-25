@@ -37,6 +37,13 @@ istream &operator>>(istream &in, vector<T> &list) {
     return in;
 }
 
+template<class T>
+ostream &operator<<(ostream &out, const vector<vector<T>> &list) {
+    ll n = list.size();
+    rep(i, n) out << list[i] << '\n';
+    return out;
+}
+
 /* ------------- ANSWER ------------- */
 /* ---------------------------------- */
 
