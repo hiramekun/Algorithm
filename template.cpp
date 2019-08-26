@@ -2,10 +2,10 @@
 
 using namespace std;
 
-typedef long long ll;
-typedef pair<ll, ll> P;
-typedef vector<ll> vl;
-typedef vector<vl> vvl;
+using ll = long long;
+using vl = vector<ll>;
+using vvl = vector<vl>;
+using P = pair<ll, ll>;
 template<typename T> using pq = priority_queue<T>;
 template<typename T> using minpq = priority_queue<T, vector<T>, greater<T>>;
 template<typename T, typename K> using ump = unordered_map<T, K>;
