@@ -16,6 +16,7 @@ const ll e5 = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
 
 #define rep(i, n) for(ll i = 0; i < (ll)(n); i++)
+#define repr(i, n) for(ll i = ll(n - 1); i >= 0; i--)
 #define each(i, mp) for(auto& i:mp)
 #define eb emplace_back
 #define F first
