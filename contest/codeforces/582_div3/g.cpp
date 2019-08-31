@@ -4,60 +4,9 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-
 using ll = long long;
-using vl = vector<ll>;
-using vvl = vector<vl>;
-using P = pair<ll, ll>;
-template<typename T> using pq = priority_queue<T>;
-template<typename T> using minpq = priority_queue<T, vector<T>, greater<T>>;
-template<typename T, typename K> using ump = unordered_map<T, K>;
-const ll dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
-const ll mod = 1000000007;
-const ll inf = ll(1e9);
-const ll e5 = ll(1e5);
-const ll ll_inf = ll(1e9) * ll(1e9);
-
 #define rep(i, n) for(ll i = 0; i < (ll)(n); i++)
-#define repr(i, n) for(ll i = ll(n - 1); i >= 0; i--)
-#define each(i, mp) for(auto& i:mp)
-#define eb emplace_back
-#define F first
-#define S second
-#define all(obj) (obj).begin(), (obj).end()
 
-template<class T>
-ostream &operator<<(ostream &out, const vector<T> &list) {
-    ll n = list.size();
-    rep(i, n) out << list[i] << ' ';
-    return out;
-}
-
-
-template<class T>
-istream &operator>>(istream &in, vector<T> &list) {
-    ll n = list.size();
-    rep(i, n) in >> list[i];
-    return in;
-}
-
-template<class T>
-ostream &operator<<(ostream &out, const vector<vector<T>> &list) {
-    ll n = list.size();
-    rep(i, n) out << list[i] << '\n';
-    return out;
-}
-
-struct edge {
-    ll from;
-    ll to;
-    ll cost;
-
-    edge(ll from, ll to, ll cost) : from(from), to(to), cost(cost) {};
-};
-
-/* ------------- ANSWER ------------- */
-/* ---------------------------------- */
 class UnionFind {
 private:
     vector<ll> size; // グループに属する物の数．
@@ -110,33 +59,37 @@ public:
     }
 };
 
+template<typename T> using minpq = priority_queue<T, vector<T>, greater<T>>;
+using P = pair<ll, ll>;
+using edge = pair<ll, P>;
 
-void solve() {
+int main() {
+
     ll n, m;
     cin >> n >> m;
-    minpq<pair<ll, pair<ll, ll>>> que;
+    minpq<edge> que;
     rep(i, n - 1) {
         ll u, v, c;
         cin >> u >> v >> c;
         u--, v--;
-        que.push(make_pair(c, P(u, v)));
+        que.push(edge(c, P(u, v)));
     }
     vector<P> q(m);
     rep(i, m) {
-        cin >> q[i].F;
-        q[i].S = i;
+        cin >> q[i].first;
+        q[i].second = i;
     }
-    sort(all(q));
+    sort(q.begin(), q.end());
 
-    vl ans(m);
+    vector<ll> ans(m);
     UnionFind uf(n);
     ll cnt = 0;
     rep(i, m) {
-        ll target = q[i].F, idx = q[i].S;
+        ll target = q[i].first, idx = q[i].second;
 
-        while (!que.empty() && que.top().F <= target) {
-            pair<ll, P> now = que.top();
-            ll u = now.S.F, v = now.S.S;
+        while (!que.empty() && que.top().first <= target) {
+            edge now = que.top();
+            ll u = now.second.first, v = now.second.second;
             ll s1 = uf.calc_size(u), s2 = uf.calc_size(v);
             cnt -= s1 * (s1 - 1) / 2;
             cnt -= s2 * (s2 - 1) / 2;
@@ -148,16 +101,6 @@ void solve() {
         ans[idx] = cnt;
     }
     rep(i, m) cout << ans[i] << ' ';
-}
-
-int main() {
-#ifdef MY_DEBUG
-    while (true) {
-#endif
-        solve();
-#ifdef MY_DEBUG
-    }
-#endif
     return 0;
 }
 

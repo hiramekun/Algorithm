@@ -56,18 +56,12 @@ void solve() {
     cin >> n;
     vl x(n);
     cin >> x;
-    sort(all(x));
-    ll l = x[0] - 2, r = x[0] + 2;
-    
-    ll ans = ll_inf;
-    for (ll i = l; i <= r; ++i) {
-        ll tmp = 0;
-        for (ll j = 0; j < n; ++j) {
-            tmp += abs(x[j] - i) % 2;
-        }
-        ans = min(tmp, ans);
+    ll odd = 0, even = 0;
+    rep(i, n) {
+        if (x[i] % 2 == 0) even++;
+        else odd++;
     }
-    cout << ans << '\n';
+    cout << min(even, odd) << '\n';
 }
 
 int main() {
