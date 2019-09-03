@@ -5,6 +5,7 @@ using namespace std;
 typedef long long ll;
 typedef pair<ll, ll> P;
 typedef vector<ll> vl;
+using vb = vector<bool>;
 typedef vector<vl> vvl;
 template<typename T> using v = vector<T>;
 template<typename T> using pq = priority_queue<T>;
@@ -86,6 +87,38 @@ public:
         }
 
         return move(ans);
+    }
+
+    // O(v + e)
+    // トポロジカル順序で最長経路を返す
+    ll get_longest_path() {
+        vb seen(v), calc(v);
+        vl d(v, 0);
+        auto dfs = [&](auto &&f, ll now) -> ll {
+            if (seen[now]) {
+                if (!calc[now]) return -1;
+                return d[now];
+            }
+            seen[now] = true;
+            d[now] = 1;
+            each(t, table[now]) {
+                ll res = f(f, t);
+                if (res == -1) return -1;
+                d[now] = max(res + 1, d[now]);
+            }
+            calc[now] = true;
+            return d[now];
+        };
+
+        ll ans = 0;
+        rep(i, v) {
+            ll tmp = dfs(dfs, i);
+            if (tmp == -1) {
+                return -1;
+            }
+            ans = max(tmp, ans);
+        }
+        return ans;
     }
 };
 
