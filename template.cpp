@@ -5,6 +5,7 @@ using namespace std;
 using ll = long long;
 using vl = vector<ll>;
 using vvl = vector<vl>;
+using vb = vector<bool>;
 using P = pair<ll, ll>;
 template<typename T> using pq = priority_queue<T>;
 template<typename T> using minpq = priority_queue<T, vector<T>, greater<T>>;
@@ -29,7 +30,6 @@ ostream &operator<<(ostream &out, const vector<T> &list) {
     rep(i, n) out << list[i] << ' ';
     return out;
 }
-
 
 template<class T>
 istream &operator>>(istream &in, vector<T> &list) {
