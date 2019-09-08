@@ -111,7 +111,7 @@ public:
                 }
             }
         }
-        return move(d);
+        return d;
     }
 
     // 各頂点までに到達する経路中に負の閉路が存在するか
@@ -151,7 +151,7 @@ public:
                 }
             }
         }
-        return move(d);
+        return d;
     }
 
     // 頂点tへの最短路
