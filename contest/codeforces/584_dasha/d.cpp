@@ -48,6 +48,62 @@ ostream &operator<<(ostream &out, const vector<vector<T>> &list) {
     return out;
 }
 
+class UnionFind {
+private:
+    vector<ll> size; // グループに属する物の数．
+public:
+    vector<ll> par; // 親
+    vector<ll> rank; // 木の深さ
+    ll groupCount;
+
+    explicit UnionFind(unsigned int n) {
+        par.resize(n);
+        rank.resize(n);
+        size.resize(n);
+        groupCount = n;
+        rep(i, n) {
+            par[i] = i;
+            rank[i] = 0;
+            size[i] = 1;
+        }
+    }
+
+    // 木の根を求める
+    ll find(ll x) {
+        if (par[x] == x) {
+            return x;
+        } else {
+            return par[x] = find(par[x]);
+        }
+    }
+
+    // グループのサイズを求める．
+    ll calc_size(ll x) {
+        return size[find(x)];
+    }
+
+    // xとyの属する集合を併合
+    void unite(ll x, ll y) {
+        x = find(x);
+        y = find(y);
+        if (x == y) return;
+        groupCount--;
+        if (rank[x] < rank[y]) {
+            par[x] = y;
+        } else {
+            par[y] = x;
+            if (rank[x] == rank[y]) rank[x]++;
+        }
+        size[x] = size[y] = size[x] + size[y];
+    }
+
+    // xとyが同じ集合に属するか否か
+    bool is_same(ll x, ll y) {
+        return find(x) == find(y);
+    }
+};
+
+
 /* ------------- ANSWER ------------- */
 /* ---------------------------------- */
 
@@ -55,47 +111,14 @@ void solve() {
     ll n, k;
     cin >> n >> k;
 
-    vector<P> xy(k);
+    UnionFind uni(n);
     rep(i, k) {
         ll x, y;
         cin >> x >> y;
-        auto p = minmax(x, y);
-        xy[i] = p;
+        x--, y--;
+        uni.unite(x, y);
     }
-    sort(all(xy));
-    vb use(k, true);
-    rep(i, k - 1) if (xy[i] == xy[i + 1]) use[i + 1] = false;
-    vector<P> uniXy;
-    ll ans = 0;
-    rep(i, k) {
-        if (!use[i]) ans++;
-        else uniXy.eb(xy[i]);
-    }
-
-    k = uniXy.size();
-
-    vl useC(n + 1);
-    vb used(k);
-    ll x = uniXy[0].F, y = uniXy[0].S;
-    useC[x] = useC[y] = 1;
-    used[0] = true;
-
-    for (ll i = 1; i < k; ++i) {
-        x = uniXy[i].F, y = uniXy[i].S;
-        if (useC[x] == 0 && useC[y] == 0) continue;
-        if (useC[x] > 0 && useC[y] > 0) ans++;
-        useC[x]++, useC[y]++;
-        used[i] = true;
-    }
-    rep(i, k) {
-        if (used[i]) continue;
-        x = uniXy[i].F, y = uniXy[i].S;
-        if (useC[x] > 0 && useC[y] > 0) ans++;
-        useC[x]++, useC[y]++;
-        used[i] = true;
-    }
-
-    cout << ans << '\n';
+    cout << k - (n - uni.groupCount) << '\n';
 }
 
 int main() {
