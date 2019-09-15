@@ -84,8 +84,8 @@ void solve() {
                 }
                 ll i = *itr;
 
-                numC.S--;
-                if (cnt > 0) pq.push(numC);
+                cnt--;
+                if (cnt > 0) pq.push(P(num, cnt));
 
                 now = i;
                 idx[num].erase(i);
