@@ -30,11 +30,13 @@ private:
 public:
     vector<ll> par; // 親
     vector<ll> rank; // 木の深さ
+    ll groupCount;
 
     explicit UnionFind(unsigned int n) {
         par.resize(n);
         rank.resize(n);
         size.resize(n);
+        groupCount = n;
         rep(i, n) {
             par[i] = i;
             rank[i] = 0;
@@ -61,11 +63,12 @@ public:
         x = find(x);
         y = find(y);
         if (x == y) return;
+        groupCount--;
         if (rank[x] < rank[y]) {
             par[x] = y;
         } else {
             par[y] = x;
-            if (rank[x] == rank[y])rank[x]++;
+            if (rank[x] == rank[y]) rank[x]++;
         }
         size[x] = size[y] = size[x] + size[y];
     }
