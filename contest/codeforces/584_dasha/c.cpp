@@ -61,56 +61,37 @@ void solve() {
         string d;
         cin >> d;
 
-        vector<char> ans(n);
-        minpq<P> pq; // first -> 数字, second -> 個数
         unordered_map<ll, ll> mp;
         unordered_map<ll, set<ll>> idx;
         rep(i, n) {
             mp[d[i] - '0']++;
             idx[d[i] - '0'].insert(i);
         }
-        each(e, mp) pq.push(e);
 
-        ll now = 0;
-        while (!pq.empty()) {
-            P numC = pq.top();
-            pq.pop();
+        minpq<P> pq(all(mp)); // first -> 数字, second -> 個数
+        vector<char> ans(n);
+        rep(j, 2) {
+            ll now = 0;
+            while (!pq.empty()) {
+                P numC = pq.top();
+                ll num = numC.first, cnt = numC.second;
+                pq.pop();
 
+                auto itr = idx[num].lower_bound(now);
+                if (itr == idx[num].end()) {
+                    pq.push(numC);
+                    break;
+                }
+                ll i = *itr;
 
-            auto itr = idx[numC.F].lower_bound(now);
-            if (itr == idx[numC.F].end()) {
-                pq.push(numC);
-                break;
+                numC.S--;
+                if (cnt > 0) pq.push(numC);
+
+                now = i;
+                idx[num].erase(i);
+                ans[i] = j + '1';
             }
-            ll i = *itr;
-
-            numC.S--;
-            if (numC.S > 0) pq.push(numC);
-
-            now = i;
-            idx[numC.F].erase(i);
-            ans[i] = '1';
         }
-        now = 0;
-        while (!pq.empty()) {
-            P numC = pq.top();
-            pq.pop();
-
-            auto itr = idx[numC.F].lower_bound(now);
-            if (itr == idx[numC.F].end()) {
-                pq.push(numC);
-                break;
-            }
-            ll i = *itr;
-
-            numC.S--;
-            if (numC.S > 0) pq.push(numC);
-
-            now = i;
-            idx[numC.F].erase(i);
-            ans[i] = '2';
-        }
-
         if (pq.empty()) cout << string(all(ans)) << '\n';
         else cout << "-" << '\n';
     }
