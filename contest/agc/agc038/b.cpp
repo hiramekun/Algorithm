@@ -48,90 +48,61 @@ ostream &operator<<(ostream &out, const vector<vector<T>> &list) {
     return out;
 }
 
+// https://ei1333.github.io/luzhiled/snippets/structure/segment-tree.html
+// verified with http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_A
+template<typename Monoid>
+struct SegmentTree {
+    using F = function<Monoid(Monoid, Monoid)>;
+
+    int sz;
+    vector<Monoid> seg;
+
+    const F f;
+    const Monoid M1;
+
+    // O(N)
+    SegmentTree(int n, const F f, const Monoid &M1) : f(f), M1(M1) {
+        sz = 1;
+        while (sz < n) sz <<= 1;
+        seg.assign(2 * sz, M1);
+    }
+
+    void set(int k, const Monoid &x) {
+        seg[k + sz] = x;
+    }
+
+    void build() {
+        for (int k = sz - 1; k > 0; k--) {
+            seg[k] = f(seg[2 * k + 0], seg[2 * k + 1]);
+        }
+    }
+
+    // O(logN)
+    void update(int k, const Monoid &x) {
+        k += sz;
+        seg[k] = x;
+        while (k >>= 1) {
+            seg[k] = f(seg[2 * k + 0], seg[2 * k + 1]);
+        }
+    }
+
+    // O(logN)
+    Monoid query(int a, int b) {
+        Monoid L = M1, R = M1;
+        for (a += sz, b += sz; a < b; a >>= 1, b >>= 1) {
+            if (a & 1) L = f(L, seg[a++]);
+            if (b & 1) R = f(seg[--b], R);
+        }
+        return f(L, R);
+    }
+
+    Monoid operator[](const int &k) const {
+        return seg[k + sz];
+    }
+};
+
 /* ------------- ANSWER ------------- */
 /* ---------------------------------- */
-
-ll range_min_query(vl &tree, int qlow, int qhigh, int low, int high, int pos) {
-    if (qlow <= low && qhigh >= high) return tree[pos];
-    if (qlow > high || qhigh < low) return ll_inf;
-
-    int mid = (low + high) / 2;
-    return min(range_min_query(tree, qlow, qhigh, low, mid, 2 * pos + 1),
-               range_min_query(tree, qlow, qhigh, mid, high, 2 * pos + 2));
-}
-
-
-void update(int a[], int st[], int i, int j, int idx, int val, int pos) {
-    if (i == j) {
-        a[idx] = val;
-        st[pos] = val;
-        printf("pos=%d\n", pos);
-    } else {
-        int mid = (i + j) / 2;
-        if (i <= idx && idx <= mid) {
-            update(a, st, i, mid, idx, val, 2 * pos + 1);
-        } else {
-            update(a, st, mid + 1, j, idx, val, 2 * pos + 2);
-        }
-        st[pos] = min(st[2 * pos + 1], st[2 * pos + 2]);
-    }
-}
-
-void build_ST(vl &a, vl &st, int i, int j, int pos) {
-    if (i == j) {
-        st[pos] = a[i];
-        return;
-    }
-    int mid = i + (j - i) / 2;
-    build_ST(a, st, i, mid, 2 * pos + 1);
-    build_ST(a, st, mid + 1, j, 2 * pos + 2);
-    st[pos] = min(st[2 * pos + 1], st[2 * pos + 2]);
-}
-
-void build_MAX_ST(vl &a, vl &st, int i, int j, int pos) {
-    if (i == j) {
-        st[pos] = a[i];
-        return;
-    }
-    int mid = i + (j - i) / 2;
-    build_MAX_ST(a, st, i, mid, 2 * pos + 1);
-    build_MAX_ST(a, st, mid + 1, j, 2 * pos + 2);
-    st[pos] = max(st[2 * pos + 1], st[2 * pos + 2]);
-}
-
-int range_min_query(vl &st, int n, int i, int j, int qi, int qj, int pos) {
-    if (qi < 0 || qj > n || qi > qj) {
-        printf("Invalid Input");
-        return -1;
-    } else {
-        if (qi <= i && qj >= j) {
-            return st[pos];
-        }
-        if (j < qi || i > qj) {
-            return INT_MAX;
-        }
-        int mid = i + (j - i) / 2;
-        return min(range_min_query(st, n, i, mid, qi, qj, 2 * pos + 1),
-                   range_min_query(st, n, mid + 1, j, qi, qj, 2 * pos + 2));
-    }
-}
-
-int range_max_query(vl &st, int n, int i, int j, int qi, int qj, int pos) {
-    if (qi < 0 || qj > n || qi > qj) {
-        printf("Invalid Input");
-        return -1;
-    } else {
-        if (qi <= i && qj >= j) {
-            return st[pos];
-        }
-        if (j < qi || i > qj) {
-            return INT_MIN;
-        }
-        int mid = i + (j - i) / 2;
-        return max(range_max_query(st, n, i, mid, qi, qj, 2 * pos + 1),
-                   range_max_query(st, n, mid + 1, j, qi, qj, 2 * pos + 2));
-    }
-}
 
 void solve() {
     ll n, k;
@@ -149,17 +120,18 @@ void solve() {
         same += tmp;
         cont += max(0LL, tmp - 1);
     }
-    ll max_size = 2 * pow(2, ceil(log2(n))) - 1;
-    vl minTree(max_size);
-    vl maxTree(max_size);
-    build_ST(p, minTree, 0, n - 1, 0);
-    build_MAX_ST(p, maxTree, 0, n - 1, 0);
+    SegmentTree<ll> minTree(n, [](ll a, ll b) { return min(a, b); }, INT_MAX);
+    SegmentTree<ll> maxTree(n, [](ll a, ll b) { return max(a, b); }, INT_MIN);
+    rep(i, n) {
+        minTree.update(i, p[i]);
+        maxTree.update(i, p[i]);
+    }
 
     ll prev_min = ll_inf, prev_max = ll_inf;
     ll ans = 0;
     rep(i, n - k + 1) {
-        ll mi = range_min_query(minTree, n, 0, n - 1, i, i + k - 1, 0);
-        ll mx = range_max_query(maxTree, n, 0, n - 1, i, i + k - 1, 0);
+        ll mi = minTree.query(i, i + k);
+        ll mx = maxTree.query(i, i + k);
         if ((prev_min < mi && prev_max < mx));
         else ans++;
         prev_min = mi, prev_max = mx;
