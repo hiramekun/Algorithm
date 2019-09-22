@@ -1,82 +1,87 @@
-#include <cstring>
-#include <sstream>
-#include <cstdio>
-#include <algorithm>
-#include <iostream>
-#include <vector>
-#include <iomanip>
-#include <map>
-#include <unordered_map>
-#include <cmath>
-#include <queue>
-#include <set>
-#include <numeric>
-#include <stack>
+#include <bits/stdc++.h>
 
 using namespace std;
-typedef long long ll;
-#define rep(i, n) for(ll i = 0; i < (ll)(n); i++)
-#define repr(i, n) for(ll i = n - 1; i >= 0; i--)
-#define repone(i, n) for(ll i = 1; i <= (ll)(n); i++)
-#define each(i, mp) for(auto i:mp)
-#define eb emplace_back
-#define F first
-#define S second
-#define all(obj) (obj).begin(), (obj).end()
-const int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
-const ll mod = 1000000007;
+
+using ll = long long;
+using vl = vector<ll>;
 const ll inf = ll(1e9);
-const ll half_inf = ll(1e5);
 const ll ll_inf = ll(1e9) * ll(1e9);
-typedef unordered_map<ll, ll> mpll;
-typedef unordered_map<char, ll> mpcl;
-typedef unordered_map<string, ll> mpsl;
-typedef pair<ll, ll> P;
-typedef vector<ll> vl;
-typedef vector<vl> vvl;
-template<typename T> using PQ = priority_queue<T>;
-template<typename T> using minPQ = priority_queue<T, vector<T>, greater<T>>;
 
-ll inl() {
-    ll x;
-    cin >> x;
-    return (x);
-}
+#define rep(i, n) for(ll i = 0; i < (ll)(n); i++)
 
-string ins() {
-    string x;
-    cin >> x;
-    return (x);
-}
+// https://ei1333.github.io/luzhiled/snippets/structure/segment-tree.html
+// verified with http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_A
+template<typename Monoid>
+struct SegmentTree {
+    using F = function<Monoid(Monoid, Monoid)>;
 
-void construct_tree(vl &input, vl &tree, int low, int high, int pos) {
-    if (low == high) {
-        tree[pos] = input[low];
-        return;
+    int sz;
+    vector<Monoid> seg;
+
+    const F f;
+    const Monoid M1;
+
+    // O(N)
+    SegmentTree(int n, const F f, const Monoid &M1) : f(f), M1(M1) {
+        sz = 1;
+        while (sz < n) sz <<= 1;
+        seg.assign(2 * sz, M1);
     }
-    int mid = (low + high) / 2;
-    construct_tree(input, tree, low, mid, 2 * pos + 1);
-    construct_tree(input, tree, mid, high, 2 * pos + 2);
-    tree[pos] = min(tree[2 * pos + 1], tree[2 * pos + 2]);
-}
 
-ll range_min_query(vl &tree, int qlow, int qhigh, int low, int high, int pos) {
-    if (qlow <= low && qhigh >= high) return tree[pos];
-    if (qlow > high || qhigh < low) return ll_inf;
+    void set(int k, const Monoid &x) {
+        seg[k + sz] = x;
+    }
 
-    int mid = (low + high) / 2;
-    return min(range_min_query(tree, qlow, qhigh, low, mid, 2 * pos + 1),
-               range_min_query(tree, qlow, qhigh, mid, high, 2 * pos + 2));
+    void build() {
+        for (int k = sz - 1; k > 0; k--) {
+            seg[k] = f(seg[2 * k + 0], seg[2 * k + 1]);
+        }
+    }
+
+    // O(logN)
+    void update(int k, const Monoid &x) {
+        k += sz;
+        seg[k] = x;
+        while (k >>= 1) {
+            seg[k] = f(seg[2 * k + 0], seg[2 * k + 1]);
+        }
+    }
+
+    // O(logN)
+    Monoid query(int a, int b) {
+        Monoid L = M1, R = M1;
+        for (a += sz, b += sz; a < b; a >>= 1, b >>= 1) {
+            if (a & 1) L = f(L, seg[a++]);
+            if (b & 1) R = f(seg[--b], R);
+        }
+        return f(L, R);
+    }
+
+    Monoid operator[](const int &k) const {
+        return seg[k + sz];
+    }
+};
+
+void solve() {
+    ll n, q;
+    cin >> n >> q;
+    SegmentTree<ll> tree(n, [](ll a, ll b) { return min(a, b); }, INT_MAX);
+    rep(i, q) {
+        ll c, x, y;
+        cin >> c >> x >> y;
+        if (c) {
+            cout << tree.query(x, y + 1) << '\n';
+        } else {
+            tree.update(x, y);
+        }
+    }
 }
 
 int main() {
 #ifdef MY_DEBUG
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wmissing-noreturn"
     while (true) {
-#pragma clang diagnostic pop
 #endif
-
+        solve();
 #ifdef MY_DEBUG
     }
 #endif
