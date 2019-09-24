@@ -34,8 +34,9 @@ public:
         lazy.assign(2 * sz - 1, A1);
     }
 
-    void build(vector<Data> v) {
-        rep(i, sz) seg[i + sz - 1] = v[i];
+    void build(const vector<Data> &v) {
+        ll n = v.size();
+        rep(i, n) seg[i + sz - 1] = v[i];
         for (ll i = sz - 2; i >= 0; --i) {
             seg[i] = fm(seg[i * 2 + 1], seg[i * 2 + 2]);
         }

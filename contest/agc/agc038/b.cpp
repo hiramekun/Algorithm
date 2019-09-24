@@ -48,56 +48,93 @@ ostream &operator<<(ostream &out, const vector<vector<T>> &list) {
     return out;
 }
 
-// https://ei1333.github.io/luzhiled/snippets/structure/segment-tree.html
-// verified with http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_A
-template<typename Monoid>
+
+// sample: http://beet-aizu.hatenablog.com/entry/2017/12/01/225955
+// verified with
+// http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_A
+// http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_F
+// http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_G
+template<typename Data, typename Lazy>
 struct SegmentTree {
-    using F = function<Monoid(Monoid, Monoid)>;
-
-    int sz;
-    vector<Monoid> seg;
-
-    const F f;
-    const Monoid M1;
+public:
+    // mergeするときの操作
+    using MergeData = function<Data(Data, Data)>;
+    // lazyをxでupdate
+    using UpdateLazyFromX = function<Lazy(Lazy, Lazy)>;
+    // dataをlazyでupdate
+    using UpdateDataFromLazy = function<Data(Data, Lazy)>;
+    // lenが与えられた時にlazyを計算
+    using CalcLazyWithLen = function<Lazy(Lazy, ll)>;
 
     // O(N)
-    SegmentTree(int n, const F f, const Monoid &M1) : f(f), M1(M1) {
+    SegmentTree(int n, const MergeData fm, const UpdateLazyFromX fl, const UpdateDataFromLazy fa,
+                const CalcLazyWithLen fw, Data M1, Lazy A1)
+            : fm(fm), fl(fl), fa(fa), fw(fw), M1(M1), A1(A1) {
         sz = 1;
-        while (sz < n) sz <<= 1;
-        seg.assign(2 * sz, M1);
+        while (sz < n) sz *= 2;
+        seg.assign(2 * sz - 1, M1);
+        lazy.assign(2 * sz - 1, A1);
     }
 
-    void set(int k, const Monoid &x) {
-        seg[k + sz] = x;
-    }
-
-    void build() {
-        for (int k = sz - 1; k > 0; k--) {
-            seg[k] = f(seg[2 * k + 0], seg[2 * k + 1]);
+    void build(const vector<Data> &v) {
+        ll n = v.size();
+        rep(i, n) seg[i + sz - 1] = v[i];
+        for (ll i = sz - 2; i >= 0; --i) {
+            seg[i] = fm(seg[i * 2 + 1], seg[i * 2 + 2]);
         }
     }
 
     // O(logN)
-    void update(int k, const Monoid &x) {
-        k += sz;
-        seg[k] = x;
-        while (k >>= 1) {
-            seg[k] = f(seg[2 * k + 0], seg[2 * k + 1]);
-        }
+    Data update(int a, int b, Data x) {
+        return update(a, b, x, 0, 0, sz);
     }
 
     // O(logN)
-    Monoid query(int a, int b) {
-        Monoid L = M1, R = M1;
-        for (a += sz, b += sz; a < b; a >>= 1, b >>= 1) {
-            if (a & 1) L = f(L, seg[a++]);
-            if (b & 1) R = f(seg[--b], R);
-        }
-        return f(L, R);
+    Data query(int a, int b) {
+        return query(a, b, 0, 0, sz);
     }
 
-    Monoid operator[](const int &k) const {
-        return seg[k + sz];
+
+    int sz;
+    vector<Data> seg;
+    vector<Lazy> lazy;
+
+private:
+    const MergeData fm;
+    const UpdateLazyFromX fl;
+    const UpdateDataFromLazy fa;
+    const CalcLazyWithLen fw;
+    const Data M1;
+    const Lazy A1;
+
+    void eval(int len, int k) {
+        if (lazy[k] == A1) return;
+        if (k * 2 + 1 < sz * 2 - 1) {
+            lazy[2 * k + 1] = fl(lazy[2 * k + 1], lazy[k]);
+            lazy[2 * k + 2] = fl(lazy[2 * k + 2], lazy[k]);
+        }
+        seg[k] = fa(seg[k], fw(lazy[k], len));
+        lazy[k] = A1;
+    }
+
+    Data update(int a, int b, Data x, int k, int l, int r) {
+        eval(r - l, k);
+        if (r <= a || b <= l) return seg[k];
+        if (a <= l && r <= b) {
+            lazy[k] = fl(lazy[k], x);
+            return fa(seg[k], fw(lazy[k], r - l));
+        }
+        return seg[k] = fm(update(a, b, x, k * 2 + 1, l, (l + r) / 2),
+                           update(a, b, x, k * 2 + 2, (l + r) / 2, r));
+    }
+
+    Data query(int a, int b, int k, int l, int r) {
+        eval(r - l, k);
+        if (r <= a || b <= l) return M1;
+        if (a <= l && r <= b) return seg[k];
+        Data vl = query(a, b, k * 2 + 1, l, (l + r) / 2);
+        Data vr = query(a, b, k * 2 + 2, (l + r) / 2, r);
+        return fm(vl, vr);
     }
 };
 
@@ -120,12 +157,18 @@ void solve() {
         same += tmp;
         cont += max(0LL, tmp - 1);
     }
-    SegmentTree<ll> minTree(n, [](ll a, ll b) { return min(a, b); }, INT_MAX);
-    SegmentTree<ll> maxTree(n, [](ll a, ll b) { return max(a, b); }, INT_MIN);
-    rep(i, n) {
-        minTree.update(i, p[i]);
-        maxTree.update(i, p[i]);
-    }
+    auto fm1 = [](ll a, ll b) { return min(a, b); };
+    auto fl1 = [](ll a, ll b) { return min(a, b); };
+    auto fa1 = [](ll a, ll b) { return min(a, b); };
+    auto fw1 = [](ll a, ll w) { return a; };
+    SegmentTree<ll, ll> minTree(n, fm1, fl1, fa1, fw1, INT_MAX, INT_MAX);
+    auto fm2 = [](ll a, ll b) { return max(a, b); };
+    auto fl2 = [](ll a, ll b) { return max(a, b); };
+    auto fa2 = [](ll a, ll b) { return max(a, b); };
+    auto fw2 = [](ll a, ll w) { return a; };
+    SegmentTree<ll, ll> maxTree(n, fm2, fl2, fa2, fw2, INT_MIN, INT_MIN);
+    minTree.build(p);
+    maxTree.build(p);
 
     ll prev_min = ll_inf, prev_max = ll_inf;
     ll ans = 0;
