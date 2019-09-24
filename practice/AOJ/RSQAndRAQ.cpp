@@ -14,13 +14,13 @@ using ll = long long;
 template<typename Monoid, typename Action>
 struct SegmentTree {
 public:
-    using FM = function<Monoid(Monoid, Monoid)>; // monoid
-    using FL = function<Action(Action, Action)>; // lazy
-    using FA = function<Monoid(Monoid, Action)>; // action
-    using FW = function<Action(Action, ll)>; // action
+    using MergeData = function<Monoid(Monoid, Monoid)>; // monoid
+    using fUpdateLazy = function<Action(Action, Action)>; // lazy
+    using UpdateDataFromLazy = function<Monoid(Monoid, Action)>; // action
+    using CalcLazyWithLen = function<Action(Action, ll)>; // action
 
     // O(N)
-    SegmentTree(int n, const FM fm, const FL fl, const FA fa, const FW fw, Monoid M1, Action A1)
+    SegmentTree(int n, const MergeData fm, const fUpdateLazy fl, const UpdateDataFromLazy fa, const CalcLazyWithLen fw, Monoid M1, Action A1)
             : fm(fm), fl(fl), fa(fa), fw(fw), M1(M1), A1(A1) {
         sz = 1;
         while (sz < n) sz *= 2;
@@ -44,10 +44,10 @@ public:
     vector<Action> lazy;
 
 private:
-    const FM fm;
-    const FL fl;
-    const FA fa;
-    const FW fw;
+    const MergeData fm;
+    const fUpdateLazy fl;
+    const UpdateDataFromLazy fa;
+    const CalcLazyWithLen fw;
     const Monoid M1;
     const Action A1;
 

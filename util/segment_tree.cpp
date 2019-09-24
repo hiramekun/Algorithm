@@ -12,20 +12,21 @@ using vl = vector<ll>;
 // http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_A
 // http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_F
 // http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_G
-template<typename Monoid, typename Action>
+template<typename Data, typename Lazy>
 struct SegmentTree {
 public:
     // mergeするときの操作
-    using FM = function<Monoid(Monoid, Monoid)>;
+    using MergeData = function<Data(Data, Data)>;
     // lazyをxでupdate
-    using FL = function<Action(Action, Action)>;
-    // dataにlazyでupdate
-    using FA = function<Monoid(Monoid, Action)>;
+    using UpdateLazyFromX = function<Lazy(Lazy, Lazy)>;
+    // dataをlazyでupdate
+    using UpdateDataFromLazy = function<Data(Data, Lazy)>;
     // lenが与えられた時にlazyを計算
-    using FW = function<Action(Action, ll)>;
+    using CalcLazyWithLen = function<Lazy(Lazy, ll)>;
 
     // O(N)
-    SegmentTree(int n, const FM fm, const FL fl, const FA fa, const FW fw, Monoid M1, Action A1)
+    SegmentTree(int n, const MergeData fm, const UpdateLazyFromX fl, const UpdateDataFromLazy fa,
+                const CalcLazyWithLen fw, Data M1, Lazy A1)
             : fm(fm), fl(fl), fa(fa), fw(fw), M1(M1), A1(A1) {
         sz = 1;
         while (sz < n) sz *= 2;
@@ -33,7 +34,7 @@ public:
         lazy.assign(2 * sz - 1, A1);
     }
 
-    void build(vector<Monoid> v) {
+    void build(vector<Data> v) {
         rep(i, sz) seg[i + sz - 1] = v[i];
         for (ll i = sz - 2; i >= 0; --i) {
             seg[i] = fm(seg[i * 2 + 1], seg[i * 2 + 2]);
@@ -41,27 +42,27 @@ public:
     }
 
     // O(logN)
-    Monoid update(int a, int b, Monoid x) {
+    Data update(int a, int b, Data x) {
         return update(a, b, x, 0, 0, sz);
     }
 
     // O(logN)
-    Monoid query(int a, int b) {
+    Data query(int a, int b) {
         return query(a, b, 0, 0, sz);
     }
 
 
     int sz;
-    vector<Monoid> seg;
-    vector<Action> lazy;
+    vector<Data> seg;
+    vector<Lazy> lazy;
 
 private:
-    const FM fm;
-    const FL fl;
-    const FA fa;
-    const FW fw;
-    const Monoid M1;
-    const Action A1;
+    const MergeData fm;
+    const UpdateLazyFromX fl;
+    const UpdateDataFromLazy fa;
+    const CalcLazyWithLen fw;
+    const Data M1;
+    const Lazy A1;
 
     void eval(int len, int k) {
         if (lazy[k] == A1) return;
@@ -73,7 +74,7 @@ private:
         lazy[k] = A1;
     }
 
-    Monoid update(int a, int b, Monoid x, int k, int l, int r) {
+    Data update(int a, int b, Data x, int k, int l, int r) {
         eval(r - l, k);
         if (r <= a || b <= l) return seg[k];
         if (a <= l && r <= b) {
@@ -84,12 +85,12 @@ private:
                            update(a, b, x, k * 2 + 2, (l + r) / 2, r));
     }
 
-    Monoid query(int a, int b, int k, int l, int r) {
+    Data query(int a, int b, int k, int l, int r) {
         eval(r - l, k);
         if (r <= a || b <= l) return M1;
         if (a <= l && r <= b) return seg[k];
-        Monoid vl = query(a, b, k * 2 + 1, l, (l + r) / 2);
-        Monoid vr = query(a, b, k * 2 + 2, (l + r) / 2, r);
+        Data vl = query(a, b, k * 2 + 1, l, (l + r) / 2);
+        Data vr = query(a, b, k * 2 + 2, (l + r) / 2, r);
         return fm(vl, vr);
     }
 };
