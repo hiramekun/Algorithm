@@ -1,28 +1,26 @@
+/**
+ * Created by hiramekun at 02:49 on 2019-09-25.
+ */
+
+/**
+ * Created by hiramekun at 20:20 on 2019-09-24.
+ */
 #include <bits/stdc++.h>
 
 using namespace std;
-
 using ll = long long;
 using vl = vector<ll>;
-
 #define rep(i, n) for(ll i = 0; i < (ll)(n); i++)
 
-// sample: http://beet-aizu.hatenablog.com/entry/2017/12/01/225955
-// verified with
-// http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_A
+// 区間更新, 区間最小
 // http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_F
-// http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_G
 template<typename Monoid, typename Action>
 struct SegmentTree {
 public:
-    // mergeするときの操作
-    using FM = function<Monoid(Monoid, Monoid)>;
-    // lazyをxでupdate
-    using FL = function<Action(Action, Action)>;
-    // dataにlazyでupdate
-    using FA = function<Monoid(Monoid, Action)>;
-    // lenが与えられた時にlazyを計算
-    using FW = function<Action(Action, ll)>;
+    using FM = function<Monoid(Monoid, Monoid)>; // monoid
+    using FL = function<Action(Action, Action)>; // lazy
+    using FA = function<Monoid(Monoid, Action)>; // action
+    using FW = function<Action(Action, ll)>; // action
 
     // O(N)
     SegmentTree(int n, const FM fm, const FL fl, const FA fa, const FW fw, Monoid M1, Action A1)
@@ -31,13 +29,6 @@ public:
         while (sz < n) sz *= 2;
         seg.assign(2 * sz - 1, M1);
         lazy.assign(2 * sz - 1, A1);
-    }
-
-    void build(vector<Monoid> v) {
-        rep(i, sz) seg[i + sz - 1] = v[i];
-        for (ll i = sz - 2; i >= 0; --i) {
-            seg[i] = fm(seg[i * 2 + 1], seg[i * 2 + 2]);
-        }
     }
 
     // O(logN)
@@ -94,8 +85,6 @@ private:
     }
 };
 
-// 値更新, 区間最小
-// http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_A
 void solve() {
     ll n, q;
     cin >> n >> q;
@@ -105,12 +94,16 @@ void solve() {
     auto fw = [](ll a, ll w) { return a; };
     SegmentTree<ll, ll> tree(n, fm, fl, fa, fw, INT_MAX, INT_MAX);
     rep(i, q) {
-        ll c, x, y;
-        cin >> c >> x >> y;
+        ll c;
+        cin >> c;
         if (c) {
-            cout << tree.query(x, y + 1) << '\n';
-        } else {
-            tree.update(x, x + 1, y);
+            ll s, t;
+            cin >> s >> t;
+            cout << tree.query(s, t + 1) << '\n';
+        } else { // update
+            ll s, t, x;
+            cin >> s >> t >> x;
+            tree.update(s, t + 1, x);
         }
     }
 }
