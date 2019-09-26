@@ -52,6 +52,8 @@ ostream &operator<<(ostream &out, const vector<vector<T>> &list) {
 /* ---------------------------------- */
 
 // O(a.size() + pattern.size())
+// `a[i]` からの接頭辞が `pattern` と等しいような長さを返す。
+// if ret[i] == pattern.size() then pattern exist from i
 // https://www.youtube.com/watch?v=CpZh4eF8QBw
 // https://github.com/mission-peace/interview/blob/master/src/com/interview/string/ZAlgorithm.java
 vl calc_match(const string &a, const string &pattern) {
