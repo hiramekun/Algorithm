@@ -57,6 +57,7 @@ ostream &operator<<(ostream &out, const vector<vector<T>> &list) {
 template<typename Data, typename Lazy>
 struct SegmentTree {
 public:
+    bool isLazy = false;
     // mergeするときの操作
     using MergeData = function<Data(Data, Data)>;
     // lazyをxでupdate
@@ -66,14 +67,42 @@ public:
     // lenが与えられた時にlazyを計算
     using CalcLazyWithLen = function<Lazy(Lazy, ll)>;
 
+    // lazy
     // O(N)
     SegmentTree(int n, const MergeData fm, const UpdateLazyFromX fl, const UpdateDataFromLazy fa,
                 const CalcLazyWithLen fw, Data M1, Lazy A1)
             : fm(fm), fl(fl), fa(fa), fw(fw), M1(M1), A1(A1) {
+        isLazy = true;
+        // mergeするときの操作
         sz = 1;
         while (sz < n) sz *= 2;
         seg.assign(2 * sz - 1, M1);
         lazy.assign(2 * sz - 1, A1);
+    }
+
+    // not lazy
+    SegmentTree(int n, const MergeData fm, Data M1) :
+            fm(fm), M1(M1),
+            // ここからdummy
+            fl([M1](ll a, ll b) { return M1; }),
+            fa([M1](ll a, ll b) { return M1; }),
+            fw([M1](ll a, ll b) { return M1; }),
+            A1(M1) {
+        isLazy = false;
+        sz = 1;
+        while (sz < n) sz *= 2;
+        seg.assign(2 * sz - 1, M1);
+    }
+
+    // not lazy
+    // O(logN)
+    Data update(int i, Data x) {
+        i += sz - 1;
+        seg[i] = x;
+        while (i > 0) {
+            i = (i - 1) / 2;
+            seg[i] = fm(seg[2 * i + 1], seg[2 * i + 2]);
+        }
     }
 
     void build(const vector<Data> &v) {
@@ -84,6 +113,7 @@ public:
         }
     }
 
+    // for lazy only
     // O(logN)
     Data update(int a, int b, Data x) {
         return update(a, b, x, 0, 0, sz);
@@ -117,6 +147,7 @@ private:
         lazy[k] = A1;
     }
 
+    // for lazy tree
     Data update(int a, int b, Data x, int k, int l, int r) {
         eval(r - l, k);
         if (r <= a || b <= l) return seg[k];
@@ -129,7 +160,7 @@ private:
     }
 
     Data query(int a, int b, int k, int l, int r) {
-        eval(r - l, k);
+        if (isLazy) eval(r - l, k);
         if (r <= a || b <= l) return M1;
         if (a <= l && r <= b) return seg[k];
         Data vl = query(a, b, k * 2 + 1, l, (l + r) / 2);
@@ -157,16 +188,8 @@ void solve() {
         same += tmp;
         cont += max(0LL, tmp - 1);
     }
-    auto fm1 = [](ll a, ll b) { return min(a, b); };
-    auto fl1 = [](ll a, ll b) { return min(a, b); };
-    auto fa1 = [](ll a, ll b) { return min(a, b); };
-    auto fw1 = [](ll a, ll w) { return a; };
-    SegmentTree<ll, ll> minTree(n, fm1, fl1, fa1, fw1, INT_MAX, INT_MAX);
-    auto fm2 = [](ll a, ll b) { return max(a, b); };
-    auto fl2 = [](ll a, ll b) { return max(a, b); };
-    auto fa2 = [](ll a, ll b) { return max(a, b); };
-    auto fw2 = [](ll a, ll w) { return a; };
-    SegmentTree<ll, ll> maxTree(n, fm2, fl2, fa2, fw2, INT_MIN, INT_MIN);
+    SegmentTree<ll, ll> minTree(n, [](ll a, ll b) { return min(a, b); }, INT_MAX);
+    SegmentTree<ll, ll> maxTree(n, [](ll a, ll b) { return max(a, b); }, INT_MIN);
     minTree.build(p);
     maxTree.build(p);
 
