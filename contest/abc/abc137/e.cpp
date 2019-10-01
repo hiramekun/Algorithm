@@ -45,7 +45,7 @@ struct edge {
 typedef vector<edge> ve;
 typedef vector<ve> vve;
 
-class DAG {
+class Graph {
 private:
     ll v, e;
     vve table;
@@ -55,7 +55,7 @@ private:
 public:
     // v: 頂点数
     // e: 辺の数
-    DAG(ll v, ll e) : v(v), e(e) {
+    Graph(ll v, ll e) : v(v), e(e) {
         table.resize(v);
         pre.resize(v, -1);
         d.resize(v, ll_inf);
@@ -140,7 +140,7 @@ int main() {
 #endif
         ll n, m, p;
         cin >> n >> m >> p;
-        DAG dag(n, m);
+        Graph dag(n, m);
         rep(i, m) {
             ll a, b, c;
             cin >> a >> b >> c;

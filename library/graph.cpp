@@ -20,7 +20,7 @@ struct edge {
 typedef vector<edge> ve;
 typedef vector<ve> vve;
 
-class DAG {
+class Graph {
 private:
     ll v;
     vve table;
@@ -29,7 +29,7 @@ private:
     ve edges;
 public:
     // v: 頂点数
-    explicit DAG(ll v) : v(v) {
+    explicit Graph(ll v) : v(v) {
         table.resize(v);
         pre.resize(v, -1);
         d.resize(v, ll_inf);

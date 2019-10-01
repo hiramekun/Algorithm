@@ -59,7 +59,7 @@ struct edge {
 typedef vector<edge> ve;
 typedef vector<ve> vve;
 
-class DAG {
+class Graph {
 private:
     ll v, e;
     vve table;
@@ -69,7 +69,7 @@ private:
 public:
     // v: 頂点数
     // e: 辺の数
-    DAG(ll v) : v(v) {
+    Graph(ll v) : v(v) {
         table.resize(v);
         pre.resize(v, -1);
         d.resize(v, ll_inf);
@@ -230,7 +230,7 @@ void solve() {
         auto ij = minmax(i, j);
         return ptov[ij.F][ij.S];
     };
-    DAG dag(tmp);
+    Graph dag(tmp);
     rep(i, n) {
         rep(j, n - 1) {
             a[i][j] = to_id(i, a[i][j]);

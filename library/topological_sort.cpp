@@ -49,7 +49,7 @@ string ins() {
 /* ------------- ANSWER ------------- */
 /* ---------------------------------- */
 
-class DAG {
+class Graph {
 private:
     ll v, e;
     vvl table;
@@ -57,7 +57,7 @@ private:
 public:
     // v: 頂点数
     // e: 辺の数
-    DAG(ll v, ll e) : v(v), e(e) {
+    Graph(ll v, ll e) : v(v), e(e) {
         table.resize(v);
         in_d.resize(v);
     }
@@ -131,7 +131,7 @@ int main() {
 #endif
         ll v, e;
         cin >> v >> e;
-        DAG dag(v, e);
+        Graph dag(v, e);
         rep(i, e) {
             ll s = inl(), t = inl();
             dag.add(s, t);

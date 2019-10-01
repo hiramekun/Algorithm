@@ -48,7 +48,7 @@ inline string ins() {
 /* ------------- ANSWER ------------- */
 /* ---------------------------------- */
 
-class DAG {
+class Graph {
 private:
     ll v, e;
     vvl table;
@@ -56,7 +56,7 @@ private:
 public:
     // v: 頂点数
     // e: 辺の数
-    DAG(ll v, ll e) : v(v), e(e) {
+    Graph(ll v, ll e) : v(v), e(e) {
         table.resize(v);
         d.resize(v);
     }
