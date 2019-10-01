@@ -9,6 +9,7 @@ const ll ll_inf = ll(1e9) * ll(1e9);
 
 #define rep(i, n) for(ll i = 0; i < (ll)(n); i++)
 #define repr(i, n) for(ll i = n - 1; i >= 0; i--)
+#define each(i, mp) for(auto& i:mp)
 
 struct edge {
     ll from, to, cost;
@@ -161,5 +162,43 @@ public:
         for (; t != -1; t = pre[t]) path.emplace_back(t); // tがsになるまでpre[t]をたどっていく
         reverse(path.begin(), path.end());
         return move(path);
+    }
+
+    // 頂点sからの閉路検出
+    // もし閉路がないならば v + 1の大きさのベクトルを返す。
+    vl cyclic(ll s) {
+        queue<ll> que;
+        que.push(s);
+        pre.assign(v, -1);
+        d.assign(v, ll_inf);
+        d[s] = 0;
+        while (!que.empty()) {
+            ll now = que.front();
+            que.pop();
+            each(e, table[now]) {
+                if (d[e.to] != ll_inf) continue;
+                d[e.to] = d[e.from] + 1;
+                pre[e.to] = e.from;
+                que.push(e.to);
+            }
+        }
+
+        P best(ll_inf, -1);
+        rep(i, v) {
+            if (i == s) continue;
+            each(e, table[i]) {
+                if (e.to == s) {
+                    best = min(best, {d[e.from], e.from});
+                }
+            }
+        }
+        if (best.first == ll_inf) return vl(v + 1);
+        vl ret;
+        ll now = best.second;
+        while (now != -1) {
+            ret.emplace_back(now + 1);
+            now = pre[now];
+        }
+        return ret;
     }
 };
