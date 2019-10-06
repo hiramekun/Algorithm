@@ -201,4 +201,21 @@ public:
         }
         return ret;
     }
+
+    // 二部グラフ判定
+    bool bipartite() {
+        vl ids(v, -1);
+        auto dfs = [&](auto &&f, ll s, ll id) -> bool {
+            if (ids[s] == -1) {
+                ids[s] = id;
+            } else {
+                return ids[s] != id;
+            }
+            each(e, table[s]) {
+                if (f(f, e.to, 1 - id)) return true;
+            }
+            return false;
+        };
+        return dfs(dfs, 0, 1);
+    };
 };
