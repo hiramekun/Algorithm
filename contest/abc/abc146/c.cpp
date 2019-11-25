@@ -61,8 +61,17 @@ vector<ll> each_digit(ll n) {
 void solve() {
     ll a, b, x;
     cin >> a >> b >> x;
-    ll ans = 0;
-    cout << ans << '\n';
+    ll s = -1;
+    ll e = 1e9 + 1;
+    while (e - s > 1) {
+        int m = (s + e) / 2;
+        if (a * m + b * to_string(m).size() > x) {
+            e = m;
+        } else {
+            s = m;
+        }
+    }
+    cout << max(0LL, s) << '\n';
 }
 
 int main() {
