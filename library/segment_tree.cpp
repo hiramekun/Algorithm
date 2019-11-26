@@ -45,9 +45,9 @@ public:
     SegmentTree(int n, const MergeData fm, Data M1) :
             fm(fm), M1(M1),
             // ここからdummy
-            fl([M1](ll a, ll b) { return M1; }),
-            fa([M1](ll a, ll b) { return M1; }),
-            fw([M1](ll a, ll b) { return M1; }),
+            fl([M1](Data a, Data b) { return M1; }),
+            fa([M1](Data a, Lazy b) { return M1; }),
+            fw([M1](Lazy a, ll b) { return M1; }),
             A1(M1) {
         isLazy = false;
         sz = 1;
