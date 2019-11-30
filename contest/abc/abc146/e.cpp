@@ -56,11 +56,27 @@ void solve() {
     cin >> n >> k;
     vl a(n);
     cin >> a;
+    vl d(n + 1);
+
     rep(i, n) {
-        a[i] %= k;
+        d[i + 1] = d[i] + a[i];
+        d[i + 1] %= k;
     }
-
-
+    ump<ll, ll> mp;
+    ll ans = 0;
+    queue<ll> que;
+    rep(r, n + 1) {
+        ll t = (d[r] - r) % k;
+        if (t < 0) t += k;
+        ans += mp[t];
+        mp[t]++;
+        que.push(t);
+        if (que.size() >= k) {
+            mp[que.front()]--;
+            que.pop();
+        }
+    }
+    cout << ans << '\n';
 }
 
 int main() {
