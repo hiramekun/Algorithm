@@ -4,4 +4,4 @@ contest/track/
 cmake-build-debug/
 CMakeLists.txt
 .swp
-contest/
+CompetitiveProgrammingContests/
