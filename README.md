@@ -1,5 +1,5 @@
 # Algorithm
-Codes for algorithm, especially AtCoder.
+My algorithm libraries for competitive programming.
 
 AtCoder: https://atcoder.jp/users/hiramekun  
 Codeforces: https://codeforces.com/profile/hiramekun  
