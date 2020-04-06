@@ -5,15 +5,14 @@ using namespace std;
 using ll = long long;
 using vl = vector<ll>;
 
-#define rep(i, n) for(ll i = 0; i < (ll)(n); i++)
+#define rep(i, n) for (ll i = 0; i < (ll)(n); i++)
 
 // sample: http://beet-aizu.hatenablog.com/entry/2017/12/01/225955
 // verified with
 // http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_A
 // http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_F
 // http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_G
-template<typename Data, typename Lazy>
-struct SegmentTree {
+template <typename Data, typename Lazy> struct SegmentTree {
 public:
     bool isLazy = false;
     int sz;
@@ -33,7 +32,7 @@ public:
     // O(N)
     SegmentTree(int n, const MergeData fm, const UpdateLazyFromX fl, const UpdateDataFromLazy fa,
                 const CalcLazyWithLen fw, Data M1, Lazy A1)
-            : fm(fm), fl(fl), fa(fa), fw(fw), M1(M1), A1(A1) {
+        : fm(fm), fl(fl), fa(fa), fw(fw), M1(M1), A1(A1) {
         isLazy = true;
         sz = 1;
         while (sz < n) sz *= 2;
@@ -42,13 +41,14 @@ public:
     }
 
     // not lazy
-    SegmentTree(int n, const MergeData fm, Data M1) :
-            fm(fm), M1(M1),
-            // ここからdummy
-            fl([M1](Data a, Data b) { return M1; }),
-            fa([M1](Data a, Lazy b) { return M1; }),
-            fw([M1](Lazy a, ll b) { return M1; }),
-            A1(M1) {
+    SegmentTree(int n, const MergeData fm, Data M1)
+        : fm(fm),
+          M1(M1),
+          // ここからdummy
+          fl([M1](Data a, Data b) { return M1; }),
+          fa([M1](Data a, Lazy b) { return M1; }),
+          fw([M1](Lazy a, ll b) { return M1; }),
+          A1(M1) {
         isLazy = false;
         sz = 1;
         while (sz < n) sz *= 2;
@@ -76,14 +76,10 @@ public:
 
     // for lazy only
     // O(logN)
-    Data update(int a, int b, Data x) {
-        return update(a, b, x, 0, 0, sz);
-    }
+    Data update(int a, int b, Data x) { return update(a, b, x, 0, 0, sz); }
 
     // O(logN)
-    Data query(int a, int b) {
-        return query(a, b, 0, 0, sz);
-    }
+    Data query(int a, int b) { return query(a, b, 0, 0, sz); }
 
 private:
     const MergeData fm;
@@ -110,8 +106,7 @@ private:
             lazy[k] = fl(lazy[k], x);
             return fa(seg[k], fw(lazy[k], r - l));
         }
-        return seg[k] = fm(update(a, b, x, k * 2 + 1, l, (l + r) / 2),
-                           update(a, b, x, k * 2 + 2, (l + r) / 2, r));
+        return seg[k] = fm(update(a, b, x, k * 2 + 1, l, (l + r) / 2), update(a, b, x, k * 2 + 2, (l + r) / 2, r));
     }
 
     Data query(int a, int b, int k, int l, int r) {

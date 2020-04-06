@@ -1,23 +1,23 @@
-#include <cstring>
-#include <cstdio>
 #include <algorithm>
-#include <iostream>
-#include <vector>
-#include <map>
-#include <unordered_map>
 #include <cmath>
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+#include <map>
 #include <queue>
 #include <set>
 #include <stack>
+#include <unordered_map>
+#include <vector>
 
 using namespace std;
 typedef long long ll;
 typedef pair<int, int> P;
-#define rep(i, n) for(ll i = 0; i < (ll)(n); i++)
-#define repr(i, n) for(ll i = n - 1; i >= 0; i--)
-#define repone(i, n) for(ll i = 1; i <= (ll)(n); i++)
-#define each(i, mp) for(auto i:mp)
-#define FOR(i, m, n) for(ll i = m;i < n;i++)
+#define rep(i, n) for (ll i = 0; i < (ll)(n); i++)
+#define repr(i, n) for (ll i = n - 1; i >= 0; i--)
+#define repone(i, n) for (ll i = 1; i <= (ll)(n); i++)
+#define each(i, mp) for (auto i : mp)
+#define FOR(i, m, n) for (ll i = m; i < n; i++)
 const int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
 const ll mod = 1000000007;
 const ll inf = ll(1e9);
@@ -39,7 +39,8 @@ map<ll, ll> prime_factor(ll n) {
 
 // 素数判定
 bool is_prime(ll n) {
-    for (int i = 2; i * i <= n; i++) if (n % i == 0) return false;
+    for (int i = 2; i * i <= n; i++)
+        if (n % i == 0) return false;
     return n != 1;
 }
 
@@ -54,7 +55,6 @@ vector<ll> divisor(ll n) {
     }
     return res;
 }
-
 
 // n以下の素数を返す
 vector<ll> sieve(ll n) {
