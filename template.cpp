@@ -48,12 +48,6 @@ template <class T> ostream &operator<<(ostream &out, const vector<vector<T>> &li
 void solve() {}
 
 int main() {
-#ifdef MY_DEBUG
-    while (true) {
-#endif
-        solve();
-#ifdef MY_DEBUG
-    }
-#endif
+    solve();
     return 0;
 }
