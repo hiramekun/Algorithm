@@ -137,6 +137,15 @@ SegmentTree<ll, ll> RangeMinimumTree(int n) {
 }
 
 SegmentTree<ll, ll> RangeMaxTree(int n) {
+    auto fm = [](ll a, ll b) { return max(a, b); };
+    auto fl = [](ll a, ll b) { return b; };
+    auto fa = [](ll a, ll b) { return b; };
+    auto fw = [](ll a, ll w) { return a; };
+    SegmentTree<ll, ll> tree(n, fm, fl, fa, fw, LONG_MIN, LONG_MIN);
+    return tree;
+}
+
+SegmentTree<ll, ll> RangeSumTree(int n) {
     auto fm = [](ll a, ll b) { return a + b; };
     auto fl = [](ll a, ll b) { return a + b; };
     auto fa = [](ll a, ll b) { return a + b; };
