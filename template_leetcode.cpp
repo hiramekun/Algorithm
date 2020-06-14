@@ -4,6 +4,7 @@ using namespace std;
 #endif
 
 using ll = long long;
+using ld = long double;
 using vl = vector<ll>;
 using vvl = vector<vl>;
 using vb = vector<bool>;
