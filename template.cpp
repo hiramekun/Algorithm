@@ -3,13 +3,14 @@
 using namespace std;
 
 using ll = long long;
+using ld = long double;
 using vl = vector<ll>;
 using vvl = vector<vl>;
 using vb = vector<bool>;
 using P = pair<ll, ll>;
-template <typename T> using pq = priority_queue<T>;
-template <typename T> using minpq = priority_queue<T, vector<T>, greater<T>>;
-template <typename T, typename K> using ump = unordered_map<T, K>;
+template<typename T> using pq = priority_queue<T>;
+template<typename T> using minpq = priority_queue <T, vector<T>, greater<T>>;
+template<typename T, typename K> using ump = unordered_map<T, K>;
 const ll dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
 const ll mod = 1000000007;
 const ll inf = ll(1e9);
@@ -24,19 +25,22 @@ const ll ll_inf = ll(1e9) * ll(1e9);
 #define S second
 #define all(obj) (obj).begin(), (obj).end()
 
-template <class T> ostream &operator<<(ostream &out, const vector<T> &list) {
+template<class T>
+ostream &operator<<(ostream &out, const vector <T> &list) {
     ll n = list.size();
     rep(i, n) out << list[i] << ' ';
     return out;
 }
 
-template <class T> istream &operator>>(istream &in, vector<T> &list) {
+template<class T>
+istream &operator>>(istream &in, vector <T> &list) {
     ll n = list.size();
     rep(i, n) in >> list[i];
     return in;
 }
 
-template <class T> ostream &operator<<(ostream &out, const vector<vector<T>> &list) {
+template<class T>
+ostream &operator<<(ostream &out, const vector <vector<T>> &list) {
     ll n = list.size();
     rep(i, n) out << list[i] << '\n';
     return out;
@@ -51,7 +55,7 @@ int main() {
 #ifdef MY_DEBUG
     while (true) {
 #endif
-        solve();
+    solve();
 #ifdef MY_DEBUG
     }
 #endif

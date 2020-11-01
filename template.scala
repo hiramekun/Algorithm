@@ -1,7 +1,7 @@
-import Util._
 import scala.io.StdIn._
 
 class Main {
+  import Util._
   def solve(): Unit = {
   }
   def main(args: Array[String]): Unit = solve()
