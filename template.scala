@@ -1,6 +1,6 @@
 import scala.io.StdIn._
 
-class Main {
+object Main {
   import Util._
   def solve(): Unit = {
   }
