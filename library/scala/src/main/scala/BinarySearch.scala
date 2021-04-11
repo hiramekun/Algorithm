@@ -30,7 +30,7 @@ object BinarySearch {
     val t = readLine.split(" ").map(_.toInt)
     val sortedT = t.sorted
     val binarySearch = BinarySearch(sortedT.toVector)
-    println(s.distinct.count { num => binarySearch.find(num) > -1 })
+    println(s.distinct.count(binarySearch.find(_) > -1 ))
   }
 
   def main(args: Array[String]): Unit = solve()
