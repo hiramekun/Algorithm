@@ -1,4 +1,5 @@
 import scala.annotation.tailrec
+import scala.io.StdIn._
 
 case class BinarySearch[T](arr: Vector[T])(implicit ord: Ordering[T]) {
 
@@ -20,14 +21,17 @@ case class BinarySearch[T](arr: Vector[T])(implicit ord: Ordering[T]) {
   }
 }
 
-object BinarySearch extends App {
-  final val n = 8
-  final val arr = Vector(3, 5, 8, 10, 14, 7, 21, 39)
-  val binarySearch = BinarySearch(arr)
-  assert(binarySearch.find(10) == 3)
-  assert(binarySearch.find(3) == 0)
-  assert(binarySearch.find(-100) == -1)
-  assert(binarySearch.find(9) == -1)
-  assert(binarySearch.find(100) == -1)
-  println("Success!!")
+// verified with: https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5358306#1
+object BinarySearch {
+  def solve(): Unit = {
+    val n = readInt()
+    val s = readLine.split(" ").map(_.toInt)
+    val q = readInt()
+    val t = readLine.split(" ").map(_.toInt)
+    val sortedT = t.sorted
+    val binarySearch = BinarySearch(sortedT.toVector)
+    println(s.distinct.count { num => binarySearch.find(num) > -1 })
+  }
+
+  def main(args: Array[String]): Unit = solve()
 }
