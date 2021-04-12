@@ -19,18 +19,49 @@ case class BinarySearch[T](arr: Vector[T])(implicit ord: Ordering[T]) {
     val right = arr.size - 1
     rec(left, right, key)
   }
+
+  def lowerBound(key: T): Int = {
+    @tailrec
+    def rec(l: Int, r: Int): Int = {
+      val mid = (r + l) / 2
+      if (r <= l + 1) r
+      else if (arr(mid) < key) rec(mid, r)
+      else rec(l, mid)
+    }
+
+    rec(-1, arr.size)
+  }
 }
 
 // verified with: https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5358306#1
-object BinarySearch {
+object BinarySearchFind {
   def solve(): Unit = {
-    val _ = readInt()
+    val n = readInt()
     val s = readLine.split(" ").map(_.toInt)
-    val _ = readInt()
+    val q = readInt()
     val t = readLine.split(" ").map(_.toInt)
     val sortedT = t.sorted
     val binarySearch = BinarySearch(sortedT.toVector)
     println(s.distinct.count(binarySearch.find(_) > -1))
+  }
+
+  def main(args: Array[String]): Unit = solve()
+}
+
+
+// verified with: https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5366334#2
+object BinarySearchLowerBound {
+  def solve(): Unit = {
+    val n = readInt()
+    val s = readLine.split(" ").map(_.toInt)
+    val q = readInt()
+    val t = readLine.split(" ").map(_.toInt)
+    val sortedT = t.sorted
+    val binarySearch = BinarySearch(sortedT.toVector)
+    println(s.distinct.count{ num =>
+      val idx = binarySearch.lowerBound(num)
+      idx < sortedT.length && sortedT(idx) == num
+    })
   }
 
   def main(args: Array[String]): Unit = solve()
