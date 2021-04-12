@@ -5,6 +5,11 @@ case class BinarySearch[T](arr: Vector[T])(implicit ord: Ordering[T]) {
 
   import ord._
 
+  /**
+    * @return
+    * the index of key element.
+    * if does not exists, return -1
+    */
   def find(key: T): Int = {
     @tailrec
     def rec(l: Int, r: Int, key: T): Int = {
@@ -20,6 +25,11 @@ case class BinarySearch[T](arr: Vector[T])(implicit ord: Ordering[T]) {
     rec(left, right, key)
   }
 
+  /**
+    * @return
+    * the minimum index which satisfies condition `arr(idx) >= key`.
+    * if any index does not satisfies the condition, return arr.size
+    */
   def lowerBound(key: T): Int = {
     @tailrec
     def rec(l: Int, r: Int): Int = {
@@ -58,7 +68,7 @@ object BinarySearchLowerBound {
     val t = readLine.split(" ").map(_.toInt)
     val sortedT = t.sorted
     val binarySearch = BinarySearch(sortedT.toVector)
-    println(s.distinct.count{ num =>
+    println(s.distinct.count { num =>
       val idx = binarySearch.lowerBound(num)
       idx < sortedT.length && sortedT(idx) == num
     })
