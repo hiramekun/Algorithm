@@ -27,25 +27,34 @@ case class BinarySearch[T](arr: Vector[T])(implicit ord: Ordering[T]) {
 
   /**
     * @return
+    * the minimum index which satisfies condition `arr(idx) > key`.
+    * if any index does not satisfies the condition, return None.
+    */
+  def upperBound(key: T): Option[Int] = recByIndex(_ > key)
+
+  /**
+    * @return
     * the minimum index which satisfies condition `arr(idx) >= key`.
     * if any index does not satisfies the condition, return None.
     */
-  def lowerBound(key: T): Option[Int] = {
+  def lowerBound(key: T): Option[Int] = recByIndex(_ >= key)
+
+  private def recByIndex(condition: T => Boolean): Option[Int] = {
     @tailrec
     def rec(l: Int, r: Int): Option[Int] = {
       val mid = (r + l) / 2
       if (r <= l + 1) {
         if (r == arr.size) None
         else Some(r)
-      } else if (arr(mid) < key) rec(mid, r)
-      else rec(l, mid)
+      }
+      else if (condition(arr(mid))) rec(l, mid)
+      else rec(mid, r)
     }
-
     rec(-1, arr.size)
   }
 }
 
-// verified with: https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5369498#2
+// verified with: https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5369610#2
 object BinarySearchFind {
   def solve(): Unit = {
     val n = readInt()
@@ -62,7 +71,7 @@ object BinarySearchFind {
 
 
 // verified with: https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5369499#2
-object BinarySearchLowerBound {
+object Main {
   def solve(): Unit = {
     val n = readInt()
     val s = readLine.split(" ").map(_.toInt)
