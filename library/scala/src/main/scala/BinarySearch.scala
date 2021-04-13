@@ -1,5 +1,12 @@
+import Implicits._
+
 import scala.annotation.tailrec
 import scala.io.StdIn._
+
+
+object Implicits {
+  implicit def binarySearchWrap[T](arr: Vector[T])(implicit ord: Ordering[T]): BinarySearch[T] = BinarySearch(arr)
+}
 
 case class BinarySearch[T](arr: Vector[T])(implicit ord: Ordering[T]) {
 
@@ -50,6 +57,7 @@ case class BinarySearch[T](arr: Vector[T])(implicit ord: Ordering[T]) {
       else if (condition(arr(mid))) rec(l, mid)
       else rec(mid, r)
     }
+
     rec(-1, arr.size)
   }
 }
@@ -61,9 +69,8 @@ object BinarySearchFind {
     val s = readLine.split(" ").map(_.toInt)
     val q = readInt()
     val t = readLine.split(" ").map(_.toInt)
-    val sortedT = t.sorted
-    val binarySearch = BinarySearch(sortedT.toVector)
-    println(s.distinct.count(binarySearch.find(_).isDefined))
+    val sortedT = t.sorted.toVector
+    println(s.distinct.count(sortedT.find(_).isDefined))
   }
 
   def main(args: Array[String]): Unit = solve()
@@ -71,16 +78,15 @@ object BinarySearchFind {
 
 
 // verified with: https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5369499#2
-object Main {
+object BinarySearchLowerBound {
   def solve(): Unit = {
     val n = readInt()
     val s = readLine.split(" ").map(_.toInt)
     val q = readInt()
     val t = readLine.split(" ").map(_.toInt)
-    val sortedT = t.sorted
-    val binarySearch = BinarySearch(sortedT.toVector)
+    val sortedT = t.sorted.toVector
     println(s.distinct.count { num =>
-      binarySearch.lowerBound(num) match {
+      sortedT.lowerBound(num) match {
         case Some(i) => sortedT(i) == num
         case None => false
       }
