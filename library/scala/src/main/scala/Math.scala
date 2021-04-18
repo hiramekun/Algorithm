@@ -1,6 +1,6 @@
 import scala.annotation.tailrec
 
-object Gcd {
+object Math {
   @tailrec
   def gcd(m: Int, n: Int): Int = {
     if (n == 0) m
