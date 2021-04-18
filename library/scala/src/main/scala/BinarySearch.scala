@@ -63,7 +63,7 @@ case class BinarySearch[T](arr: Vector[T])(implicit ord: Ordering[T]) {
 }
 
 // verified with: https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5369610#2
-object BinarySearchFind {
+object BinarySearchFindVerify {
   def solve(): Unit = {
     val n = readInt()
     val s = readLine.split(" ").map(_.toInt)
@@ -78,7 +78,7 @@ object BinarySearchFind {
 
 
 // verified with: https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5369499#2
-object BinarySearchLowerBound {
+object BinarySearchLowerBoundVerify {
   def solve(): Unit = {
     val n = readInt()
     val s = readLine.split(" ").map(_.toInt)
