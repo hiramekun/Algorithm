@@ -43,8 +43,6 @@ case class UnionFind(n: Int, size: Array[Int], parent: Array[Int], rank: Array[I
   def isSame(x: Int, y: Int): Boolean = find(x) == find(y)
 }
 
-// verified with https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5390449#2
-// [CAUTION] When you submit this to AOJ, move `main` function to Main object.
 object UnionFind {
   def apply(n: Int): UnionFind = {
     UnionFind(
@@ -54,7 +52,10 @@ object UnionFind {
       rank = Array.fill(n)(0)
     )
   }
+}
 
+// verified with https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=5390449#2
+object UnionFindVerify {
   def main(args: Array[String]): Unit = {
     val nq = readLine().split(" ").map(_.toInt)
     val n = nq(0)
