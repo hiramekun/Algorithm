@@ -2,19 +2,19 @@ import scala.annotation.tailrec
 
 object Math {
 
-  trait Mod[A, B] {
-    def mod(p: A): B
+  trait Mod[A] {
+    def mod(p: A): A
 
     def isZero: Boolean
 
-    def multi(p: A): B
+    def multi(p: A): A
 
-    def zero: B
+    def zero: A
 
-    def div(p: A): B
+    def div(p: A): A
   }
 
-  implicit class IntMod(r: Int) extends Mod[Int, Int] {
+  implicit class IntMod(r: Int) extends Mod[Int] {
     override def mod(p: Int): Int = r % p
 
     override def isZero: Boolean = r == 0
@@ -26,7 +26,7 @@ object Math {
     override def div(p: Int): Int = r / p
   }
 
-  implicit class LongMod(r: Long) extends Mod[Long, Long] {
+  implicit class LongMod(r: Long) extends Mod[Long] {
     override def mod(p: Long): Long = r % p
 
     override def isZero: Boolean = r == 0.toLong
@@ -39,12 +39,12 @@ object Math {
   }
 
   @tailrec
-  def gcd[T](m: T, n: T)(implicit env: T => Mod[T, T]): T = {
+  def gcd[T](m: T, n: T)(implicit env: T => Mod[T]): T = {
     if (n.isZero) m
     else gcd(n, m mod n)
   }
 
-  def lcm[T](m: T, n: T)(implicit env: T => Mod[T, T]): T = {
+  def lcm[T](m: T, n: T)(implicit env: T => Mod[T]): T = {
     if (m.isZero || n.isZero) n.zero
     else (m div gcd(m, n)) multi n
   }
