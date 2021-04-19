@@ -53,6 +53,8 @@ object Math {
 import Math._
 
 import scala.io.Source._
+
+// verified with https://onlinejudge.u-aizu.ac.jp/status/users/hiramekun/submissions/1/0005/judge/5390914/Scala
 object MathVerify {
   def main(args: Array[String]): Unit = {
     for (l <- stdin.getLines()) {
