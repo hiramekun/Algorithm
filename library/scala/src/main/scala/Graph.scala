@@ -19,7 +19,7 @@ case class Graph(n: Int) {
     while (queue.nonEmpty) {
       val (minCost, minV) = queue.dequeue()
       if (d(minV) >= minCost) {
-        for (e <- g(minV)) {
+        g(minV).foreach { e =>
           if (d(e.to) > d(minV) + e.w) {
             d(e.to) = d(minV) + e.w
             queue.enqueue((d(e.to), e.to))
