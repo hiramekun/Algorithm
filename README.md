@@ -1,5 +1,5 @@
 # Algorithm
-My algorithms and data structures libraries with C++ and Scala for competitive programming.
+My algorithms and data structures libraries with **C++ and Scala** for competitive programming.
 
 AtCoder: https://atcoder.jp/users/hiramekun  
 Codeforces: https://codeforces.com/profile/hiramekun  
