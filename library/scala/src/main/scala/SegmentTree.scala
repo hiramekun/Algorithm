@@ -1,5 +1,3 @@
-package main.scala
-
 import scala.io.StdIn.readLine
 import scala.reflect.ClassTag
 
