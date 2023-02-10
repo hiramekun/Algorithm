@@ -3,17 +3,20 @@ import scala.io.StdIn.readLine
 object SegmentTree {
   type Data = Long
   type Lazy = Long
+  type MergeData = (Data, Data) => Data
+  type UpdateLazyFromX = (Lazy, Lazy) => Lazy
+  type UpdateDataFromLazy = (Data, Lazy) => Data
+  type CalcLazyWithLen = (Lazy, Int) => Lazy
 }
 
-import SegmentTree.Data
-import SegmentTree.Lazy
+import SegmentTree._
 
 class SegmentTree
 (val n: Int,
- val fm: (Data, Data) => Data,
- val fl: (Lazy, Lazy) => Lazy,
- val fa: (Data, Lazy) => Data,
- val fw: (Lazy, Int) => Lazy,
+ val fm: MergeData,
+ val fl: UpdateLazyFromX,
+ val fa: UpdateDataFromLazy,
+ val fw: CalcLazyWithLen,
  val M1: Data,
  val A1: Lazy) {
   var sz = 1
