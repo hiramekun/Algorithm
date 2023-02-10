@@ -85,7 +85,7 @@ object RangeMinimumTree {
   }
 }
 
-// verified with https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=7455769#2
+// verified with https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=7456366#2
 object SegmentTreeVerify {
   def main(args: Array[String]): Unit = {
     val nq = readLine().split(" ").map(_.toInt)
