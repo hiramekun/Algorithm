@@ -7,6 +7,39 @@ object SegmentTree {
   type UpdateLazyFromX = (Lazy, Lazy) => Lazy
   type UpdateDataFromLazy = (Data, Lazy) => Data
   type CalcLazyWithLen = (Lazy, Int) => Lazy
+
+  def rangeMinimumQuery(n: Int): SegmentTree =
+    new SegmentTree(
+      n = n,
+      fm = (a, b) => a min b,
+      fl = (_, b) => b,
+      fa = (_, b) => b,
+      fw = (a, _) => a,
+      M1 = Int.MaxValue,
+      A1 = Int.MaxValue
+    )
+
+  def rangeMaxQuery(n: Int): SegmentTree =
+    new SegmentTree(
+      n = n,
+      fm = (a, b) => a max b,
+      fl = (_, b) => b,
+      fa = (_, b) => b,
+      fw = (a, _) => a,
+      M1 = Int.MinValue,
+      A1 = Int.MinValue
+    )
+
+  def rangeSumTree(n: Int): SegmentTree =
+    new SegmentTree(
+      n = n,
+      fm = (a, b) => a + b,
+      fl = (a, b) => a + b,
+      fa = (a, b) => a + b,
+      fw = (a, w) => a * w,
+      M1 = 0,
+      A1 = 0
+    )
 }
 
 import SegmentTree._
@@ -77,24 +110,13 @@ class SegmentTree
   }
 }
 
-object RangeMinimumTree {
-  def apply(n: Int): SegmentTree = {
-    val fm = (a: Long, b: Long) => a min b
-    val fl = (_: Long, b: Long) => b
-    val fa = (_: Long, b: Long) => b
-    val fw = (a: Long, _: Int) => a
-
-    new SegmentTree(n, fm, fl, fa, fw, Int.MaxValue, Int.MaxValue)
-  }
-}
-
 // verified with https://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=7456366#2
 object SegmentTreeVerify {
   def main(args: Array[String]): Unit = {
     val nq = readLine().split(" ").map(_.toInt)
     val n = nq(0)
     val q = nq(1)
-    val tree = RangeMinimumTree(n)
+    val tree = SegmentTree.rangeMinimumQuery(n)
     for (_ <- 0 until q) {
       val line = readLine().split(" ")
       val com = line(0).toInt
