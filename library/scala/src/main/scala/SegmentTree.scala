@@ -1,14 +1,21 @@
 import scala.io.StdIn.readLine
-import scala.reflect.ClassTag
 
-class SegmentTree[Base, Data <: Base, Lazy <: Base]
+object SegmentTree {
+  type Data = Long
+  type Lazy = Long
+}
+
+import SegmentTree.Data
+import SegmentTree.Lazy
+
+class SegmentTree
 (val n: Int,
  val fm: (Data, Data) => Data,
- val fl: (Lazy, Base) => Lazy,
+ val fl: (Lazy, Lazy) => Lazy,
  val fa: (Data, Lazy) => Data,
  val fw: (Lazy, Int) => Lazy,
  val M1: Data,
- val A1: Lazy)(implicit tag1: ClassTag[Data], tag2: ClassTag[Lazy]) {
+ val A1: Lazy) {
   var sz = 1
   while (sz < n) sz *= 2
   val seg = Array.fill[Data](2 * sz - 1)(M1)
@@ -68,11 +75,11 @@ class SegmentTree[Base, Data <: Base, Lazy <: Base]
 }
 
 object RangeMinimumTree {
-  def apply(n: Int): SegmentTree[Int, Int, Int] = {
-    val fm = (a: Int, b: Int) => a min b
-    val fl = (_: Int, b: Int) => b
-    val fa = (_: Int, b: Int) => b
-    val fw = (a: Int, _: Int) => a
+  def apply(n: Int): SegmentTree = {
+    val fm = (a: Long, b: Long) => a min b
+    val fl = (_: Long, b: Long) => b
+    val fa = (_: Long, b: Long) => b
+    val fw = (a: Long, _: Int) => a
 
     new SegmentTree(n, fm, fl, fa, fw, Int.MaxValue, Int.MaxValue)
   }
